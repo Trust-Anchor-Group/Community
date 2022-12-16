@@ -20,3 +20,9 @@ Example:
   <FileFolder webFolder="/Community" folderPath="C:\My Projects\Community"/>
 </FileFolders>
 ```
+
+**Note**: Once file folder reference is added, you need to restart the IoT Gateway service for the change to take effect.
+
+## Main Page
+
+The main page of the community service is `/Community/Index.md`.

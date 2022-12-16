@@ -1,0 +1,22 @@
+﻿main
+{
+	padding: 0 2em 2.5em 2em;
+	width: calc(100% - 4em);
+	top:5em;
+	position:absolute;
+	z-index:2;
+}
+
+div.Details
+{
+	overflow:auto;
+	padding-left:27em;
+}
+
+nav > ul > li:first-child
+{
+    font-size: 2em;
+    color: white;
+    margin: 0.1em 0.5em 0.1em 0.5em;
+    opacity: 1;
+}
