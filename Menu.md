@@ -2,14 +2,14 @@
 <nav>
 
 * &#9776;
-* [Home](#)
+* [Home](Index.md)
 * [Order](#)
 	* [Most Views](#)
 	* [Most Interactions](#)
 	* [Newest](#)
 * [Topics](#)
 * [%Title]
-* [Login](#)
+* {{exists(QuickLoginUser)?]][Logout](LogOut.md)[[ : ]][Login](Login.md)[[}}
 * [Help](#)
 	* [Tutorial](/Tutorial.md)
 	* [Markdown](/Markdown.md)
@@ -18,7 +18,7 @@
 	* [LinkedIn](https://www.linkedin.com/in/peterwaher/)
 	* [Contact](https://waher.se/Feedback.md)
 * [Actions](#)
-	* [Create New Post](#)
+	* [Create New Post](CreatePost.md)
 	* [Search](#)
 
 </nav>
