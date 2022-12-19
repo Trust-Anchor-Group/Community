@@ -20,3 +20,8 @@ nav > ul > li:first-child
     margin: 0.1em 0.5em 0.1em 0.5em;
     opacity: 1;
 }
+
+nav > ul > li > a > img
+{
+	vertical-align:middle;
+}
