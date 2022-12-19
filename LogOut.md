@@ -18,3 +18,5 @@ else
 	]]You're not logged into the system.[[
 }}
 
+[Click here to go back to the main page.](Index.md)
+
