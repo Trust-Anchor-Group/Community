@@ -28,7 +28,7 @@ while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
 	Suffix=" "+Str(i)
 );
 
-Html:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
+Result:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
 
 First:=true;
 foreach Tag in PTags do
@@ -36,13 +36,13 @@ foreach Tag in PTags do
 	if First then
 		First:=false
 	else
-		Html+=",\r\n";
+		Result+=",\r\n";
 
-	Html+="[\\#"+MarkdownEncode(Tag)+"](/Community/"+UrlEncode(Tag)+")";
+	Result+="[\\#"+MarkdownEncode(Tag)+"](/Community/Tag/"+UrlEncode(Tag)+")";
 );
 
 {
-	"html": MarkdownToHtml(Html),
+	"html": MarkdownToHtml(Result),
 	"link": Link+Suffix,
 	"valid": !empty(Trim(PTitle)) && !empty(Trim(PText))
 }

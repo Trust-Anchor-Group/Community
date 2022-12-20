@@ -189,4 +189,35 @@ function AddTag()
 
 function CreatePost()
 {
+    var Title = document.getElementById("Title").value;
+    var Text = document.getElementById("Text").value;
+    var Link = document.getElementById("ReferenceLink").value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function ()
+    {
+        if (xhttp.readyState === 4)
+        {
+            if (xhttp.status === 200)
+            {
+                var Response = JSON.parse(xhttp.responseText);
+
+                if (Response.valid)
+                    window.location.href = Response.link;
+            }
+            else
+                window.alert(xhttp.responseText);
+        }
+    };
+
+    xhttp.open("POST", "Api/CreatePost.ws", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.send(JSON.stringify(
+        {
+            "title": Title,
+            "text": Text,
+            "link": Link,
+            "tags": GetTags()
+        }
+    ));
 }
