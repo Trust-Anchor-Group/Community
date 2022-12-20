@@ -1,0 +1,21 @@
+create 
+index Community_Posts_Created
+on Community_Posts
+(
+	Created
+);
+
+create 
+index Community_Posts_Link
+on Community_Posts
+(
+	Link
+);
+
+create 
+index Community_Posts_BareJid
+on Community_Posts
+(
+	BareJid,
+	Created
+);

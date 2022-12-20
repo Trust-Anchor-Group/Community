@@ -9,7 +9,7 @@
 	* [Newest](#)
 * [Topics](#)
 * [%Title]
-* {{exists(QuickLoginUser)?]][<img alt="((QuickLoginUser.UserName))" with="32" height="32" src="((QuickLoginUser.AvatarUrl))?Width=32&Height=32"/> ((QuickLoginUser.UserName))](#)
+* {{exists(QuickLoginUser)?]][<img alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)
 	* [Logout](LogOut.md)[[ : ]][Login](Login.md)[[}}
 * [Help](#)
 	* [Tutorial](/Tutorial.md)

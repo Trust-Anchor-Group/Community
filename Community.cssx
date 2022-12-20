@@ -24,4 +24,5 @@ nav > ul > li:first-child
 nav > ul > li > a > img
 {
 	vertical-align:middle;
+	margin: -2em 0 -2em 0;
 }
