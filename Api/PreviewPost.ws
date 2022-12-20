@@ -2,7 +2,8 @@ AuthenticateSession(Request,"QuickLoginUser");
 
 {
 	"title":Required(Str(PTitle)),
-	"text":Required(Str(PText))
+	"text":Required(Str(PText)),
+	"tags":Required(Str(PTags)[])
 }:=Posted;
 
 Link:="";
@@ -27,8 +28,21 @@ while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
 	Suffix=" "+Str(i)
 );
 
+Html:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
+
+First:=true;
+foreach Tag in PTags do
+(
+	if First then
+		First:=false
+	else
+		Html+=",\r\n";
+
+	Html+="[\\#"+MarkdownEncode(Tag)+"](/Community/"+UrlEncode(Tag)+")";
+);
+
 {
-	"html": MarkdownToHtml("# " + PTitle + "\r\n\r\n" + PText),
+	"html": MarkdownToHtml(Html),
 	"link": Link+Suffix
 }
 

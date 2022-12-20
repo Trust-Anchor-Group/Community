@@ -16,6 +16,18 @@
     window.setTimeout(function () { AdaptSize(Control); }, 0);
 }
 
+function TrapCR(Event)
+{
+    if (Event.keyCode === 13)
+    {
+        Event.preventDefault();
+
+        AddTag();
+    }
+
+    InvalidatePreview();
+}
+
 function AdaptSize(Control)
 {
     if (Control.tagName === "TEXTAREA")
@@ -70,7 +82,8 @@ function DoPreview()
     xhttp.send(JSON.stringify(
         {
             "title": Title,
-            "text": Text
+            "text": Text,
+            "tags": GetTags()
         }
     ));
 }
@@ -85,6 +98,60 @@ function ClearPost()
     document.getElementById("Text").value = "";
 
     InvalidatePreview();
+}
+
+function GetTags()
+{
+    var Tags = document.getElementById("Tags");
+    var Loop = Tags.firstChild;
+    var Result = [];
+
+    while (Loop)
+    {
+        if (Loop.tagName === "LI" && Loop.className !== "EndOfTags")
+            Result.push(Loop.innerText);
+
+        Loop = Loop.nextSibling;
+    }
+
+    return Result;
+}
+
+function AddTag()
+{
+    var TagInput = document.getElementById("Tag");
+    var Tag = TagInput.value;
+    if (!Tag || Tag === "")
+        return;
+
+    Tag = Tag.toLowerCase();
+    var s = Tag.replace(" ", "_");
+    while (Tag !== s)
+    {
+        Tag = s;
+        s = Tag.replace(" ", "_");
+    }
+
+    TagInput.value = "";
+
+    var Tags = GetTags();
+    var i, c = Tags.length;
+
+    for (i = 0; i < c; i++)
+    {
+        if (Tag === Tags[i])
+            return;
+    }
+
+    var EndOfTags = document.getElementById("EndOfTags");
+    var Li = document.createElement("LI");
+    Li.innerText = Tag;
+    Li.onclick = function ()
+    {
+        EndOfTags.parentNode.removeChild(Li);
+    };
+
+    EndOfTags.parentNode.insertBefore(Li, EndOfTags);
 }
 
 function CreatePost()

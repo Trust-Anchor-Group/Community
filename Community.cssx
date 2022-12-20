@@ -26,3 +26,44 @@ nav > ul > li > a > img
 	vertical-align:middle;
 	margin: -2em 0 -2em 0;
 }
+
+input#Tag
+{
+	width:25em;
+}
+
+li.EndOfTags
+{
+	display:none !important;
+}
+
+ul.Tags
+{
+	list-style-type: none;
+    display: inline;
+}
+
+ul.Tags > li
+{
+	display:block;
+	float:left;
+	color:¤TagColor¤;
+	margin: 0.1em 0.3em;
+	cursor:pointer;
+	user-select:none;
+}
+
+ul.Tags > li:hover
+{
+	color:¤NegColor¤;
+}
+
+ul.Tags > li::before
+{
+	content:"#";
+}
+
+ul.Tags > li:hover:before
+{
+	content: "×";
+}

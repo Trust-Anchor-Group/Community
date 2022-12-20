@@ -33,6 +33,14 @@ You can see a preview of your post at the bottom of the page.
 </textarea>
 </p>
 
+<p>
+<label for="Tag">Tag: (Press ENTER to add more than one)</label>  
+<input type="text" name="Tag" id="Tag" title="Enter Tag to add" onkeydown="TrapCR(event)" onblur="AddTag()"/>
+<ul id="Tags" class="Tags">
+<li id="EndOfTags" class="EndOfTags"/>
+</ul>
+</p>
+
 <button type="button" class="posButton" onclick="CreatePost()">Create</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 
