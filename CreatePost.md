@@ -37,9 +37,7 @@ You can see a preview of your post at the bottom of the page.
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 
 </form>
-
+<fieldset>
+<legend>Preview</legend>
 <div id="Preview"/>
-
-# Preview
-
-</div>
+</fieldset>
