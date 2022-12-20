@@ -70,6 +70,19 @@ function DoPreview()
 
                 var ReferenceLink = document.getElementById("ReferenceLink");
                 ReferenceLink.value = Response.link;
+
+                var CreateButton = document.getElementById("CreateButton");
+
+                if (Response.valid)
+                {
+                    CreateButton.removeAttribute("disabled");
+                    CreateButton.className = "posButton";
+                }
+                else
+                {
+                    CreateButton.setAttribute("disabled", "disabled");
+                    CreateButton.className = "disabledButton";
+                }
             }
             else
                 window.alert(xhttp.responseText);
@@ -96,6 +109,21 @@ function ClearPost()
 
     document.getElementById("ReferenceLink").value = "";
     document.getElementById("Text").value = "";
+    document.getElementById("Tag").value = "";
+
+    var Tags = document.getElementById("Tags");
+    var Loop = Tags.firstChild;
+    var Temp;
+
+    while (Loop)
+    {
+        Temp = Loop.nextSibling;
+
+        if (Loop.tagName === "LI" && Loop.className !== "EndOfTags")
+            Loop.parentNode.removeChild(Loop);
+
+        Loop = Temp;
+    }
 
     InvalidatePreview();
 }
@@ -113,6 +141,11 @@ function GetTags()
 
         Loop = Loop.nextSibling;
     }
+
+    var TagInput = document.getElementById("Tag");
+    var Tag = TagInput.value;
+    if (Tag !== "")
+        Result.push(Tag);
 
     return Result;
 }

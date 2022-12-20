@@ -43,6 +43,7 @@ foreach Tag in PTags do
 
 {
 	"html": MarkdownToHtml(Html),
-	"link": Link+Suffix
+	"link": Link+Suffix,
+	"valid": !empty(Trim(PTitle)) && !empty(Trim(PText))
 }
 

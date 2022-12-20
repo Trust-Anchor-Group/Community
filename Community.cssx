@@ -67,3 +67,9 @@ ul.Tags > li:hover:before
 {
 	content: "×";
 }
+
+.disabledButton
+{
+	background-color:¤Blend(PosColor,BackgroundColor,0.75)¤;
+	cursor:not-allowed;
+}

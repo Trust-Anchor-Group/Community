@@ -41,7 +41,7 @@ You can see a preview of your post at the bottom of the page.
 </ul>
 </p>
 
-<button type="button" class="posButton" onclick="CreatePost()">Create</button>
+<button id="CreateButton" type="button" class="disabledButton" onclick="CreatePost()" disabled="disabled">Create</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 
 </form>
