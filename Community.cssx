@@ -40,6 +40,15 @@ li.EndOfTags
 ul.Tags
 {
 	list-style-type: none;
+}
+
+ul.noTags
+{
+	display:none;
+}
+
+ul.withTags
+{
     display: inline;
 }
 
@@ -54,9 +63,14 @@ ul.Tags > li
 	user-select:none;
 }
 
-ul.Tags > li:hover
+ul#Tags > li:hover
 {
 	color:¤NegColor¤;
+}
+
+ul#SuggestedTags > li:hover
+{
+	color:¤PosColor¤;
 }
 
 ul.Tags > li::before
@@ -64,9 +78,14 @@ ul.Tags > li::before
 	content:"#";
 }
 
-ul.Tags > li:hover:before
+ul#Tags > li:hover:before
 {
 	content: "×";
+}
+
+ul#SuggestedTags > li:hover:before
+{
+	content: "✓";
 }
 
 .disabledButton
