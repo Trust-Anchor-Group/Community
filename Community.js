@@ -44,6 +44,7 @@ function DoPreview()
 {
 	var Title = document.getElementById("Title").value;
 	var Text = document.getElementById("Text").value;
+	var TagEdit = document.getElementById("Tag").value;
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
 	{
@@ -71,6 +72,11 @@ function DoPreview()
 					CreateButton.setAttribute("disabled", "disabled");
 					CreateButton.className = "disabledButton";
 				}
+
+				if (Response.suggestions)
+					ShowTagDropdown(Response.suggestions);
+				else
+					HideTagDropdown();
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -84,7 +90,8 @@ function DoPreview()
 		{
 			"title": Title,
 			"text": Text,
-			"tags": GetTags()
+			"tags": GetTags(),
+			"tagEdit": TagEdit
 		}
 	));
 }
@@ -187,6 +194,8 @@ function AddTag()
 
 			Loop = Loop.nextSibling;
 		}
+
+		InvalidatePreview();
 	};
 
 	TagsList.insertBefore(Li, EndOfTags);
@@ -237,51 +246,8 @@ function TrapTagKey(Event)
 		AddTag();
 		HideTagDropdown();
 	}
-	else
-		InvalidateTagDropdown();
 
 	InvalidatePreview();
-}
-
-function InvalidateTagDropdown()
-{
-	if (TagDropdownTimer !== null)
-		window.clearTimeout(TagDropdownTimer);
-
-	TagDropdownTimer = window.setTimeout(DoTagDropdown, 250);
-}
-
-var TagDropdownTimer = null;
-
-function DoTagDropdown()
-{
-	var TagInput = document.getElementById("Tag");
-	var Tag = TagInput.value;
-	if (!Tag)
-	{
-		HideTagDropdown();
-		return;
-	}
-
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function ()
-	{
-		if (xhttp.readyState === 4)
-		{
-			if (xhttp.status === 200)
-			{
-				var Response = JSON.parse(xhttp.responseText);
-				ShowTagDropdown(Response);
-			}
-			else
-				window.alert(xhttp.responseText);
-		}
-	};
-
-	xhttp.open("POST", "Api/TagSuggestions.ws", true);
-	xhttp.setRequestHeader("Content-Type", "text/plain");
-	xhttp.setRequestHeader("Accept", "application/json");
-	xhttp.send(Tag);
 }
 
 function ShowTagDropdown(Tags)
@@ -324,6 +290,7 @@ function ShowTagDropdown(Tags)
 
 			AddTag();
 			HideTagDropdown();
+			InvalidatePreview();
 
 			TagControl.focus();
 		};

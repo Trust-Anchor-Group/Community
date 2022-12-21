@@ -3,7 +3,8 @@ AuthenticateSession(Request,"QuickLoginUser");
 {
 	"title":Required(Str(PTitle)),
 	"text":Required(Str(PText)),
-	"tags":Required(Str(PTags)[])
+	"tags":Required(Str(PTags)[]),
+	"tagEdit":Optional(Str(PTagEdit))
 }:=Posted;
 
 Link:="";
@@ -41,9 +42,24 @@ foreach Tag in PTags do
 	Result+="[\\#"+MarkdownEncode(Tag)+"](/Community/Tag/"+UrlEncode(Tag)+")";
 );
 
+if empty(PTagEdit) then
+	Suggestions:=null
+else
+(
+	Suggestions:=select top 50 
+		Key.Substring(28)
+	from 
+		RuntimeCounter 
+	where 
+		Key like ("Community.Posts.Created.Tag.%"+PTagEdit+"%") 
+	order by 
+		Tag
+);
+
 {
 	"html": MarkdownToHtml(Result),
 	"link": Link+Suffix,
-	"valid": !empty(Trim(PTitle)) && !empty(Trim(PText))
+	"valid": !empty(Trim(PTitle)) && !empty(Trim(PText)),
+	"suggestions": Suggestions
 }
 
