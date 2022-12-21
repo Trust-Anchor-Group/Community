@@ -50,6 +50,7 @@ ul.Tags > li
 	color:¤TagColor¤;
 	margin: 0.1em 0.3em;
 	cursor:pointer;
+	-webkit-user-select:none;
 	user-select:none;
 }
 
