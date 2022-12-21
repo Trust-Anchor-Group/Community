@@ -19,3 +19,16 @@ on Community_Posts
 	BareJid,
 	Created
 );
+
+ScriptResource("/Community/Post",
+(
+	Link:=Request.SubPath.Substring(1);
+	Post:=select top 1 * from Community_Posts where Link=Link;
+	if !exists(Post) then NotFound("Post not found.");
+	FromMarkdown(Post.Markdown)
+));
+
+ScriptResource("/Community/Tag",
+(
+	Tag:=Request.SubPath.Substring(1);
+));
