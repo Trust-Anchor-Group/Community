@@ -25,7 +25,7 @@ ScriptResource("/Community/Post",
 	Link:=Request.SubPath.Substring(1);
 	Post:=select top 1 * from Community_Posts where Link=Link;
 	if !exists(Post) then NotFound("Post not found.");
-	FromMarkdown(Post.Markdown)
+	MarkdownContent("Title: {{Post.Title}}\r\nDescription: Contains contents of a community post.\r\nDate: {{Post.Updated}}\r\nAuthor: {{Post.UserName}}\r\nMaster: ../Master.md\r\n\r\n===========\r\n\r\n{{Post.Markdown}}")
 ));
 
 ScriptResource("/Community/Tag",

@@ -25,12 +25,14 @@ foreach Tag in PTags do
 	else
 		Result+=",\r\n";
 
-	Result+="[\\#"+MarkdownEncode(Tag)+"](/Community/"+UrlEncode(Tag)+")";
+	Result+="[\\#"+MarkdownEncode(Tag)+"](/Community/Tag/"+UrlEncode(Tag)+")";
 );
 
+TP:=NowUtc;
 insert into Community_Posts object
 {
-	Created:NowUtc,
+	Created:TP,
+	Updated:TP,
 	Link:PLink,
 	BareJid:QuickLoginUser.Properties.JID,
 	UserName:QuickLoginUser.UserName,
