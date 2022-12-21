@@ -74,3 +74,64 @@ ul.Tags > li:hover:before
 	background-color:¤Blend(PosColor,BackgroundColor,0.75)¤;
 	cursor:not-allowed;
 }
+
+.footer
+{
+}
+
+.footer a
+{
+	text-decoration: none;
+	color:¤TextColor¤;
+}
+
+.footer img
+{
+	vertical-align:middle;
+}
+
+.footer span
+{
+	color:¤TextColor¤;
+}
+
+.authorInfo
+{
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.author
+{
+	margin-left:1em;
+	font-weight:bold;
+}
+
+.created
+{
+	margin-left:1em;
+	opacity:0.5;
+	font-size:smaller;
+}
+
+.updated
+{
+	margin-left:1em;
+	opacity:0.5;
+	font-size:smaller;
+}
+
+.updated::before
+{
+	content:", updated "
+}
+
+.updated::after
+{
+	content:" ✎"
+}
+
+hr
+{
+	margin:1.5em 0em;
+}

@@ -43,6 +43,11 @@ insert into Community_Posts object
 	Markdown:Result
 };
 
+IncCounter("Community.Posts.Created.Total");
+
+foreach Tag in PTags do
+	IncCounter("Community.Posts.Created.Tag."+Tag);
+
 {
 	"valid": true,
 	"link": "/Community/Post/"+PLink
