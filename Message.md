@@ -23,7 +23,7 @@ To send a private message to **{{
 }}**, type the message below, and press *Send*. You can format the message using 
 [Markdown](/Markdown.md). You can see a preview of your message at the bottom of the page.
 
-**Note**: The recipient of messages send using this form, will also receive information about your identity. Anonymous
+**Note**: The recipient of messages sent using this form, will also receive information about your identity. Anonymous
 messaging cannot be performed using this service.
 
 <form>
