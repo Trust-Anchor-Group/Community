@@ -331,7 +331,7 @@ window.onscroll = function ()
 	}
 }
 
-function LoadMore(Control, Offset, N, Author)
+function LoadMore(Control, Offset, N, Author, Tag)
 {
 	Control.setAttribute("data-scroll", "x");
 
@@ -360,7 +360,7 @@ function LoadMore(Control, Offset, N, Author)
 				}
 
 				if (Response.more)
-					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ",'" + Author + "')");
+					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ",'" + Author + "','" + Tag + "')");
 				else
 					LastSection.removeChild(Control);
 			}
@@ -376,7 +376,8 @@ function LoadMore(Control, Offset, N, Author)
 		{
 			"offset": Offset,
 			"maxCount": N,
-			"author": Author
+			"author": Author,
+			"tag": Tag
 		}
 	));
 

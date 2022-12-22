@@ -13,7 +13,16 @@ GW:=Waher.IoTGateway.Gateway;
 if !GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then ServiceUnavailable("Community Service not available.");
 
 N:=5;
-Posts:=select top N * from Community_Posts where UserId=Author order by Created desc;
+Posts:=
+	select top N 
+		* 
+	from 
+		Community_Posts 
+	where 
+		UserId=Author 
+	order by 
+		Created desc;
+
 LoadMore:=count(Posts)=N;
 
 foreach Post in Posts do
@@ -39,6 +48,6 @@ Posts by user
 No more posts authored by the user could be found. You can go back to the main view by selecting *Home* in the menu above.
 
 {{if LoadMore then ]]
-<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)),"((Author))")'>Load More</button>
+<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)),"((Author))","")'>Load More</button>
 [[}}
 

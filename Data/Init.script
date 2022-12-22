@@ -20,6 +20,15 @@ on Community_Posts
 	Created
 );
 
+create
+index Community_PostRef_Tag_Created_Link
+on Community_PostRef
+(
+	Tag,
+	Created,
+	Link
+);
+
 ScriptResource("/Community/Post",
 (
 	Link:=Request.SubPath.Substring(1);
@@ -47,4 +56,10 @@ ScriptResource("/Community/Author",
 ScriptResource("/Community/Tag",
 (
 	Tag:=Request.SubPath.Substring(1);
+
+	TagFileName:=null;
+	GW:=Waher.IoTGateway.Gateway;
+	if !GW.HttpServer.TryGetFileName("/Community/Tag.md",TagFileName) then ServiceUnavailable("Community Service not available.");
+
+	MarkdownContent(LoadMarkdown(TagFileName,true))
 ));

@@ -49,7 +49,16 @@ insert into Community_Posts object
 IncCounter("Community.Posts.Created.Total");
 
 foreach Tag in PTags do
+(
+	insert into Community_PostRef object
+	{
+		Tag:Tag,
+		Created:TP,
+		Link:PLink
+	};
+
 	IncCounter("Community.Posts.Created.Tag."+Tag);
+);
 
 GW:=Waher.IoTGateway.Gateway;
 FullLink:=GW.GetUrl("/Community/Post/"+PLink);
