@@ -48,6 +48,19 @@ IncCounter("Community.Posts.Created.Total");
 foreach Tag in PTags do
 	IncCounter("Community.Posts.Created.Tag."+Tag);
 
+GW:=Waher.IoTGateway.Gateway;
+FullLink:=GW.GetUrl("/Community/Post/"+PLink);
+GW.SendNotification("Community post added ["+PTitle+"]("+FullLink+")");
+LogNotice("Community post added.\r\n\r\n"+Result,
+{
+	"Object":PLink,
+	"Actor":QuickLoginUser.Properties.JID,
+	"UserName":QuickLoginUser.UserName,
+	"AvatarUrl":QuickLoginUser.AvatarUrl,
+	"Title":PTitle,
+	"URL":FullLink
+});
+
 {
 	"valid": true,
 	"link": "/Community/Post/"+PLink

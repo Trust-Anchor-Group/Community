@@ -29,7 +29,7 @@ foreach Post in Posts do
 <br/>
 <span class='created'>((Post.Created))</span>[[;
 
-	if Post.Updated!=Post.Created and exists(Post.Updated) then ]]
+	if Post.Updated!=Post.Created then ]]
 <br/><span class='updated'>((Post.Updated))</span>[[;
 
 	]]
@@ -48,6 +48,9 @@ TAG Community
 ==================
 
 Welcome to TAG Community. You can add posts by going to the *Actions* menu above, and selecting *Create New Post*.
+
+**Note** that posts you add, will be made public in your name. You will however, be able to edit and delete your posts,
+if you choose to.
 
 {{if LoadMore then ]]
 <button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)))'>Load More</button>

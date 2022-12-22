@@ -285,7 +285,7 @@ function ShowTagDropdown(Tags)
 		Li.onclick = function ()
 		{
 			var TagControl = document.getElementById("Tag");
-			
+
 			TagControl.value = this.innerText;
 
 			AddTag();
@@ -345,18 +345,24 @@ function LoadMore(Control, Offset, N)
 			if (xhttp.status === 200)
 			{
 				var Response = JSON.parse(xhttp.responseText);
-				var i, c = Response.length;
+				var i, c = Response.posts.length;
+				var LastSection = Control.parentNode;
+				var Wall = LastSection.parentNode;
 
 				for (i = 0; i < c; i++)
 				{
-					var Post = Response[i];
+					var Post = Response.posts[i];
 
+					var Section = document.createElement("SECTION");
+					Wall.insertBefore(Section, LastSection);
+
+					Section.innerHTML = Post.html;
 				}
 
 				if (Response.more)
 					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ")");
 				else
-					Control.parentNode.removeChild(Control);
+					LastSection.removeChild(Control);
 			}
 			else
 				window.alert(xhttp.responseText);
