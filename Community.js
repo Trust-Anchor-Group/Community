@@ -42,6 +42,7 @@ var PreviewTimer = null;
 
 function DoPreview()
 {
+	var Type = document.getElementById("Type").value;
 	var Title = document.getElementById("Title").value;
 	var Text = document.getElementById("Text").value;
 	var TagEdit = document.getElementById("Tag").value;
@@ -57,8 +58,11 @@ function DoPreview()
 				var Preview = document.getElementById("Preview");
 				Preview.innerHTML = Response.html;
 
-				var ReferenceLink = document.getElementById("ReferenceLink");
-				ReferenceLink.value = Response.link;
+				if (Response.link !== "")
+				{
+					var ReferenceLink = document.getElementById("ReferenceLink");
+					ReferenceLink.value = Response.link;
+				}
 
 				var CreateButton = document.getElementById("CreateButton");
 
@@ -88,6 +92,7 @@ function DoPreview()
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
 		{
+			"type": Type,
 			"title": Title,
 			"text": Text,
 			"tags": GetTags(),
@@ -307,7 +312,8 @@ function ShowTagDropdown(Tags)
 function HideTagDropdown()
 {
 	var Suggestions = document.getElementById("SuggestedTags");
-	Suggestions.className = "Tags noTags";
+	if (Suggestions)
+		Suggestions.className = "Tags noTags";
 }
 
 function OpenLink(Link)
@@ -380,5 +386,67 @@ function LoadMore(Control, Offset, N, Author, Tag)
 			"tag": Tag
 		}
 	));
+}
 
+function QuotePost(Link)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Control = document.getElementById("Text");
+
+				var Value = Control.value;
+				var Start = Control.selectionStart;
+				var End = Control.selectionEnd;
+				Control.value = Value.substring(0, Start) + xhttp.responseText + Value.substring(End);
+				Control.selectionStart = Start;
+				Control.selectionEnd = Start + xhttp.responseText.length;
+				Control.focus();
+
+				AdaptSize(Control);
+				InvalidatePreview();
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/QuotePost.ws", true);
+	xhttp.setRequestHeader("Content-Type", "text/plain");
+	xhttp.setRequestHeader("Accept", "text/plain");
+	xhttp.send(Link);
+}
+
+function SendMessage()
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				window.alert("Message successfully sent.");
+				window.close();
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	var Link = document.getElementById("ReferenceLink").value;
+	var Text = document.getElementById("Text").value;
+
+	xhttp.open("POST", "/Community/Api/SendMessage.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"link": Link,
+			"message": Text
+		}));
 }

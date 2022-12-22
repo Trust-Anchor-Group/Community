@@ -17,6 +17,8 @@ You can see a preview of your post at the bottom of the page.
 
 <form>
 
+<input type="hidden" name="Type" id="Type" value="Post"/>
+
 <p>
 <label for="Title">Title:</label>  
 <input type="text" name="Title" id="Title" title="Title of post" onkeydown="InvalidatePreview()" autofocus required/>

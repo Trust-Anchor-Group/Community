@@ -1,6 +1,7 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
 {
+	"type":Required(Str(PType)),
 	"title":Required(Str(PTitle)),
 	"text":Required(Str(PText)),
 	"tags":Required(Str(PTags)[]),
@@ -8,28 +9,36 @@ AuthenticateSession(Request,"QuickLoginUser");
 }:=Posted;
 
 Link:="";
-First:=true;
-
-foreach Part in PTitle.Split(" ",System.StringSplitOptions.RemoveEmptyEntries) do
-(
-	if First then
-		First:=false
-	else
-		Link+="_";
-
-	Link+=Part.ToLower()
-);
-
 Suffix:="";
-i:=1;
 
-while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
+if empty(PTitle) then
+	Result:=""
+else
 (
-	i++;
-	Suffix=" "+Str(i)
-);
+	First:=true;
 
-Result:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
+	foreach Part in PTitle.Split(" ",System.StringSplitOptions.RemoveEmptyEntries) do
+	(
+		if First then
+			First:=false
+		else
+			Link+="_";
+
+		Link+=Part.ToLower()
+	);
+
+	i:=1;
+
+	while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
+	(
+		i++;
+		Suffix=" "+Str(i)
+	);
+
+	Result:="# " + PTitle + "\r\n\r\n";
+);
+	
+Result += PText + "\r\n\r\n";
 
 First:=true;
 foreach Tag in PTags do
@@ -56,10 +65,17 @@ else
 		Tag
 );
 
+if PType="Post" then
+	Valid:=!empty(Trim(PTitle)) && !empty(Trim(PText))
+else if PType="Message" then
+	Valid:=!empty(Trim(PText))
+else
+	Valid:=false;
+
 {
 	"html": MarkdownToHtml(Result),
 	"link": Link+Suffix,
-	"valid": !empty(Trim(PTitle)) && !empty(Trim(PText)),
+	"valid": Valid,
 	"suggestions": Suggestions
 }
 

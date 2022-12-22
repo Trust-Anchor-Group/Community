@@ -161,3 +161,13 @@ hr
 {
 	margin:1.5em 0em;
 }
+
+button.unicodeChar
+{
+	color: transparent !important;
+	text-shadow: 0 0 0 ¤ButtonTextColor¤ !important;
+	width:3em;
+	height:3em;
+	padding:0;
+	margin:0;
+}

@@ -1,4 +1,4 @@
-Title: {{Post.Title}}
+﻿Title: {{Post.Title}}
 Description: Contains contents of a community post.
 Date: {{Post.Updated}}
 Author: {{Post.UserName}}
@@ -21,5 +21,6 @@ Master: /Community/Master.md
 <br/><span class='updated'>((Post.Updated))</span>[[}}
 </div></a>
 <div class="toolbar">
-<button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')">Link</button>
+<button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')" class="unicodeChar">🔗</button>
+<button type="button" onclick="OpenLink('/Community/Message.md?PLink={{Post.Link}}')" class="unicodeChar">✉</button>
 </div></div>
