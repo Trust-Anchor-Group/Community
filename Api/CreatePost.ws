@@ -10,7 +10,9 @@ AuthenticateSession(Request,"QuickLoginUser");
 if empty(PTitle) then BadRequest("Empty title not permitted.");
 if empty(PLink) then BadRequest("Empty link not permitted.");
 if empty(PText) then BadRequest("Empty text not permitted.");
-if empty(QuickLoginUser.Properties.JID) then BadRequest("User lacks a proper JID in the identity.");
+
+BareJid:=QuickLoginUser.Properties.JID;
+if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
 if empty(QuickLoginUser.UserName) then BadRequest("User lacks a proper name in the identity.");
 if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in the identity.");
 if ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 then BadRequest("Link already taken.");
@@ -34,7 +36,8 @@ insert into Community_Posts object
 	Created:TP,
 	Updated:TP,
 	Link:PLink,
-	BareJid:QuickLoginUser.Properties.JID,
+	BareJid:BareJid,
+	UserId:Base64UrlEncode(Sha3_256(Utf8Encode(BareJid))),
 	UserName:QuickLoginUser.UserName,
 	AvatarUrl:QuickLoginUser.AvatarUrl,
 	Title:PTitle,
@@ -54,7 +57,7 @@ GW.SendNotification("Community post added ["+PTitle+"]("+FullLink+")");
 LogNotice("Community post added.\r\n\r\n"+Result,
 {
 	"Object":PLink,
-	"Actor":QuickLoginUser.Properties.JID,
+	"Actor":BareJid,
 	"UserName":QuickLoginUser.UserName,
 	"AvatarUrl":QuickLoginUser.AvatarUrl,
 	"Title":PTitle,

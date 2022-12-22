@@ -1,28 +1,25 @@
 {
 	"offset":Required(Int(POffset)>=0),
-	"maxCount":Required(Int(PMaxCount)>0)
+	"maxCount":Required(Int(PMaxCount)>0),
+	"author":Optional(Str(PAuthor))
 }:=Posted;
 
-Posts:=select top PMaxCount * from Community_Posts order by Created desc offset POffset;
+PostFileName:=null;
+GW:=Waher.IoTGateway.Gateway;
+if !GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then ServiceUnavailable("Community Service not available.");
+
+if empty(PAuthor) then
+	Posts:=select top PMaxCount * from Community_Posts order by Created desc offset POffset
+else
+	Posts:=select top PMaxCount * from Community_Posts where UserId=PAuthor order by Created desc offset POffset;
+
 LoadMore:=count(Posts)=PMaxCount;
 
 {
 	"posts":[foreach Post in Posts do
 			(
-				Markdown:=Post.Markdown +
-					"\r\n\r\n----------\r\n\r\n<div class='footer'>\r\n[<img alt='"+Post.UserName+
-					"' with='64' height='64' src='"+Post.AvatarUrl+"?Width=64&Height=64'/>"+
-					"<div class='authorInfo'><span class='author'>"+Post.UserName+"</span><br/>"+
-					"<span class='created'>"+Post.Created+"</span>";
-
-				if Post.Updated!=Post.Created then
-					Markdown+="<br/><span class='updated'>"+Post.Updated+"</span>";
-
-				Markdown+="</div>](#)<div class='toolbar'>"+
-					"<button type='button' onclick=\"OpenLink('Post/"+Post.Link+"')\">Link</button></div></div>";
-
 				{
-					"html":MarkdownToHtml(Markdown),
+					"html":MarkdownToHtml(LoadMarkdown(PostFileName)),
 					"userName":Post.UserName,
 					"created":Str(Post.Created),
 					"updated":Str(Post.Updated),

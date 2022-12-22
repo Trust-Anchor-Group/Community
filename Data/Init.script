@@ -13,10 +13,10 @@ on Community_Posts
 );
 
 create 
-index Community_Posts_BareJid
+index Community_Posts_UserId
 on Community_Posts
 (
-	BareJid,
+	UserId,
 	Created
 );
 
@@ -25,11 +25,23 @@ ScriptResource("/Community/Post",
 	Link:=Request.SubPath.Substring(1);
 	Post:=select top 1 * from Community_Posts where Link=Link;
 	if !exists(Post) then NotFound("Post not found.");
-	MarkdownContent("Title: {{Post.Title}}\r\nDescription: Contains contents of a community post.\r\nDate: {{Post.Updated}}\r\n"+
-		"Author: {{Post.UserName}}\r\nMaster: ../Master.md\r\n\r\n===========\r\n\r\n{{Post.Markdown}}\r\n\r\n----------\r\n\r\n"+
-		"<div class='footer'>[<img alt='{{Post.UserName}}' with='64' height='64' src='{{Post.AvatarUrl}}?Width=64&Height=64'/>"+
-		"<div class='authorInfo'><span class='author'>{{Post.UserName}}</span><br/><span class='created'>{{Post.Created}}</span>"+
-		"{{if Post.Updated!=Post.Created then ]]<br/><span class='updated'>((Post.Updated))</span>[[}}</div>](#)</div>")
+
+	PostFileName:=null;
+	GW:=Waher.IoTGateway.Gateway;
+	if !GW.HttpServer.TryGetFileName("/Community/PostStandalone.md",PostFileName) then ServiceUnavailable("Community Service not available.");
+
+	MarkdownContent(LoadMarkdown(PostFileName,true))
+));
+
+ScriptResource("/Community/Author",
+(
+	Author:=Request.SubPath.Substring(1);
+
+	AuthorFileName:=null;
+	GW:=Waher.IoTGateway.Gateway;
+	if !GW.HttpServer.TryGetFileName("/Community/Author.md",AuthorFileName) then ServiceUnavailable("Community Service not available.");
+
+	MarkdownContent(LoadMarkdown(AuthorFileName,true))
 ));
 
 ScriptResource("/Community/Tag",

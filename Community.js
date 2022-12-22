@@ -331,7 +331,7 @@ window.onscroll = function ()
 	}
 }
 
-function LoadMore(Control, Offset, N)
+function LoadMore(Control, Offset, N, Author)
 {
 	Control.setAttribute("data-scroll", "x");
 
@@ -360,7 +360,7 @@ function LoadMore(Control, Offset, N)
 				}
 
 				if (Response.more)
-					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ")");
+					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ",'" + Author + "')");
 				else
 					LastSection.removeChild(Control);
 			}
@@ -369,13 +369,14 @@ function LoadMore(Control, Offset, N)
 		}
 	};
 
-	xhttp.open("POST", "Api/LoadMore.ws", true);
+	xhttp.open("POST", "/Community/Api/LoadMore.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
 		{
 			"offset": Offset,
-			"maxCount": N
+			"maxCount": N,
+			"author": Author
 		}
 	));
 

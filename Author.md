@@ -1,16 +1,19 @@
-Title: TAG Community
-Description: Main page for the TAG Community service.
-Date: 2022-12-16
+Title: Author
+Description: Page dedicated to an author.
+Date: 2022-12-22
 Author: Peter Waher
-Master: Master.md
+Master: /Community/Master.md
+Parameter: Author
 
 {{
+if empty(Author) then BadRequest("Author not specified.");
+
 PostFileName:=null;
 GW:=Waher.IoTGateway.Gateway;
 if !GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then ServiceUnavailable("Community Service not available.");
 
 N:=5;
-Posts:=select top N * from Community_Posts order by Created desc;
+Posts:=select top N * from Community_Posts where UserId=Author order by Created desc;
 LoadMore:=count(Posts)=N;
 
 foreach Post in Posts do
@@ -39,6 +42,6 @@ Welcome to TAG Community. You can add posts by going to the *Actions* menu above
 if you choose to.
 
 {{if LoadMore then ]]
-<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)),"")'>Load More</button>
+<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)),"((Author))")'>Load More</button>
 [[}}
 
