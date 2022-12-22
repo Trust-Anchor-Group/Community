@@ -114,6 +114,13 @@ ul#SuggestedTags > li:hover:before
 	color:¤TextColor¤;
 }
 
+.footer div.toolbar
+{
+	display:block;
+	margin-left:1em;
+	float:right;
+}
+
 .authorInfo
 {
 	display:inline-block;

@@ -309,3 +309,68 @@ function HideTagDropdown()
 	var Suggestions = document.getElementById("SuggestedTags");
 	Suggestions.className = "Tags noTags";
 }
+
+function OpenLink(Link)
+{
+	window.open(Link, "_blank");
+}
+
+window.onscroll = function ()
+{
+	var Button = document.getElementById("LoadMoreButton");
+
+	if (Button)
+	{
+		var Rect = Button.getBoundingClientRect();
+		if (Rect.top <= window.innerHeight * 2)
+		{
+			var Scroll = Button.getAttribute("data-scroll");
+			if (Scroll !== "x")
+				Button.click();
+		}
+	}
+}
+
+function LoadMore(Control, Offset, N)
+{
+	Control.setAttribute("data-scroll", "x");
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			Control.setAttribute("data-scroll", "");
+
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+				var i, c = Response.length;
+
+				for (i = 0; i < c; i++)
+				{
+					var Post = Response[i];
+
+				}
+
+				if (Response.more)
+					Control.setAttribute("onclick", "LoadMore(this," + (Offset + c) + "," + N + ")");
+				else
+					Control.parentNode.removeChild(Control);
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "Api/LoadMore.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"offset": Offset,
+			"maxCount": N
+		}
+	));
+
+}
