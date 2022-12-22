@@ -33,13 +33,10 @@ foreach Post in Posts do
 
 ==================
 
-TAG Community
+Posts by user
 ==================
 
-Welcome to TAG Community. You can add posts by going to the *Actions* menu above, and selecting *Create New Post*.
-
-**Note** that posts you add, will be made public in your name. You will however, be able to edit and delete your posts,
-if you choose to.
+No more posts authored by the user could be found. You can go back to the main view by selecting *Home* in the menu above.
 
 {{if LoadMore then ]]
 <button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMore(this,((N)),((N)),"((Author))")'>Load More</button>
