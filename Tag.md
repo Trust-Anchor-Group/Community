@@ -35,9 +35,6 @@ foreach Post in Posts do
 
 ====================
 
-[[;
-
-	]]
 ((LoadMarkdown(PostFileName) ))
 
 [[;

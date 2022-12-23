@@ -185,6 +185,14 @@ button.unicodeChar
 .replies
 {
 	margin-left:1em;
+	padding:0.1em 0.3em;
+}
+
+.replies:hover
+{
+	color:¤PosColor¤ !important;
+	background-color:¤Alpha(PosColor,32)¤;
+	border-radius:0.5em;
 }
 
 .replies::before

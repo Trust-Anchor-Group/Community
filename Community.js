@@ -474,3 +474,53 @@ function PublishReply()
 			"message": Text
 		}));
 }
+
+function LoadMoreReplies(Control, Offset, N, Link, Reply)
+{
+	Control.setAttribute("data-scroll", "x");
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			Control.setAttribute("data-scroll", "");
+
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+				var i, c = Response.replies.length;
+				var Replies = Control.parentNode;
+
+				for (i = 0; i < c; i++)
+				{
+					var Reply2 = Response.replies[i];
+
+					var Section = document.createElement("SECTION");
+					Replies.insertBefore(Section, Control);
+
+					Section.innerHTML = Reply2.html;
+				}
+
+				if (Response.more)
+					Control.setAttribute("onclick", "LoadMoreReplies(this," + (Offset + c) + "," + N + ",'" + Link + "','" + Reply + "')");
+				else
+					Replies.removeChild(Control);
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/LoadMoreReplies.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"offset": Offset,
+			"maxCount": N,
+			"link": Link,
+			"reply": Reply
+		}
+	));
+}

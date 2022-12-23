@@ -58,15 +58,14 @@ LoadMore:=count(Posts)=PMaxCount;
 
 {
 	"posts":[foreach Post in Posts do
-			(
-				{
-					"html":MarkdownToHtml(LoadMarkdown(PostFileName)),
-					"userName":Post.UserName,
-					"created":Str(Post.Created),
-					"updated":Str(Post.Updated),
-					"link":Post.Link,
-					"more":LoadMore
-				}
-			)],
+		(
+			{
+				"html":MarkdownToHtml(LoadMarkdown(PostFileName)),
+				"userName":Post.UserName,
+				"created":Str(Post.Created),
+				"updated":Str(Post.Updated),
+				"link":Post.Link
+			}
+		)],
 	"more":LoadMore
 }

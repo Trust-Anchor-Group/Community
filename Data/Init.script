@@ -30,10 +30,11 @@ on Community_PostRef
 );
 
 create 
-index Community_Replies_Link_Created
+index Community_Replies_Link_Reply_Created
 on Community_Replies
 (
 	Link,
+	Reply,
 	Created
 );
 

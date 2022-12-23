@@ -19,6 +19,7 @@ Obj:=insert into Community_Replies object
 	Created:TP,
 	Updated:TP,
 	Link:PLink,
+	Reply:"",
 	BareJid:BareJid,
 	UserId:Base64UrlEncode(Sha3_256(Utf8Encode(BareJid))),
 	UserName:QuickLoginUser.UserName,

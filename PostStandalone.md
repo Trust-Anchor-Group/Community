@@ -6,6 +6,8 @@ Master: /Community/Master.md
 
 ===========
 
+<div id="{{Post.ObjectId}}">
+
 {{Post.Markdown}}
 
 ----------
@@ -21,10 +23,59 @@ Master: /Community/Master.md
 <span class='updated'>((Post.Updated))</span>[[}}
 <br/>
 <span class='views'>{{IncCounter("Community.Posts.Views."+Post.Link)}}</span>
-<span class='replies'>{{GetCounter("Community.Posts.Replies."+Post.Link)}}</span>
+<span class='replies' onclick="OpenLink('/Community/Post/{{Post.Link}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Posts.Replies."+Post.Link)}}</span>
 </div></a>
 <div class="toolbar">
 <button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')" class="unicodeChar">🔗</button>
 <button type="button" onclick="OpenLink('/Community/Message.md?PLink={{Post.Link}}')" class="unicodeChar">✉</button>
 <button type="button" onclick="OpenLink('/Community/Reply.md?PLink={{Post.Link}}')" class="unicodeChar">↩</button>
-</div></div>
+</div>
+</div>
+
+{{
+ReplyFileName:=null;
+GW:=Waher.IoTGateway.Gateway;
+if !GW.HttpServer.TryGetFileName("/Community/ReplyInline.md",ReplyFileName) then ServiceUnavailable("Community Service not available.");
+
+N:=5;
+Replies:=
+	select top N 
+		* 
+	from 
+		Community_Replies
+	where
+		Link=Post.Link and
+		Reply=""
+	order by 
+		Created desc;
+
+LoadMore:=count(Replies)=N;
+First:=true;
+
+foreach Reply in Replies do
+(
+	if First then
+	(
+		First:=false;
+		]]<fieldset><legend>Responses</legend>[[
+	);
+
+	]]
+
+<section>
+
+((LoadMarkdown(ReplyFileName) ))
+
+</section>
+[[;
+);
+
+if LoadMore then ]]
+<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMoreReplies(this,((N)),((N)),"((Post.Link))","")'>Load More</button>
+[[;
+
+if !First then ]]</fieldset>[[;
+
+}}
+
+</div>

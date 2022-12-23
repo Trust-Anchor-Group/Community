@@ -17,7 +17,7 @@ else
 (
 	First:=true;
 
-	foreach Part in PTitle.Split(" ",System.StringSplitOptions.RemoveEmptyEntries) do
+	foreach Part in PTitle.Replace("'","_").Replace("\"","_").Split(" ",System.StringSplitOptions.RemoveEmptyEntries) do
 	(
 		if First then
 			First:=false
