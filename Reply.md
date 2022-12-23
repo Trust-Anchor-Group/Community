@@ -1,39 +1,41 @@
-Title: Private Message
-Description: This page allows you to send a private message to the author of a post.
+Title: Reply
+Description: This page allows you to send a public reply.
 Date: 2022-12-22
 Author: Peter Waher
 Master: Master.md
 UserVariable: QuickLoginUser
 Login: Login.md
 Parameter: PLink
+Init: Data/Init.script
 
 ================================================================
 
-Send Private Message
-======================
+Publish Reply
+================
 
-To send a private message to **{{
+To publish a reply to the post titled "*{{
 if empty(PLink) then BadRequest("Post Link not specified.");
 	
 Post:=select top 1 * from Community_Posts where Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 
-Author:=Post.UserName
-}}**, type the message below, and press *Send*. You can format the message using 
-[Markdown](/Markdown.md). You can see a preview of your message at the bottom of the page.
+Author:=Post.UserName;
+Title:=Post.Title
+}}*" by *{{Author}}*, type the reply below, and press *Publish*. You can format the reply using 
+[Markdown](/Markdown.md). You can see a preview of your reply at the bottom of the page.
 
-**Note**: The recipient of messages sent using this form, will also receive information about your identity. Anonymous
-messaging cannot be performed using this service.
+**Note**: The reply will be published with information about your identity. Anonymous replies
+cannot be published using this service.
 
 <form>
 
-<input type="hidden" name="Type" id="Type" value="Message"/>
+<input type="hidden" name="Type" id="Type" value="Reply"/>
 <input type="hidden" name="Title" id="Title" value=""/>
 <input type="hidden" name="ReferenceLink" id="ReferenceLink" value="{{PLink}}"/>
 <input type="hidden" name="Tag" id="Tag"/>
 
 <p>
-<label for="Text">Text of message:</label>  
+<label for="Text">Text of reply:</label>  
 <textarea name="Text" id="Text" onkeydown="TrapTab(this,event)" autofocus required>
 </textarea>
 </p>
@@ -44,13 +46,13 @@ messaging cannot be performed using this service.
 </ul>
 </p>
 
-<button id="CreateButton" type="button" class="disabledButton" onclick="SendMessage()" disabled="disabled">Send</button>
+<button id="CreateButton" type="button" class="disabledButton" onclick="PublishReply()" disabled="disabled">Publish</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 <button id="QuoteButton" type="button" onclick="QuotePost('{{PLink}}')">Quote Post</button>
 
 </form>
 <fieldset>
-<legend>Preview of Private Message</legend>
+<legend>Preview of Response</legend>
 <div id="Preview"/>
 </fieldset>
 <fieldset>

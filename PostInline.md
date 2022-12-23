@@ -10,9 +10,13 @@
 <br/>
 <span class='created'>{{Post.Created}}</span>
 {{if Post.Updated!=Post.Created then ]]
-<br/><span class='updated'>((Post.Updated))</span>[[}}
+<span class='updated'>((Post.Updated))</span>[[}}
+<br/>
+<span class='views'>{{IncCounter("Community.Posts.Views."+Post.Link)}}</span>
+<span class='replies'>{{GetCounter("Community.Posts.Replies."+Post.Link)}}</span>
 </div></a>
 <div class="toolbar">
 <button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')" class="unicodeChar">🔗</button>
 <button type="button" onclick="OpenLink('/Community/Message.md?PLink={{Post.Link}}')" class="unicodeChar">✉</button>
+<button type="button" onclick="OpenLink('/Community/Reply.md?PLink={{Post.Link}}')" class="unicodeChar">↩</button>
 </div></div>

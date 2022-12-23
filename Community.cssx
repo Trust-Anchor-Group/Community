@@ -171,3 +171,23 @@ button.unicodeChar
 	padding:0;
 	margin:0;
 }
+
+.views
+{
+	margin-left:1em;
+}
+
+.views::before
+{
+	content:"👁 "
+}
+
+.replies
+{
+	margin-left:1em;
+}
+
+.replies::before
+{
+	content:"↩ "
+}

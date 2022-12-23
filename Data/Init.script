@@ -29,6 +29,14 @@ on Community_PostRef
 	Link
 );
 
+create 
+index Community_Replies_Link_Created
+on Community_Replies
+(
+	Link,
+	Created
+);
+
 ScriptResource("/Community/Post",
 (
 	Link:=Request.SubPath.Substring(1);

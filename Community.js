@@ -429,10 +429,7 @@ function SendMessage()
 		if (xhttp.readyState === 4)
 		{
 			if (xhttp.status === 200)
-			{
-				window.alert("Message successfully sent.");
 				window.close();
-			}
 			else
 				window.alert(xhttp.responseText);
 		}
@@ -442,6 +439,33 @@ function SendMessage()
 	var Text = document.getElementById("Text").value;
 
 	xhttp.open("POST", "/Community/Api/SendMessage.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"link": Link,
+			"message": Text
+		}));
+}
+
+function PublishReply()
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+				window.close();
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	var Link = document.getElementById("ReferenceLink").value;
+	var Text = document.getElementById("Text").value;
+
+	xhttp.open("POST", "/Community/Api/Reply.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(

@@ -67,7 +67,7 @@ else
 
 if PType="Post" then
 	Valid:=!empty(Trim(PTitle)) && !empty(Trim(PText))
-else if PType="Message" then
+else if PType="Message" or PType="Reply" then
 	Valid:=!empty(Trim(PText))
 else
 	Valid:=false;
