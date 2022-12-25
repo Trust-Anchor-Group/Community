@@ -1,0 +1,39 @@
+﻿<Module xmlns="http://waher.se/Schema/ModuleManifest.xsd">
+	<Folder name="Root">
+		<Folder name="Community">
+			<Content fileName="Tags.md"/>
+			<Content fileName="Author.md"/>
+			<Content fileName="Community.cssx"/>
+			<Content fileName="Community.js"/>
+			<Content fileName="CreatePost.md"/>
+			<Content fileName="Index.md"/>
+			<Content fileName="Login.js"/>
+			<Content fileName="Login.md"/>
+			<Content fileName="LogOut.md"/>
+			<Content fileName="Master.md"/>
+			<Content fileName="Menu.md"/>
+			<Content fileName="Message.md"/>
+			<Content fileName="PostInline.md"/>
+			<Content fileName="PostStandalone.md"/>
+			<Content fileName="Reply.md"/>
+			<Content fileName="ReplyInline.md"/>
+			<Content fileName="Tag.md"/>
+			<Folder name="Api">
+				<Content fileName="VoteReply.ws"/>
+				<Content fileName="CreatePost.ws"/>
+				<Content fileName="LoadMore.ws"/>
+				<Content fileName="LoadMoreReplies.ws"/>
+				<Content fileName="PostInfo.ws"/>
+				<Content fileName="PreviewPost.ws"/>
+				<Content fileName="QuotePost.ws"/>
+				<Content fileName="Reply.ws"/>
+				<Content fileName="SendMessage.ws"/>
+				<Content fileName="UpdatePost.ws"/>
+				<Content fileName="VotePost.ws"/>
+			</Folder>
+			<Folder name="Data">
+				<Content fileName="Init.script"/>
+			</Folder>
+		</Folder>
+	</Folder>
+</Module>

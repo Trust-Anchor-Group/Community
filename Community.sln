@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{
 		Author.md = Author.md
 		Community.cssx = Community.cssx
 		Community.js = Community.js
+		Community.manifest = Community.manifest
 		CreatePost.md = CreatePost.md
 		Index.md = Index.md
 		Login.js = Login.js
