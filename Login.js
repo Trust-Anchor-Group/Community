@@ -99,8 +99,13 @@ function SignatureReceivedBE(Empty)
 
     var s = window.location.href;
     var i = s.indexOf("from=");
-    s = s.substring(i + 5);
-    window.location.href = unescape(s);
+    if (i < 0)
+        window.location.href = "/Community/Index.md";
+    else
+    {
+        s = s.substring(i + 5);
+        window.location.href = unescape(s);
+    }
 }
 
 var LoginTimer = window.setTimeout(function () { DisplayQuickLogin(); }, 100);
