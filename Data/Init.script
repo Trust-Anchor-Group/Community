@@ -13,10 +13,26 @@ on Community_Posts
 );
 
 create 
-index Community_Posts_UserId
+index Community_Posts_UserId_Created
 on Community_Posts
 (
 	UserId,
+	Created
+);
+
+create 
+index Community_Posts_NrUp_Created
+on Community_Posts
+(
+	NrUp,
+	Created
+);
+
+create 
+index Community_Posts_NrDown_Created
+on Community_Posts
+(
+	NrDown,
 	Created
 );
 
@@ -35,6 +51,26 @@ on Community_Replies
 (
 	Link,
 	Reply,
+	Created
+);
+
+create 
+index Community_Replies_Link_Reply_NrUp_Created
+on Community_Replies
+(
+	Link,
+	Reply,
+	NrUp,
+	Created
+);
+
+create 
+index Community_Replies_Link_Reply_NrDown_Created
+on Community_Replies
+(
+	Link,
+	Reply,
+	NrDown,
 	Created
 );
 

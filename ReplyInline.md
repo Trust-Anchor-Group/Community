@@ -16,6 +16,8 @@
 <br/>
 <span class='views'>{{IncCounter("Community.Reply.Views."+Reply.ObjectId)}}</span>
 <span class='replies' onclick="OpenLink('/Community/Reply/{{Reply.ObjectId}}')">{{NrReplies:=GetCounter("Community.Reply.Replies."+Reply.ObjectId)}}</span>
+<span class='upvotes' id="up{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',true)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrUp}}</span>
+<span class='downvotes' id="down{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',false)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrDown}}</span>
 </div></a>
 <div class="toolbar">
 <button type="button" onclick="OpenLink('/Community/Reply/{{Reply.ObjectId}}')" class="unicodeChar">🔗</button>

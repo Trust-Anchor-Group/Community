@@ -30,7 +30,11 @@ Obj:=insert into Community_Replies object
 	UserId:Base64UrlEncode(Sha3_256(Utf8Encode(BareJid))),
 	UserName:QuickLoginUser.UserName,
 	AvatarUrl:QuickLoginUser.AvatarUrl,
-	Markdown:PMessage
+	Markdown:PMessage,
+	NrUp:0,
+	NrDown:0,
+	Up:{},
+	Down:{}
 };
 
 LogDebug(Obj.ObjectId);

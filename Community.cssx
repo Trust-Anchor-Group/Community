@@ -149,12 +149,12 @@ ul.Suggestion > li:hover:before
 
 .updated::before
 {
-	content:", updated "
+	content:"(updated "
 }
 
 .updated::after
 {
-	content:" ✎"
+	content:" ✎)"
 }
 
 hr
@@ -198,4 +198,40 @@ button.unicodeChar
 .replies::before
 {
 	content:"↩ "
+}
+
+.upvotes
+{
+	color:¤PosColor¤ !important;
+	margin-left:1em;
+	padding:0.1em 0.3em;
+}
+
+.upvotes:hover
+{
+	background-color:¤Alpha(PosColor,32)¤;
+	border-radius:0.5em;
+}
+
+.upvotes::before
+{
+	content:"▲ "
+}
+
+.downvotes
+{
+	color:¤NegColor¤ !important;
+	margin-left:1em;
+	padding:0.1em 0.3em;
+}
+
+.downvotes::before
+{
+	content:"▼ "
+}
+
+.downvotes:hover
+{
+	background-color:¤Alpha(NegColor,32)¤;
+	border-radius:0.5em;
 }

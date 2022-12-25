@@ -49,7 +49,11 @@ insert into Community_Posts object
 	Title:PTitle,
 	Text:PText,
 	Tags:PTags,
-	Markdown:Result
+	Markdown:Result,
+	NrUp:0,
+	NrDown:0,
+	Up:{},
+	Down:{}
 };
 
 IncCounter("Community.Posts.Created.Total");

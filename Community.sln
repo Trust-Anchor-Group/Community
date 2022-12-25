@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-046
 		Api\Reply.ws = Api\Reply.ws
 		Api\SendMessage.ws = Api\SendMessage.ws
 		Api\UpdatePost.ws = Api\UpdatePost.ws
+		Api\VotePost.ws = Api\VotePost.ws
+		Api\VoteReply.ws = Api\VoteReply.ws
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{34497948-B1F3-4AEE-9A3C-813584116AA8}"

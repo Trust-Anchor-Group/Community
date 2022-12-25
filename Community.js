@@ -790,3 +790,72 @@ function UpdatePost(ObjectId)
 		}
 	));
 }
+
+function DoLogin()
+{
+	window.location.href = "/Community/Login.md?from=" + escape(window.location.href);
+}
+
+function VotePost(ObjectId, Up)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+				var UpVotes = document.getElementById("up" + ObjectId);
+				var DownVotes = document.getElementById("down" + ObjectId);
+
+				UpVotes.innerText = Response.nrUp;
+				DownVotes.innerText = Response.nrDown;
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/VotePost.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId,
+			"up": Up
+		}
+	));
+}
+
+function VoteReply(ObjectId, Up)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+				var UpVotes = document.getElementById("up" + ObjectId);
+				var DownVotes = document.getElementById("down" + ObjectId);
+
+				UpVotes.innerText = Response.nrUp;
+				DownVotes.innerText = Response.nrDown;
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/VoteReply.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId,
+			"up": Up
+		}
+	));
+}
