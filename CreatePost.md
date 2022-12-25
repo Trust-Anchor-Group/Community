@@ -13,7 +13,8 @@ Create New Post
 ==================
 
 To create a new post, add a title and description below. You can format both title and text using [Markdown](/Markdown.md).
-You can see a preview of your post at the bottom of the page.
+Make sure to tag your post appropriately, so that it is displayed in the correct channels. You can see a preview of your post 
+at the bottom of the page.
 
 <form>
 
@@ -21,7 +22,7 @@ You can see a preview of your post at the bottom of the page.
 
 <p>
 <label for="Title">Title:</label>  
-<input type="text" name="Title" id="Title" title="Title of post" onkeydown="InvalidatePreview()" autofocus required/>
+<input type="text" name="Title" id="Title" title="Title of post" onkeydown="InvalidatePreview()" autofocus required autocomplete="off"/>
 </p>
 
 <p>
@@ -31,7 +32,7 @@ You can see a preview of your post at the bottom of the page.
 
 <p>
 <label for="Text">Text of post:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,event)" required>
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" required>
 </textarea>
 </p>
 
@@ -43,11 +44,11 @@ You can see a preview of your post at the bottom of the page.
 
 <p>
 <label for="Tag">Tag: (Press ENTER to add more than one)</label>  
-<input type="text" name="Tag" id="Tag" title="Enter Tag to add" onkeydown="TrapTagKey(event)"/>
+<input type="text" class="TagInput" name="Tag" id="Tag" title="Enter Tag to add" onkeydown="TrapTagKey(DefaultProperties(),event)" autocomplete="off"/>
 </p>
 
 <p>
-<ul id="SuggestedTags" class="Tags noTags">
+<ul id="SuggestedTags" class="Tags noTags Suggestion">
 <li class="EndOfTags"/>
 </ul>
 <p>

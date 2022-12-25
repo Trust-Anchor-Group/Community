@@ -27,7 +27,7 @@ nav > ul > li > a > img
 	margin: -2em 0 -2em 0;
 }
 
-input#Tag
+input.TagInput
 {
 	width:25em;
 }
@@ -63,14 +63,14 @@ ul.Tags > li
 	user-select:none;
 }
 
-ul#Tags > li:hover
+ul.Tags > li:hover
 {
 	color:¤NegColor¤;
 }
 
-ul#SuggestedTags > li:hover
+ul.Suggestion > li:hover
 {
-	color:¤PosColor¤;
+	color:¤PosColor¤ !important;
 }
 
 ul.Tags > li::before
@@ -78,14 +78,14 @@ ul.Tags > li::before
 	content:"#";
 }
 
-ul#Tags > li:hover:before
+ul.Tags > li:hover:before
 {
 	content: "×";
 }
 
-ul#SuggestedTags > li:hover:before
+ul.Suggestion > li:hover:before
 {
-	content: "✓";
+	content: "✓" !important;
 }
 
 .disabledButton

@@ -1,4 +1,4 @@
-﻿function TrapTab(Control, Event)
+﻿function TrapTab(Control, Properties, Event)
 {
 	if (Event.keyCode === 9)
 	{
@@ -11,7 +11,7 @@
 		Control.selectionStart = Control.selectionEnd = Start + 1;
 	}
 
-	InvalidatePreview();
+	InvalidatePreviewSpec(Properties);
 
 	window.setTimeout(function () { AdaptSize(Control); }, 0);
 }
@@ -32,20 +32,67 @@ function AdaptSize(Control)
 
 function InvalidatePreview()
 {
+	InvalidatePreviewSpec(DefaultProperties());
+}
+
+function InvalidatePostPreview(ObjectId)
+{
+	InvalidatePreviewSpec(PostProperties(ObjectId));
+}
+
+function DefaultProperties()
+{
+	var Properties = {
+		"Type": document.getElementById("Type").value,
+		"TitleId": "Title",
+		"TextId": "Text",
+		"TagId": "Tag",
+		"PreviewId": "Preview",
+		"LinkId": "ReferenceLink",
+		"OkButtonId": "CreateButton",
+		"TagsId": "Tags",
+		"SuggestedTagsId": "SuggestedTags"
+	};
+
+	return Properties;
+}
+
+function PostProperties(ObjectId)
+{
+	var Properties =
+	{
+		"Type": "UpdatePost",
+		"TitleId": "Title" + ObjectId,
+		"TextId": "Text" + ObjectId,
+		"TagId": "Tag" + ObjectId,
+		"PreviewId": "Content" + ObjectId,
+		"LinkId": null,
+		"OkButtonId": "UpdateButton" + ObjectId,
+		"TagsId": "Tags" + ObjectId,
+		"SuggestedTagsId": "SuggestedTags" + ObjectId
+	};
+
+	return Properties;
+}
+
+function InvalidatePreviewSpec(Properties)
+{
 	if (PreviewTimer !== null)
 		window.clearTimeout(PreviewTimer);
 
-	PreviewTimer = window.setTimeout(DoPreview, 250);
+	PreviewTimer = window.setTimeout(function ()
+	{
+		DoPreview(Properties);
+	}, 250);
 }
 
 var PreviewTimer = null;
 
-function DoPreview()
+function DoPreview(Properties)
 {
-	var Type = document.getElementById("Type").value;
-	var Title = document.getElementById("Title").value;
-	var Text = document.getElementById("Text").value;
-	var TagEdit = document.getElementById("Tag").value;
+	var Title = document.getElementById(Properties.TitleId).value;
+	var Text = document.getElementById(Properties.TextId).value;
+	var TagEdit = document.getElementById(Properties.TagId).value;
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
 	{
@@ -55,16 +102,16 @@ function DoPreview()
 			{
 				var Response = JSON.parse(xhttp.responseText);
 
-				var Preview = document.getElementById("Preview");
+				var Preview = document.getElementById(Properties.PreviewId);
 				Preview.innerHTML = Response.html;
 
-				if (Response.link !== "")
+				if (Response.link !== "" && Properties.LinkId)
 				{
-					var ReferenceLink = document.getElementById("ReferenceLink");
+					var ReferenceLink = document.getElementById(Properties.LinkId);
 					ReferenceLink.value = Response.link;
 				}
 
-				var CreateButton = document.getElementById("CreateButton");
+				var CreateButton = document.getElementById(Properties.OkButtonId);
 
 				if (Response.valid)
 				{
@@ -78,24 +125,24 @@ function DoPreview()
 				}
 
 				if (Response.suggestions)
-					ShowTagDropdown(Response.suggestions);
+					ShowTagDropdown(Properties, Response.suggestions);
 				else
-					HideTagDropdown();
+					HideTagDropdown(Properties);
 			}
 			else
 				window.alert(xhttp.responseText);
 		}
 	};
 
-	xhttp.open("POST", "Api/PreviewPost.ws", true);
+	xhttp.open("POST", "/Community/Api/PreviewPost.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
 		{
-			"type": Type,
+			"type": Properties.Type,
 			"title": Title,
 			"text": Text,
-			"tags": GetTags(),
+			"tags": GetTags(Properties),
 			"tagEdit": TagEdit
 		}
 	));
@@ -128,9 +175,9 @@ function ClearPost()
 	InvalidatePreview();
 }
 
-function GetTags()
+function GetTags(Properties)
 {
-	var Tags = document.getElementById("Tags");
+	var Tags = document.getElementById(Properties.TagsId);
 	var Loop = Tags.firstChild;
 	var Result = [];
 
@@ -142,7 +189,7 @@ function GetTags()
 		Loop = Loop.nextSibling;
 	}
 
-	var TagInput = document.getElementById("Tag");
+	var TagInput = document.getElementById(Properties.TagId);
 	var Tag = TagInput.value;
 	if (Tag !== "")
 		Result.push(Tag);
@@ -150,10 +197,10 @@ function GetTags()
 	return Result;
 }
 
-function AddTag()
+function AddTag(Properties)
 {
-	var TagsList = document.getElementById("Tags");
-	var TagInput = document.getElementById("Tag");
+	var TagsList = document.getElementById(Properties.TagsId);
+	var TagInput = document.getElementById(Properties.TagId);
 	var Tag = TagInput.value;
 	if (!Tag || Tag === "")
 		return;
@@ -168,7 +215,7 @@ function AddTag()
 
 	TagInput.value = "";
 
-	var Tags = GetTags();
+	var Tags = GetTags(Properties);
 	var i, c = Tags.length;
 
 	for (i = 0; i < c; i++)
@@ -200,7 +247,7 @@ function AddTag()
 			Loop = Loop.nextSibling;
 		}
 
-		InvalidatePreview();
+		InvalidatePreviewSpec(Properties);
 	};
 
 	TagsList.insertBefore(Li, EndOfTags);
@@ -229,7 +276,7 @@ function CreatePost()
 		}
 	};
 
-	xhttp.open("POST", "Api/CreatePost.ws", true);
+	xhttp.open("POST", "/Community/Api/CreatePost.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
@@ -237,27 +284,27 @@ function CreatePost()
 			"title": Title,
 			"text": Text,
 			"link": Link,
-			"tags": GetTags()
+			"tags": GetTags(DefaultProperties())
 		}
 	));
 }
 
-function TrapTagKey(Event)
+function TrapTagKey(Properties, Event)
 {
 	if (Event.keyCode === 13)
 	{
 		Event.preventDefault();
 
-		AddTag();
-		HideTagDropdown();
+		AddTag(Properties);
+		HideTagDropdown(Properties);
 	}
 
-	InvalidatePreview();
+	InvalidatePreviewSpec(Properties);
 }
 
-function ShowTagDropdown(Tags)
+function ShowTagDropdown(Properties, Tags)
 {
-	var Suggestions = document.getElementById("SuggestedTags");
+	var Suggestions = document.getElementById(Properties.SuggestedTagsId);
 	var LastTag;
 	var Loop = Suggestions.firstChild;
 	var Temp;
@@ -289,13 +336,13 @@ function ShowTagDropdown(Tags)
 		Li.innerText = Tags[i];
 		Li.onclick = function ()
 		{
-			var TagControl = document.getElementById("Tag");
+			var TagControl = document.getElementById(Properties.TagId);
 
 			TagControl.value = this.innerText;
 
-			AddTag();
-			HideTagDropdown();
-			InvalidatePreview();
+			AddTag(Properties);
+			HideTagDropdown(Properties);
+			InvalidatePreviewSpec(Properties);
 
 			TagControl.focus();
 		};
@@ -304,14 +351,14 @@ function ShowTagDropdown(Tags)
 	}
 
 	if (c > 0)
-		Suggestions.className = "Tags withTags";
+		Suggestions.className = "Tags withTags Suggestion";
 	else
-		Suggestions.className = "Tags noTags";
+		Suggestions.className = "Tags noTags Suggestion";
 }
 
-function HideTagDropdown()
+function HideTagDropdown(Properties)
 {
-	var Suggestions = document.getElementById("SuggestedTags");
+	var Suggestions = document.getElementById(Properties.SuggestedTagsId);
 	if (Suggestions)
 		Suggestions.className = "Tags noTags";
 }
@@ -521,6 +568,225 @@ function LoadMoreReplies(Control, Offset, N, Link, Reply)
 			"maxCount": N,
 			"link": Link,
 			"reply": Reply
+		}
+	));
+}
+
+function EditPost(ObjectId)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Post = JSON.parse(xhttp.responseText);
+
+				var Div = document.getElementById("editor" + ObjectId);
+				Div.innerHTML = "";
+
+				var Fieldset = document.createElement("FIELDSET");
+				Div.appendChild(Fieldset);
+
+				var Legend = document.createElement("LEGEND");
+				Legend.innerText = "Editing Post";
+				Fieldset.appendChild(Legend);
+
+				var P = document.createElement("P");
+				Fieldset.appendChild(P);
+
+				var Label = document.createElement("LABEL");
+				Label.setAttribute("for", "Title" + ObjectId);
+				Label.innerText = "Text:";
+				P.appendChild(Label);
+
+				var BR = document.createElement("BR");
+				P.appendChild(BR);
+
+				var Input = document.createElement("INPUT");
+				Input.setAttribute("type", "text");
+				Input.setAttribute("name", "Title" + ObjectId);
+				Input.setAttribute("id", "Title" + ObjectId);
+				Input.setAttribute("title", "Title of post");
+				Input.setAttribute("required", "required");
+				Input.setAttribute("onkeydown", "InvalidatePostPreview('" + ObjectId + "')");
+				Input.setAttribute("autocomplete", "off");
+				Input.value = Post.Title;
+				P.appendChild(Input);
+
+				P = document.createElement("P");
+				Fieldset.appendChild(P);
+
+				Label = document.createElement("LABEL");
+				Label.setAttribute("for", "Text" + ObjectId);
+				Label.innerText = "Text of post:";
+				P.appendChild(Label);
+
+				BR = document.createElement("BR");
+				P.appendChild(BR);
+
+				var TextArea = document.createElement("TEXTAREA");
+				TextArea.setAttribute("name", "Text" + ObjectId);
+				TextArea.setAttribute("id", "Text" + ObjectId);
+				TextArea.setAttribute("required", "required");
+				TextArea.setAttribute("onkeydown", "TrapTab(this,PostProperties('" + ObjectId + "'),event)");
+				TextArea.value = Post.Text;
+				P.appendChild(TextArea);
+
+				P = document.createElement("P");
+				Fieldset.appendChild(P);
+
+				var TagsList = document.createElement("UL");
+				TagsList.setAttribute("id", "Tags" + ObjectId);
+				P.appendChild(TagsList);
+
+				var Li;
+				var i;
+				var c = Post.Tags.length;
+
+				TagsList.className = c === 0 ? "Tags noTags" : "Tags withTags";
+
+				for (i = 0; i < c; i++)
+				{
+					Li = document.createElement("LI");
+					Li.className = "Tag";
+					Li.innerText = Post.Tags[i];
+					TagsList.appendChild(Li);
+
+					Li.onclick = function ()
+					{
+						TagsList.removeChild(this);
+
+						var Loop = TagsList.firstChild;
+						var i = 0;
+
+						while (Loop)
+						{
+							if (Loop.tagName === "LI")
+							{
+								if (Loop.className === "EndOfTags" && i === 0)
+									TagsList.className = "Tags noTags";
+								else
+									i++;
+							}
+
+							Loop = Loop.nextSibling;
+						}
+
+						InvalidatePostPreview(ObjectId);
+					};
+				}
+
+				Li = document.createElement("LI");
+				Li.className = "EndOfTags";
+				TagsList.appendChild(Li);
+
+				P = document.createElement("P");
+				Fieldset.appendChild(P);
+
+				Label = document.createElement("LABEL");
+				Label.setAttribute("for", "Tag" + ObjectId);
+				Label.innerText = "Tag: (Press ENTER to add more than one)";
+				P.appendChild(Label);
+
+				BR = document.createElement("BR");
+				P.appendChild(BR);
+
+				var Input = document.createElement("INPUT");
+				Input.className = "TagInput";
+				Input.setAttribute("type", "text");
+				Input.setAttribute("name", "Tag" + ObjectId);
+				Input.setAttribute("id", "Tag" + ObjectId);
+				Input.setAttribute("title", "Enter Tag to add");
+				Input.setAttribute("onkeydown", "TrapTagKey(PostProperties('" + ObjectId + "'),event)");
+				Input.setAttribute("autocomplete", "off");
+				P.appendChild(Input);
+
+				P = document.createElement("P");
+				Fieldset.appendChild(P);
+
+				var Ul = document.createElement("UL");
+				Ul.setAttribute("id", "SuggestedTags" + ObjectId);
+				Ul.className = "Tags noTags Suggestion";
+				P.appendChild(Ul);
+
+				Li = document.createElement("LI");
+				Li.className = "EndOfTags";
+				Ul.appendChild(Li);
+
+				var Button = document.createElement("BUTTON");
+				Button.setAttribute("id", "UpdateButton" + ObjectId);
+				Button.setAttribute("type", "button");
+				Button.className = "posButton";
+				Button.innerText = "Update";
+				Button.setAttribute("onclick", "UpdatePost('" + ObjectId + "')");
+				Fieldset.appendChild(Button);
+
+				Button = document.createElement("BUTTON");
+				Button.setAttribute("type", "button");
+				Button.className = "negButton";
+				Button.innerText = "Cancel";
+				Button.setAttribute("onclick", "CancelPost('" + ObjectId + "')");
+				Fieldset.appendChild(Button);
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/PostInfo.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId
+		}));
+}
+
+function CancelPost(ObjectId)
+{
+	var Div = document.getElementById("editor" + ObjectId);
+	Div.innerHTML = "";
+}
+
+function UpdatePost(ObjectId)
+{
+	var Properties = PostProperties(ObjectId);
+	var Title = document.getElementById(Properties.TitleId).value;
+	var Text = document.getElementById(Properties.TextId).value;
+	var Tags = GetTags(Properties);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+
+				if (Response.valid)
+				{
+					var Content = document.getElementById(Properties.PreviewId);
+					Content.innerHTML = Response.html;
+
+					CancelPost(ObjectId);
+				}
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/UpdatePost.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId,
+			"title": Title,
+			"text": Text,
+			"tags": Tags
 		}
 	));
 }

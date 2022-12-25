@@ -1,4 +1,8 @@
+LogDebug(1);
+
 AuthenticateSession(Request,"QuickLoginUser");
+
+LogDebug(2);
 
 {
 	"type":Required(Str(PType)),
@@ -8,6 +12,12 @@ AuthenticateSession(Request,"QuickLoginUser");
 	"tagEdit":Optional(Str(PTagEdit))
 }:=Posted;
 
+PText:=PText.
+	Replace("{","\\{").
+	Replace("}","\\}").
+	Replace("\\\\{","\\{").
+	Replace("\\\\}","\\}");
+
 Link:="";
 Suffix:="";
 
@@ -15,24 +25,17 @@ if empty(PTitle) then
 	Result:=""
 else
 (
-	First:=true;
-
-	foreach Part in PTitle.Replace("'","_").Replace("\"","_").Split(" ",System.StringSplitOptions.RemoveEmptyEntries) do
+	if PType="Post" then
 	(
-		if First then
-			First:=false
-		else
-			Link+="_";
+		sb:=Create(System.Text.StringBuilder);
+		Char:=System.Char;
+		foreach ch in PTitle do sb.Append(Char.IsLetterOrDigit(ch)?ch:"_");
+		Link:=sb.ToString();
 
-		Link+=Part.ToLower()
-	);
+		i:=1;
 
-	i:=1;
-
-	while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
-	(
-		i++;
-		Suffix=" "+Str(i)
+		while ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 do
+			Suffix:="_"+Str(++i)
 	);
 
 	Result:="# " + PTitle + "\r\n\r\n";
@@ -67,7 +70,7 @@ else
 
 if PType="Post" then
 	Valid:=!empty(Trim(PTitle)) && !empty(Trim(PText))
-else if PType="Message" or PType="Reply" then
+else if PType="Message" or PType="Reply" or PType="UpdatePost" then
 	Valid:=!empty(Trim(PText))
 else
 	Valid:=false;

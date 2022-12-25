@@ -17,6 +17,12 @@ if empty(QuickLoginUser.UserName) then BadRequest("User lacks a proper name in t
 if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in the identity.");
 if ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 then BadRequest("Link already taken.");
 
+PText:=PText.
+	Replace("{","\\{").
+	Replace("}","\\}").
+	Replace("\\\\{","\\{").
+	Replace("\\\\}","\\}");
+
 Result:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
 
 First:=true;

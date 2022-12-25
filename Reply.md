@@ -36,7 +36,7 @@ cannot be published using this service.
 
 <p>
 <label for="Text">Text of reply:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,event)" autofocus required>
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" autofocus required>
 </textarea>
 </p>
 
