@@ -23,6 +23,10 @@ Example:
 
 **Note**: Once file folder reference is added, you need to restart the IoT Gateway service for the change to take effect.
 
+## Solution File
+
+A Visual Studio solution file, with references to the files and folders of this repository, is available: `Community.sln`.
+
 ## Main Page
 
 The main page of the community service is `/Community/Index.md`.
