@@ -37,8 +37,6 @@ Obj:=insert into Community_Replies object
 	Down:{}
 };
 
-LogDebug(Obj.ObjectId);
-
 IncCounter("Community.Posts.Replies."+PLink);
 
 {

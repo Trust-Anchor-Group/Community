@@ -1,8 +1,4 @@
-LogDebug(1);
-
 AuthenticateSession(Request,"QuickLoginUser");
-
-LogDebug(2);
 
 {
 	"type":Required(Str(PType)),
