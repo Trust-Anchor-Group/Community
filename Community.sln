@@ -3,47 +3,53 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{8FB6E994-8306-4D0B-BF63-2B249C04D45E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FB6E994-8306-4D0B-BF63-2B249C04D45E}"
 	ProjectSection(SolutionItems) = preProject
-		Author.md = Author.md
-		Community.cssx = Community.cssx
-		Community.js = Community.js
-		Community.manifest = Community.manifest
-		CreatePost.md = CreatePost.md
-		Index.md = Index.md
-		Login.js = Login.js
-		Login.md = Login.md
-		LogOut.md = LogOut.md
-		Master.md = Master.md
-		Menu.md = Menu.md
-		Message.md = Message.md
-		PostInline.md = PostInline.md
-		PostStandalone.md = PostStandalone.md
+		Root\Community\Community.manifest = Root\Community\Community.manifest
 		README.md = README.md
-		Reply.md = Reply.md
-		ReplyInline.md = ReplyInline.md
-		Tag.md = Tag.md
-		Tags.md = Tags.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-0464-4D74-BB83-BFAF2AD233B5}"
 	ProjectSection(SolutionItems) = preProject
-		Api\CreatePost.ws = Api\CreatePost.ws
-		Api\LoadMore.ws = Api\LoadMore.ws
-		Api\LoadMoreReplies.ws = Api\LoadMoreReplies.ws
-		Api\PostInfo.ws = Api\PostInfo.ws
-		Api\PreviewPost.ws = Api\PreviewPost.ws
-		Api\QuotePost.ws = Api\QuotePost.ws
-		Api\Reply.ws = Api\Reply.ws
-		Api\SendMessage.ws = Api\SendMessage.ws
-		Api\UpdatePost.ws = Api\UpdatePost.ws
-		Api\VotePost.ws = Api\VotePost.ws
-		Api\VoteReply.ws = Api\VoteReply.ws
+		Root\Community\Api\CreatePost.ws = Root\Community\Api\CreatePost.ws
+		Root\Community\Api\LoadMore.ws = Root\Community\Api\LoadMore.ws
+		Root\Community\Api\LoadMoreReplies.ws = Root\Community\Api\LoadMoreReplies.ws
+		Root\Community\Api\PostInfo.ws = Root\Community\Api\PostInfo.ws
+		Root\Community\Api\PreviewPost.ws = Root\Community\Api\PreviewPost.ws
+		Root\Community\Api\QuotePost.ws = Root\Community\Api\QuotePost.ws
+		Root\Community\Api\Reply.ws = Root\Community\Api\Reply.ws
+		Root\Community\Api\SendMessage.ws = Root\Community\Api\SendMessage.ws
+		Root\Community\Api\UpdatePost.ws = Root\Community\Api\UpdatePost.ws
+		Root\Community\Api\VotePost.ws = Root\Community\Api\VotePost.ws
+		Root\Community\Api\VoteReply.ws = Root\Community\Api\VoteReply.ws
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{34497948-B1F3-4AEE-9A3C-813584116AA8}"
 	ProjectSection(SolutionItems) = preProject
-		Data\Init.script = Data\Init.script
+		Root\Community\Data\Init.script = Root\Community\Data\Init.script
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{E3438492-F679-426D-A331-974EB0EC3F78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{7E58C4AA-9C32-4F37-8663-440244FD0590}"
+	ProjectSection(SolutionItems) = preProject
+		Root\Community\Author.md = Root\Community\Author.md
+		Root\Community\Community.cssx = Root\Community\Community.cssx
+		Root\Community\Community.js = Root\Community\Community.js
+		Root\Community\CreatePost.md = Root\Community\CreatePost.md
+		Root\Community\Index.md = Root\Community\Index.md
+		Root\Community\Login.js = Root\Community\Login.js
+		Root\Community\Login.md = Root\Community\Login.md
+		Root\Community\LogOut.md = Root\Community\LogOut.md
+		Root\Community\Master.md = Root\Community\Master.md
+		Root\Community\Menu.md = Root\Community\Menu.md
+		Root\Community\Message.md = Root\Community\Message.md
+		Root\Community\PostInline.md = Root\Community\PostInline.md
+		Root\Community\PostStandalone.md = Root\Community\PostStandalone.md
+		Root\Community\Reply.md = Root\Community\Reply.md
+		Root\Community\ReplyInline.md = Root\Community\ReplyInline.md
+		Root\Community\Tag.md = Root\Community\Tag.md
+		Root\Community\Tags.md = Root\Community\Tags.md
 	EndProjectSection
 EndProject
 Global
@@ -51,8 +57,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{819314AC-0464-4D74-BB83-BFAF2AD233B5} = {8FB6E994-8306-4D0B-BF63-2B249C04D45E}
-		{34497948-B1F3-4AEE-9A3C-813584116AA8} = {8FB6E994-8306-4D0B-BF63-2B249C04D45E}
+		{819314AC-0464-4D74-BB83-BFAF2AD233B5} = {7E58C4AA-9C32-4F37-8663-440244FD0590}
+		{34497948-B1F3-4AEE-9A3C-813584116AA8} = {7E58C4AA-9C32-4F37-8663-440244FD0590}
+		{7E58C4AA-9C32-4F37-8663-440244FD0590} = {E3438492-F679-426D-A331-974EB0EC3F78}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {953FFBA4-E23D-4522-907F-09D9AD3756D4}
