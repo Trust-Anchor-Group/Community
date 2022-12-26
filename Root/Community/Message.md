@@ -34,7 +34,7 @@ messaging cannot be performed using this service.
 
 <p>
 <label for="Text">Text of message:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" autofocus required>
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" autofocus required>
 </textarea>
 </p>
 

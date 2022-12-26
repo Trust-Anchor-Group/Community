@@ -631,6 +631,7 @@ function EditPost(ObjectId)
 				TextArea.setAttribute("id", "Text" + ObjectId);
 				TextArea.setAttribute("required", "required");
 				TextArea.setAttribute("onkeydown", "TrapTab(this,PostProperties('" + ObjectId + "'),event)");
+				TextArea.setAttribute("onpaste", "PasteContent(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.value = Post.Text;
 				P.appendChild(TextArea);
 
@@ -858,4 +859,55 @@ function VoteReply(ObjectId, Up)
 			"up": Up
 		}
 	));
+}
+
+function PasteContent(Control, Properties, Event)
+{
+	var Items = Event.clipboardData.items;
+	var i, c = Items.length;
+
+	for (i = 0; i < c; i++)
+	{
+		var Item = Items[i];
+
+		if (Item.type.indexOf("image") >= 0)
+		{
+			Event.preventDefault();
+
+			var Image = Item.getAsFile();
+			var FileName = window.prompt("File Name:", Image.name);
+
+			if (FileName)
+			{
+				var Form = new FormData();
+
+				Form.append("Image", Image, FileName);
+
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function ()
+				{
+					if (xhttp.readyState == 4)
+					{
+						var MarkdownImageReference = xhttp.responseText;
+
+						var Value = Control.value;
+						var Start = Control.selectionStart;
+						var End = Control.selectionEnd;
+						Control.value = Value.substring(0, Start) + MarkdownImageReference + Value.substring(End);
+						Control.selectionStart = Start;
+						Control.selectionEnd = Start + MarkdownImageReference.length;
+						Control.focus();
+
+						AdaptSize(Control);
+						InvalidatePreviewSpec(Properties);
+					}
+				};
+
+				xhttp.open("POST", "/Community/Api/Upload.ws", true);
+				xhttp.setRequestHeader("Accept", "text/plain");
+				xhttp.send(Form);
+			}
+			break;
+		}
+	}
 }

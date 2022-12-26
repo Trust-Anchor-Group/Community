@@ -32,7 +32,7 @@ at the bottom of the page.
 
 <p>
 <label for="Text">Text of post:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" required>
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" required>
 </textarea>
 </p>
 

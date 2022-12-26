@@ -28,6 +28,7 @@
 				<Content fileName="Reply.ws"/>
 				<Content fileName="SendMessage.ws"/>
 				<Content fileName="UpdatePost.ws"/>
+				<Content fileName="Upload.ws"/>
 				<Content fileName="VotePost.ws"/>
 				<Content fileName="VoteReply.ws"/>
 			</Folder>
