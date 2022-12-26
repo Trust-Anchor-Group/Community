@@ -17,7 +17,7 @@ Example:
 
 ```
 <FileFolders>
-  <FileFolder webFolder="/Community" folderPath="C:\My Projects\Community"/>
+  <FileFolder webFolder="/Community" folderPath="C:\My Projects\Community\Root\Community"/>
 </FileFolders>
 ```
 
