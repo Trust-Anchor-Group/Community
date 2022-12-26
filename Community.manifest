@@ -1,7 +1,6 @@
 ﻿<Module xmlns="http://waher.se/Schema/ModuleManifest.xsd">
 	<Folder name="Root">
 		<Folder name="Community">
-			<Content fileName="Tags.md"/>
 			<Content fileName="Author.md"/>
 			<Content fileName="Community.cssx"/>
 			<Content fileName="Community.js"/>
@@ -18,8 +17,8 @@
 			<Content fileName="Reply.md"/>
 			<Content fileName="ReplyInline.md"/>
 			<Content fileName="Tag.md"/>
+			<Content fileName="Tags.md"/>
 			<Folder name="Api">
-				<Content fileName="VoteReply.ws"/>
 				<Content fileName="CreatePost.ws"/>
 				<Content fileName="LoadMore.ws"/>
 				<Content fileName="LoadMoreReplies.ws"/>
@@ -30,6 +29,7 @@
 				<Content fileName="SendMessage.ws"/>
 				<Content fileName="UpdatePost.ws"/>
 				<Content fileName="VotePost.ws"/>
+				<Content fileName="VoteReply.ws"/>
 			</Folder>
 			<Folder name="Data">
 				<Content fileName="Init.script"/>
