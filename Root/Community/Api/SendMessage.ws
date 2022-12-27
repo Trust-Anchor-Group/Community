@@ -13,4 +13,10 @@ if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in
 Post:=select top 1 * from Community_Posts where Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 
+PMessage:=PMessage.
+	Replace("{","\\{").
+	Replace("}","\\}").
+	Replace("\\\\{","\\{").
+	Replace("\\\\}","\\}");
+
 SendFormattedMessage(Post.BareJid,PMessage);
