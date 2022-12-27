@@ -22,9 +22,10 @@
 </div></a>
 <div class="toolbar">
 <button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')" title="Direct link to page." class="unicodeChar">🔗</button>
-<button type="button" onclick="OpenLink('/Community/Message.md?PLink={{Post.Link}}')" title="Send Private Message to author." class="unicodeChar">✉</button>
-<button type="button" onclick="OpenLink('/Community/Reply.md?PLink={{Post.Link}}')" title="Write a public response to the post." class="unicodeChar">↩</button>
+{{if exists(QuickLoginUser) and QuickLoginUser.Properties.JID != Post.BareJid then ]]<button type="button" onclick="OpenLink('/Community/Message.md?PLink=((Post.Link))')" title="Send Private Message to author." class="unicodeChar">✉</button>
+[[}}<button type="button" onclick="OpenLink('/Community/Reply.md?PLink={{Post.Link}}')" title="Write a public response to the post." class="unicodeChar">↩</button>
 {{if exists(QuickLoginUser) and QuickLoginUser.Properties.JID = Post.BareJid then ]]<button type="button" onclick="EditPost('((Post.ObjectId))')" title="Edit the post." class="unicodeChar">✎</button>
+<button type="button" onclick="DeletePost('((Post.Link))')" title="Delete post." class="unicodeChar negButton">🗑</button>
 [[}}
 </div>
 </div>

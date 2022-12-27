@@ -911,3 +911,21 @@ function PasteContent(Control, Properties, Event)
 		}
 	}
 }
+
+function EditReply(ObjectId)
+{
+}
+
+function DeletePost(Link)
+{
+	if (window.confirm("Are you sure you want to delete the post?"))
+	{
+	}
+}
+
+function DeleteReply(ObjectId)
+{
+	if (window.confirm("Are you sure you want to delete the reply?"))
+	{
+	}
+}
