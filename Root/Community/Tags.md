@@ -15,9 +15,10 @@ Tags:=select
 from 
 	RuntimeCounter 
 where 
-	Key like ("Community.Posts.Created.Tag.%") 
+	Key like ("Community.Posts.Created.Tag.%") and
+	Counter>0
 order by 
-	Tag;
+	Key;
 
 foreach Tag in Tags do ]]
 [\#((MarkdownEncode(Tag) ))](/Community/Tag/((UrlEncode(Tag) )))[[
