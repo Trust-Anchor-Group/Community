@@ -64,6 +64,9 @@ else
 		Tag
 );
 
+if PTitle = null then PTitle:="";
+if PText = null then PText:="";
+
 if PType="Post" then
 	Valid:=!empty(Trim(PTitle)) && !empty(Trim(PText))
 else if PType="Message" or PType="Reply" or PType="UpdatePost" or PType="UpdateReply" then
