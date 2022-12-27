@@ -1175,6 +1175,54 @@ function CancelReply(ObjectId)
 		}));
 }
 
+function LoadPostReplies(Link, ObjectId)
+{
+	var Replies = document.getElementById("replies" + ObjectId);
+	if (Replies)
+	{
+		if (Replies.firstChild === null)
+		{
+			var Fieldset = FindFirstChild(Replies, "FIELDSET");
+			var Legend = FindFirstChild(Fieldset, "LEGEND");
+			Legend.innerText = "Responses";
+
+			var Button = FindNextChild(Fieldset, Legend, "BUTTON");
+			Button.className = "posButton";
+			Button.setAttribute("type", "button");
+			Button.setAttribute("onclick", "LoadMoreReplies(this,0,5,'" + Link + "','')");
+			Button.innerText = "Load More";
+
+			Button.click();
+		}
+		else
+			Replies.innerHTML = "";
+	}
+}
+
+function LoadReplyReplies(Link, ReplyId)
+{
+	var Replies = document.getElementById("replies" + ReplyId);
+	if (Replies)
+	{
+		if (Replies.firstChild === null)
+		{
+			var Fieldset = FindFirstChild(Replies, "FIELDSET");
+			var Legend = FindFirstChild(Fieldset, "LEGEND");
+			Legend.innerText = "Responses";
+
+			var Button = FindNextChild(Fieldset, Legend, "BUTTON");
+			Button.className = "posButton";
+			Button.setAttribute("type", "button");
+			Button.setAttribute("onclick", "LoadMoreReplies(this,0,5,'" + Link + "','" + ReplyId + "')");
+			Button.innerText = "Load More";
+
+			Button.click();
+		}
+		else
+			Replies.innerHTML = "";
+	}
+}
+
 function DeletePost(Link)
 {
 	if (window.confirm("Are you sure you want to delete the post?"))

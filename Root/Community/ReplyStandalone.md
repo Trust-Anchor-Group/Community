@@ -24,7 +24,7 @@ Master: /Community/Master.md
 <span class='updated'>((Reply.Updated))</span>[[}}
 <br/>
 <span class='views'>{{IncCounter("Community.Reply.Views."+Reply.ObjectId)}}</span>
-<span class='replies' onclick="OpenLink('/Community/Reply/{{Reply.ObjectId}}')">{{NrReplies:=GetCounter("Community.Reply.Replies."+Reply.ObjectId)}}</span>
+<span class='replies' onclick="LoadReplyReplies('{{Reply.Link}}','{{Reply.ObjectId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Reply.Replies."+Reply.ObjectId)}}</span>
 <span class='upvotes' id="up{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',true)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrUp}}</span>
 <span class='downvotes' id="down{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',false)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrDown}}</span>
 </div></a>
@@ -37,8 +37,8 @@ Master: /Community/Master.md
 [[}}
 </div>
 </div>
-<div id="editor{{Reply.ObjectId}}">
-</div>
+<div id="editor{{Reply.ObjectId}}"></div>
+<div id="replies{{Post.ObjectId}}">
 
 {{
 ReplyFileName:=null;
@@ -86,4 +86,5 @@ if !First then ]]</fieldset>[[;
 
 }}
 
+</div>
 </div>
