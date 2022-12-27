@@ -7,7 +7,19 @@
 	* [Most Views](#)
 	* [Most Interactions](#)
 	* [Newest](#)
-* [Tags](/Community/Tags.md)
+* [Tags](/Community/Tags.md){{
+if !exists(Global.CommunityTags) or Global.CommunityTags.Timestamp.Subtract(Now).TotalHours>=1 then
+(
+	Global.CommunityTags:=
+	{
+		"Tags":(select top 20 Key.Substring(28) from RuntimeCounter where Key like "Community.Posts.Created.Tag%" and Counter>0 order by Counter desc),
+		"Timestamp":Now
+	}
+);
+
+foreach Tag in Global.CommunityTags.Tags do ]]
+	* [((MarkdownEncode(Tag) ))](/Community/Tag/((Tag)))[[
+}}
 * [%Title]
 * {{exists(QuickLoginUser)?]][<img alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)
 	* [Logout](/Community/LogOut.md)[[ : ]][Login](/Community/Login.md)[[}}
