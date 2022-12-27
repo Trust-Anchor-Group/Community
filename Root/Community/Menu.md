@@ -8,7 +8,7 @@
 	* [Most Interactions](#)
 	* [Newest](#)
 * [Tags](/Community/Tags.md){{
-if !exists(Global.CommunityTags) or Global.CommunityTags.Timestamp.Subtract(Now).TotalHours>=1 then
+if !exists(Global.CommunityTags) or Global.CommunityTags.Timestamp.Subtract(Now).TotalMinutes>=5 then
 (
 	Global.CommunityTags:=
 	{
