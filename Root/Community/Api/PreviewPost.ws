@@ -2,9 +2,9 @@ AuthenticateSession(Request,"QuickLoginUser");
 
 {
 	"type":Required(Str(PType)),
-	"title":Required(Str(PTitle)),
+	"title":Optional(Str(PTitle)),
 	"text":Required(Str(PText)),
-	"tags":Required(Str(PTags)[]),
+	"tags":Optional(Str(PTags)[]),
 	"tagEdit":Optional(Str(PTagEdit))
 }:=Posted;
 
@@ -66,7 +66,7 @@ else
 
 if PType="Post" then
 	Valid:=!empty(Trim(PTitle)) && !empty(Trim(PText))
-else if PType="Message" or PType="Reply" or PType="UpdatePost" then
+else if PType="Message" or PType="Reply" or PType="UpdatePost" or PType="UpdateReply" then
 	Valid:=!empty(Trim(PText))
 else
 	Valid:=false;

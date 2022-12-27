@@ -75,6 +75,24 @@ function PostProperties(ObjectId)
 	return Properties;
 }
 
+function ReplyProperties(ObjectId)
+{
+	var Properties =
+	{
+		"Type": "UpdateReply",
+		"TitleId": null,
+		"TextId": "Text" + ObjectId,
+		"TagId": null,
+		"PreviewId": "Content" + ObjectId,
+		"LinkId": null,
+		"OkButtonId": "UpdateButton" + ObjectId,
+		"TagsId": null,
+		"SuggestedTagsId": null
+	};
+
+	return Properties;
+}
+
 function InvalidatePreviewSpec(Properties)
 {
 	if (PreviewTimer !== null)
@@ -90,9 +108,9 @@ var PreviewTimer = null;
 
 function DoPreview(Properties)
 {
-	var Title = document.getElementById(Properties.TitleId).value;
+	var Title = Properties.TitleId ? document.getElementById(Properties.TitleId).value : null;
 	var Text = document.getElementById(Properties.TextId).value;
-	var TagEdit = document.getElementById(Properties.TagId).value;
+	var TagEdit = Properties.TagId ? document.getElementById(Properties.TagId).value : null;
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
 	{
@@ -177,22 +195,29 @@ function ClearPost()
 
 function GetTags(Properties)
 {
-	var Tags = document.getElementById(Properties.TagsId);
-	var Loop = Tags.firstChild;
 	var Result = [];
 
-	while (Loop)
+	if (Properties.TagsId)
 	{
-		if (Loop.tagName === "LI" && Loop.className !== "EndOfTags")
-			Result.push(Loop.innerText);
+		var Tags = document.getElementById(Properties.TagsId);
+		var Loop = Tags.firstChild;
 
-		Loop = Loop.nextSibling;
+		while (Loop)
+		{
+			if (Loop.tagName === "LI" && Loop.className !== "EndOfTags")
+				Result.push(Loop.innerText);
+
+			Loop = Loop.nextSibling;
+		}
 	}
 
-	var TagInput = document.getElementById(Properties.TagId);
-	var Tag = TagInput.value;
-	if (Tag !== "")
-		Result.push(Tag);
+	if (Properties.TagId)
+	{
+		var TagInput = document.getElementById(Properties.TagId);
+		var Tag = TagInput.value;
+		if (Tag !== "")
+			Result.push(Tag);
+	}
 
 	return Result;
 }
@@ -358,9 +383,12 @@ function ShowTagDropdown(Properties, Tags)
 
 function HideTagDropdown(Properties)
 {
-	var Suggestions = document.getElementById(Properties.SuggestedTagsId);
-	if (Suggestions)
-		Suggestions.className = "Tags noTags";
+	if (Properties.SuggestedTagsId)
+	{
+		var Suggestions = document.getElementById(Properties.SuggestedTagsId);
+		if (Suggestions)
+			Suggestions.className = "Tags noTags";
+	}
 }
 
 function OpenLink(Link)
@@ -584,27 +612,18 @@ function EditPost(ObjectId)
 				var Post = JSON.parse(xhttp.responseText);
 
 				var Div = document.getElementById("editor" + ObjectId);
-				Div.innerHTML = "";
+				var Fieldset = FindFirstChild(Div, "FIELDSET");
 
-				var Fieldset = document.createElement("FIELDSET");
-				Div.appendChild(Fieldset);
-
-				var Legend = document.createElement("LEGEND");
+				var Legend = FindFirstChild(Fieldset, "LEGEND");
 				Legend.innerText = "Editing Post";
-				Fieldset.appendChild(Legend);
 
-				var P = document.createElement("P");
-				Fieldset.appendChild(P);
-
-				var Label = document.createElement("LABEL");
+				var P = FindNextChild(Fieldset, Legend, "P");
+				var Label = FindFirstChild(P, "LABEL");
 				Label.setAttribute("for", "Title" + ObjectId);
 				Label.innerText = "Text:";
-				P.appendChild(Label);
 
-				var BR = document.createElement("BR");
-				P.appendChild(BR);
-
-				var Input = document.createElement("INPUT");
+				var BR = FindNextChild(P, Label, "BR");
+				var Input = FindNextChild(P, BR, "INPUT");
 				Input.setAttribute("type", "text");
 				Input.setAttribute("name", "Title" + ObjectId);
 				Input.setAttribute("id", "Title" + ObjectId);
@@ -613,36 +632,26 @@ function EditPost(ObjectId)
 				Input.setAttribute("onkeydown", "InvalidatePostPreview('" + ObjectId + "')");
 				Input.setAttribute("autocomplete", "off");
 				Input.value = Post.Title;
-				P.appendChild(Input);
 
-				P = document.createElement("P");
-				Fieldset.appendChild(P);
-
-				Label = document.createElement("LABEL");
+				P = FindNextChild(Fieldset, P, "P");
+				Label = FindFirstChild(P, "LABEL");
 				Label.setAttribute("for", "Text" + ObjectId);
 				Label.innerText = "Text of post:";
-				P.appendChild(Label);
 
-				BR = document.createElement("BR");
-				P.appendChild(BR);
-
-				var TextArea = document.createElement("TEXTAREA");
+				BR = FindNextChild(P, Label, "BR");
+				var TextArea = FindNextChild(P, BR, "TEXTAREA");
 				TextArea.setAttribute("name", "Text" + ObjectId);
 				TextArea.setAttribute("id", "Text" + ObjectId);
 				TextArea.setAttribute("required", "required");
 				TextArea.setAttribute("onkeydown", "TrapTab(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.setAttribute("onpaste", "PasteContent(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.value = Post.Text;
-				P.appendChild(TextArea);
 
-				P = document.createElement("P");
-				Fieldset.appendChild(P);
-
-				var TagsList = document.createElement("UL");
+				P = FindNextChild(Fieldset, P, "P");
+				var TagsList = FindFirstChild(P, "UL");
 				TagsList.setAttribute("id", "Tags" + ObjectId);
-				P.appendChild(TagsList);
 
-				var Li;
+				var Li = null;
 				var i;
 				var c = Post.Tags.length;
 
@@ -650,10 +659,9 @@ function EditPost(ObjectId)
 
 				for (i = 0; i < c; i++)
 				{
-					Li = document.createElement("LI");
+					Li = Li ? FindNextChild(TagsList, Li, "LI") : FindFirstChild(TagsList, "LI");
 					Li.className = "Tag";
 					Li.innerText = Post.Tags[i];
-					TagsList.appendChild(Li);
 
 					Li.onclick = function ()
 					{
@@ -679,22 +687,27 @@ function EditPost(ObjectId)
 					};
 				}
 
-				Li = document.createElement("LI");
+				Li = Li ? FindNextChild(TagsList, Li, "LI") : FindFirstChild(TagsList, "LI");
 				Li.className = "EndOfTags";
-				TagsList.appendChild(Li);
+				Li.innerHTML = "";
 
-				P = document.createElement("P");
-				Fieldset.appendChild(P);
+				var Temp;
 
-				Label = document.createElement("LABEL");
+				Li = Li.nextSibling;
+				while (Li)
+				{
+					Temp = Li.nextSibling;
+					TagsList.removeChild(Li);
+					Li = Temp;
+				}
+
+				P = FindNextChild(Fieldset, P, "P");
+				Label = FindFirstChild(P, "LABEL");
 				Label.setAttribute("for", "Tag" + ObjectId);
 				Label.innerText = "Tag: (Press ENTER to add more than one)";
-				P.appendChild(Label);
 
-				BR = document.createElement("BR");
-				P.appendChild(BR);
-
-				var Input = document.createElement("INPUT");
+				BR = FindNextChild(P, Label, "BR");
+				var Input = FindNextChild(P, BR, "INPUT");
 				Input.className = "TagInput";
 				Input.setAttribute("type", "text");
 				Input.setAttribute("name", "Tag" + ObjectId);
@@ -702,34 +715,41 @@ function EditPost(ObjectId)
 				Input.setAttribute("title", "Enter Tag to add");
 				Input.setAttribute("onkeydown", "TrapTagKey(PostProperties('" + ObjectId + "'),event)");
 				Input.setAttribute("autocomplete", "off");
-				P.appendChild(Input);
 
-				P = document.createElement("P");
-				Fieldset.appendChild(P);
-
-				var Ul = document.createElement("UL");
+				P = FindNextChild(Fieldset, P, "P");
+				var Ul = FindFirstChild(P, "UL");
 				Ul.setAttribute("id", "SuggestedTags" + ObjectId);
 				Ul.className = "Tags noTags Suggestion";
-				P.appendChild(Ul);
 
-				Li = document.createElement("LI");
+				Li = FindFirstChild(Ul, "LI");
 				Li.className = "EndOfTags";
-				Ul.appendChild(Li);
+				Li.innerHTML = "";
 
-				var Button = document.createElement("BUTTON");
+				Li = Li.nextSibling;
+				while (Li)
+				{
+					Temp = Li.nextSibling;
+					Ul.removeChild(Li);
+					Li = Temp;
+				}
+
+				var Button = FindNextChild(Fieldset, P, "BUTTON");
 				Button.setAttribute("id", "UpdateButton" + ObjectId);
 				Button.setAttribute("type", "button");
 				Button.className = "posButton";
 				Button.innerText = "Update";
 				Button.setAttribute("onclick", "UpdatePost('" + ObjectId + "')");
-				Fieldset.appendChild(Button);
 
-				Button = document.createElement("BUTTON");
+				Button = FindNextChild(Fieldset, Button, "BUTTON");
 				Button.setAttribute("type", "button");
 				Button.className = "negButton";
 				Button.innerText = "Cancel";
 				Button.setAttribute("onclick", "CancelPost('" + ObjectId + "')");
-				Fieldset.appendChild(Button);
+
+				window.setTimeout(function ()
+				{
+					TextArea.focus();
+				}, 0);
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -749,6 +769,32 @@ function CancelPost(ObjectId)
 {
 	var Div = document.getElementById("editor" + ObjectId);
 	Div.innerHTML = "";
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Post = JSON.parse(xhttp.responseText);
+				var Properties = PostProperties(ObjectId);
+				var Content = document.getElementById(Properties.PreviewId);
+
+				Content.innerHTML = Post.Html;
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/PostInfo.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId
+		}));
 }
 
 function UpdatePost(ObjectId)
@@ -912,8 +958,161 @@ function PasteContent(Control, Properties, Event)
 	}
 }
 
+function FindFirstChild(ParentElement, ElementType)
+{
+	return FindElement(ParentElement, ParentElement.firstChild, ElementType);
+}
+
+function FindNextChild(ParentElement, CurrentSibling, ElementType)
+{
+	return FindElement(ParentElement, CurrentSibling.nextSibling, ElementType);
+}
+
+function FindElement(ParentElement, Loop, ElementType)
+{
+	while (Loop)
+	{
+		if (Loop.tagName === ElementType)
+			return Loop;
+
+		Loop = Loop.nextSibling;
+	}
+
+	Loop = document.createElement(ElementType);
+	ParentElement.appendChild(Loop);
+
+	return Loop;
+}
+
 function EditReply(ObjectId)
 {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Reply = JSON.parse(xhttp.responseText);
+				var Div = document.getElementById("editor" + ObjectId);
+				var Fieldset = FindFirstChild(Div, "FIELDSET");
+
+				var Legend = FindFirstChild(Fieldset, "LEGEND");
+				Legend.innerText = "Editing Reply";
+
+				var P = FindNextChild(Fieldset, Legend, "P");
+				var Label = FindFirstChild(P, "LABEL");
+				Label.setAttribute("for", "Text" + ObjectId);
+				Label.innerText = "Text of reply:";
+
+				var BR = FindNextChild(P, Label, "BR");
+				var TextArea = FindNextChild(P, BR, "TEXTAREA");
+				TextArea.setAttribute("name", "Text" + ObjectId);
+				TextArea.setAttribute("id", "Text" + ObjectId);
+				TextArea.setAttribute("required", "required");
+				TextArea.setAttribute("onkeydown", "TrapTab(this,ReplyProperties('" + ObjectId + "'),event)");
+				TextArea.setAttribute("onpaste", "PasteContent(this,ReplyProperties('" + ObjectId + "'),event)");
+				TextArea.value = Reply.Text;
+
+				var Button = FindNextChild(Fieldset, P, "BUTTON");
+				Button.setAttribute("id", "UpdateButton" + ObjectId);
+				Button.setAttribute("type", "button");
+				Button.className = "posButton";
+				Button.innerText = "Update";
+				Button.setAttribute("onclick", "UpdateReply('" + ObjectId + "')");
+
+				Button = FindNextChild(Fieldset, Button, "BUTTON");
+				Button.setAttribute("type", "button");
+				Button.className = "negButton";
+				Button.innerText = "Cancel";
+				Button.setAttribute("onclick", "CancelReply('" + ObjectId + "')");
+
+				window.setTimeout(function ()
+				{
+					TextArea.focus();
+				}, 0);
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/ReplyInfo.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId
+		}));
+}
+
+function UpdateReply(ObjectId)
+{
+	var Properties = ReplyProperties(ObjectId);
+	var Text = document.getElementById(Properties.TextId).value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Response = JSON.parse(xhttp.responseText);
+
+				if (Response.valid)
+				{
+					var Content = document.getElementById(Properties.PreviewId);
+					Content.innerHTML = Response.html;
+
+					CancelReply(ObjectId);
+				}
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/UpdateReply.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId,
+			"text": Text
+		}
+	));
+}
+
+function CancelReply(ObjectId)
+{
+	var Div = document.getElementById("editor" + ObjectId);
+	Div.innerHTML = "";
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Post = JSON.parse(xhttp.responseText);
+				var Properties = ReplyProperties(ObjectId);
+				var Content = document.getElementById(Properties.PreviewId);
+
+				Content.innerHTML = Post.Html;
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/ReplyInfo.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"objectId": ObjectId
+		}));
 }
 
 function DeletePost(Link)

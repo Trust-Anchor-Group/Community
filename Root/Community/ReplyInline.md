@@ -1,9 +1,10 @@
 ﻿<div id="{{Reply.ObjectId}}">
+<div id="Content{{Reply.ObjectId}}">
 
 {{Reply.Markdown}}
 
-----------
-
+</div>
+<hr/>
 <div class='footer'>
 <a href="/Community/Author/{{Reply.UserId}}">
 <img alt='{{Reply.UserName}}' with='64' height='64' src='{{Reply.AvatarUrl}}?Width=64&Height=64'/>
@@ -27,5 +28,7 @@
 <button type="button" onclick="DeleteReply('((Reply.ObjectId))')" title="Delete reply." class="unicodeChar negButton">🗑</button>
 [[}}
 </div>
+</div>
+<div id="editor{{Reply.ObjectId}}">
 </div>
 </div>

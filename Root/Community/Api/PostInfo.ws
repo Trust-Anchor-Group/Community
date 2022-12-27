@@ -11,5 +11,6 @@ if Post.BareJid!=QuickLoginUser.Properties.JID then Forbidden("Post is not yours
 {
 	"Title":Post.Title,
 	"Text":Post.Text,
+	"Html":MarkdownToHtml(Post.Markdown),
 	"Tags":Post.Tags
 }
