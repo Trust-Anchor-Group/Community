@@ -496,7 +496,7 @@ function QuotePost(Link,Properties)
 	xhttp.send(Link);
 }
 
-function QuoteReply(ObjectId)
+function QuoteReply(ObjectId, Properties)
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
@@ -505,7 +505,7 @@ function QuoteReply(ObjectId)
 		{
 			if (xhttp.status === 200)
 			{
-				var Control = document.getElementById("Text");
+				var Control = document.getElementById(Properties.TextId);
 
 				var Value = Control.value;
 				var Start = Control.selectionStart;
@@ -516,7 +516,7 @@ function QuoteReply(ObjectId)
 				Control.focus();
 
 				AdaptSize(Control);
-				InvalidatePreview();
+				InvalidatePreviewSpec(Properties);
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -552,33 +552,6 @@ function SendMessage()
 	xhttp.send(JSON.stringify(
 		{
 			"link": Link,
-			"message": Text
-		}));
-}
-
-function PublishReplyToReply()
-{
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function ()
-	{
-		if (xhttp.readyState === 4)
-		{
-			if (xhttp.status === 200)
-				window.close();
-			else
-				window.alert(xhttp.responseText);
-		}
-	};
-
-	var ReplyId = document.getElementById("ReferenceLink").value;
-	var Text = document.getElementById("Text").value;
-
-	xhttp.open("POST", "/Community/Api/ReplyToReply.ws", true);
-	xhttp.setRequestHeader("Content-Type", "application/json");
-	xhttp.setRequestHeader("Accept", "application/json");
-	xhttp.send(JSON.stringify(
-		{
-			"replyId": ReplyId,
 			"message": Text
 		}));
 }
@@ -1192,6 +1165,17 @@ function LoadReplyReplies(Link, ReplyId)
 
 function ReplyToPost(Link, ObjectId)
 {
+	Reply(Link, ObjectId, true);
+}
+
+
+function ReplyToReply(Link, ReplyId)
+{
+	Reply(Link, ReplyId, false);
+}
+
+function Reply(Link, ObjectId, ToPost)
+{
 	var Reply = document.getElementById("reply" + ObjectId);
 	if (Reply)
 	{
@@ -1236,14 +1220,25 @@ function ReplyToPost(Link, ObjectId)
 
 				var Text = TextArea.value;
 
-				xhttp.open("POST", "/Community/Api/ReplyToPost.ws", true);
+				xhttp.open("POST", ToPost ? "/Community/Api/ReplyToPost.ws" : "/Community/Api/ReplyToReply.ws", true);
 				xhttp.setRequestHeader("Content-Type", "application/json");
 				xhttp.setRequestHeader("Accept", "application/json");
-				xhttp.send(JSON.stringify(
-					{
-						"link": Link,
-						"message": Text
-					}));
+				if (ToPost)
+				{
+					xhttp.send(JSON.stringify(
+						{
+							"link": Link,
+							"message": Text
+						}));
+				}
+				else
+				{
+					xhttp.send(JSON.stringify(
+						{
+							"replyId": ObjectId,
+							"message": Text
+						}));
+				}
 			};
 
 			Button = FindNextChild(Fieldset, Button, "BUTTON");
@@ -1261,7 +1256,10 @@ function ReplyToPost(Link, ObjectId)
 			Button.innerText = "Quote Post";
 			Button.onclick = function ()
 			{
-				QuotePost(Link,ResponseProperties(ObjectId));
+				if (ToPost)
+					QuotePost(Link, ResponseProperties(ObjectId));
+				else
+					QuoteReply(ObjectId, ResponseProperties(ObjectId));
 			};
 
 			var Preview = FindNextChild(Fieldset, Button, "FIELDSET");

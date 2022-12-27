@@ -14,7 +14,6 @@
 			<Content fileName="Message.md"/>
 			<Content fileName="PostInline.md"/>
 			<Content fileName="PostStandalone.md"/>
-			<Content fileName="ReplyToReply.md"/>
 			<Content fileName="ReplyInline.md"/>
 			<Content fileName="ReplyStandalone.md"/>
 			<Content fileName="Tag.md"/>
