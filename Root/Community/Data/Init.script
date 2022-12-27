@@ -87,6 +87,19 @@ ScriptResource("/Community/Post",
 	MarkdownContent(LoadMarkdown(PostFileName,true))
 ));
 
+ScriptResource("/Community/Reply",
+(
+	ObjectId:=Request.SubPath.Substring(1);
+	Reply:=select top 1 * from Community_Replies where ObjectId=ObjectId;
+	if !exists(Reply) then NotFound("Reply not found.");
+
+	ReplyFileName:=null;
+	GW:=Waher.IoTGateway.Gateway;
+	if !GW.HttpServer.TryGetFileName("/Community/ReplyStandalone.md",ReplyFileName) then ServiceUnavailable("Community Service not available.");
+
+	MarkdownContent(LoadMarkdown(ReplyFileName,true))
+));
+
 ScriptResource("/Community/Author",
 (
 	Author:=Request.SubPath.Substring(1);

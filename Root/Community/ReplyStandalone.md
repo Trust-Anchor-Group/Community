@@ -1,4 +1,12 @@
-﻿<div id="{{Reply.ObjectId}}">
+﻿Title: Reply
+Description: Contains contents of a community reply.
+Date: {{Reply.Updated}}
+Author: {{Reply.UserName}}
+Master: /Community/Master.md
+
+===========
+
+<div id="{{Reply.ObjectId}}">
 <div id="Content{{Reply.ObjectId}}">
 
 {{Reply.Markdown}}
@@ -31,4 +39,51 @@
 </div>
 <div id="editor{{Reply.ObjectId}}">
 </div>
+
+{{
+ReplyFileName:=null;
+GW:=Waher.IoTGateway.Gateway;
+if !GW.HttpServer.TryGetFileName("/Community/ReplyInline.md",ReplyFileName) then ServiceUnavailable("Community Service not available.");
+
+N:=5;
+Replies:=
+	select top N 
+		* 
+	from 
+		Community_Replies
+	where
+		Link=Reply.Link and
+		Reply=Reply.ObjectId
+	order by 
+		Created desc;
+
+LoadMore:=count(Replies)=N;
+First:=true;
+
+foreach Reply in Replies do
+(
+	if First then
+	(
+		First:=false;
+		]]<fieldset><legend>Responses</legend>[[
+	);
+
+	]]
+
+<section>
+
+((LoadMarkdown(ReplyFileName) ))
+
+</section>
+[[;
+);
+
+if LoadMore then ]]
+<button id="LoadMoreButton" class='posButton' type="button" onclick='LoadMoreReplies(this,((N)),((N)),"((Post.Link))",((Reply.ObjectId)))'>Load More</button>
+[[;
+
+if !First then ]]</fieldset>[[;
+
+}}
+
 </div>
