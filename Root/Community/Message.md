@@ -46,7 +46,7 @@ messaging cannot be performed using this service.
 
 <button id="CreateButton" type="button" class="disabledButton" onclick="SendMessage()" disabled="disabled">Send</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
-<button id="QuoteButton" type="button" onclick="QuotePost('{{PLink}}')">Quote Post</button>
+<button type="button" onclick="QuotePost('{{PLink}}',DefaultProperties())">Quote Post</button>
 
 </form>
 <fieldset>

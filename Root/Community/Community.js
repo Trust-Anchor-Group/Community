@@ -463,7 +463,7 @@ function LoadMore(Control, Offset, N, Author, Tag)
 	));
 }
 
-function QuotePost(Link)
+function QuotePost(Link,Properties)
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
@@ -472,7 +472,7 @@ function QuotePost(Link)
 		{
 			if (xhttp.status === 200)
 			{
-				var Control = document.getElementById("Text");
+				var Control = document.getElementById(Properties.TextId);
 
 				var Value = Control.value;
 				var Start = Control.selectionStart;
@@ -483,7 +483,7 @@ function QuotePost(Link)
 				Control.focus();
 
 				AdaptSize(Control);
-				InvalidatePreview();
+				InvalidatePreviewSpec(Properties);
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -547,33 +547,6 @@ function SendMessage()
 	var Text = document.getElementById("Text").value;
 
 	xhttp.open("POST", "/Community/Api/SendMessage.ws", true);
-	xhttp.setRequestHeader("Content-Type", "application/json");
-	xhttp.setRequestHeader("Accept", "application/json");
-	xhttp.send(JSON.stringify(
-		{
-			"link": Link,
-			"message": Text
-		}));
-}
-
-function PublishReplyToPost()
-{
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function ()
-	{
-		if (xhttp.readyState === 4)
-		{
-			if (xhttp.status === 200)
-				window.close();
-			else
-				window.alert(xhttp.responseText);
-		}
-	};
-
-	var Link = document.getElementById("ReferenceLink").value;
-	var Text = document.getElementById("Text").value;
-
-	xhttp.open("POST", "/Community/Api/ReplyToPost.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
@@ -806,10 +779,7 @@ function EditPost(ObjectId)
 				Button.innerText = "Cancel";
 				Button.setAttribute("onclick", "CancelPost('" + ObjectId + "')");
 
-				window.setTimeout(function ()
-				{
-					TextArea.focus();
-				}, 0);
+				TextArea.focus();
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -1087,10 +1057,7 @@ function EditReply(ObjectId)
 				Button.innerText = "Cancel";
 				Button.setAttribute("onclick", "CancelReply('" + ObjectId + "')");
 
-				window.setTimeout(function ()
-				{
-					TextArea.focus();
-				}, 0);
+				TextArea.focus();
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -1221,6 +1188,112 @@ function LoadReplyReplies(Link, ReplyId)
 		else
 			Replies.innerHTML = "";
 	}
+}
+
+function ReplyToPost(Link, ObjectId)
+{
+	var Reply = document.getElementById("reply" + ObjectId);
+	if (Reply)
+	{
+		if (Reply.firstChild === null)
+		{
+			var Fieldset = FindFirstChild(Reply, "FIELDSET");
+			var Legend = FindFirstChild(Fieldset, "LEGEND");
+			Legend.innerText = "Reply";
+
+			var P = FindNextChild(Fieldset, Legend, "P");
+			var Label = FindFirstChild(P, "LABEL");
+			Label.setAttribute("for", "Response" + ObjectId);
+			Label.innerText = "Text of reply:";
+
+			var TextArea = FindNextChild(P, Label, "TEXTAREA");
+			TextArea.setAttribute("id", "Response" + ObjectId);
+			TextArea.setAttribute("name", "Response" + ObjectId);
+			TextArea.setAttribute("onkeydown", "TrapTab(this, ResponseProperties('" + ObjectId + "'), event)");
+			TextArea.setAttribute("onpaste", "PasteContent(this, ResponseProperties('" + ObjectId + "'), event)");
+			TextArea.setAttribute("autofocus", "autofocus");
+			TextArea.setAttribute("required", "required");
+
+			var Button = FindNextChild(Fieldset, P, "BUTTON");
+			Button.setAttribute("type", "button");
+			Button.setAttribute("id", "RespondButton" + ObjectId);
+			Button.className = "disabledButton";
+			Button.setAttribute("disabled", "disabled");
+			Button.innerText = "Publish";
+			Button.onclick = function ()
+			{
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function ()
+				{
+					if (xhttp.readyState === 4)
+					{
+						if (xhttp.status === 200)
+							Reply.innerHTML = "";
+						else
+							window.alert(xhttp.responseText);
+					}
+				};
+
+				var Text = TextArea.value;
+
+				xhttp.open("POST", "/Community/Api/ReplyToPost.ws", true);
+				xhttp.setRequestHeader("Content-Type", "application/json");
+				xhttp.setRequestHeader("Accept", "application/json");
+				xhttp.send(JSON.stringify(
+					{
+						"link": Link,
+						"message": Text
+					}));
+			};
+
+			Button = FindNextChild(Fieldset, Button, "BUTTON");
+			Button.setAttribute("type", "button");
+			Button.className = "negButton";
+			Button.innerText = "Cancel";
+			Button.onclick = function ()
+			{
+				Reply.innerHTML = "";
+			};
+
+			Button = FindNextChild(Fieldset, Button, "BUTTON");
+			Button.setAttribute("type", "button");
+			Button.className = "PosButton";
+			Button.innerText = "Quote Post";
+			Button.onclick = function ()
+			{
+				QuotePost(Link,ResponseProperties(ObjectId));
+			};
+
+			var Preview = FindNextChild(Fieldset, Button, "FIELDSET");
+			Legend = FindFirstChild(Preview, "LEGEND");
+			Legend.innerText = "Preview";
+
+			var Div = FindNextChild(Preview, Legend, "DIV");
+			Div.setAttribute("id", "PreviewResponse" + ObjectId);
+
+			TextArea.focus();
+		}
+		else
+			Reply.innerHTML = "";
+	}
+}
+
+function ResponseProperties(ObjectId)
+{
+	var Properties =
+	{
+		"Type": "Reply",
+		"TitleId": null,
+		"TextId": "Response" + ObjectId,
+		"TagId": null,
+		"PreviewId": "PreviewResponse" + ObjectId,
+		"LinkId": null,
+		"OkButtonId": "RespondButton" + ObjectId,
+		"TagsId": null,
+		"SuggestedTagsId": null
+	};
+
+	return Properties;
 }
 
 function DeletePost(Link)

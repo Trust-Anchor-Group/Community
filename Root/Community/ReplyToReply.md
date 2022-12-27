@@ -46,7 +46,7 @@ cannot be published using this service.
 
 <button id="CreateButton" type="button" class="disabledButton" onclick="PublishReplyToReply()" disabled="disabled">Publish</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
-<button id="QuoteButton" type="button" onclick="QuoteReply('{{ReplyId}}')">Quote Reply</button>
+<button type="button" onclick="QuoteReply('{{ReplyId}}')">Quote Reply</button>
 </form>
 <fieldset>
 <legend>Preview of Response</legend>
