@@ -496,6 +496,39 @@ function QuotePost(Link)
 	xhttp.send(Link);
 }
 
+function QuoteReply(ObjectId)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Control = document.getElementById("Text");
+
+				var Value = Control.value;
+				var Start = Control.selectionStart;
+				var End = Control.selectionEnd;
+				Control.value = Value.substring(0, Start) + xhttp.responseText + Value.substring(End);
+				Control.selectionStart = Start;
+				Control.selectionEnd = Start + xhttp.responseText.length;
+				Control.focus();
+
+				AdaptSize(Control);
+				InvalidatePreview();
+			}
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/QuoteReply.ws", true);
+	xhttp.setRequestHeader("Content-Type", "text/plain");
+	xhttp.setRequestHeader("Accept", "text/plain");
+	xhttp.send(ObjectId);
+}
+
 function SendMessage()
 {
 	var xhttp = new XMLHttpRequest();
@@ -523,7 +556,7 @@ function SendMessage()
 		}));
 }
 
-function PublishReply()
+function PublishReplyToPost()
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
@@ -540,12 +573,39 @@ function PublishReply()
 	var Link = document.getElementById("ReferenceLink").value;
 	var Text = document.getElementById("Text").value;
 
-	xhttp.open("POST", "/Community/Api/Reply.ws", true);
+	xhttp.open("POST", "/Community/Api/ReplyToPost.ws", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.setRequestHeader("Accept", "application/json");
 	xhttp.send(JSON.stringify(
 		{
 			"link": Link,
+			"message": Text
+		}));
+}
+
+function PublishReplyToReply()
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+				window.close();
+			else
+				window.alert(xhttp.responseText);
+		}
+	};
+
+	var ReplyId = document.getElementById("ReferenceLink").value;
+	var Text = document.getElementById("Text").value;
+
+	xhttp.open("POST", "/Community/Api/ReplyToReply.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"replyId": ReplyId,
 			"message": Text
 		}));
 }

@@ -23,7 +23,7 @@
 <div class="toolbar">
 <button type="button" onclick="OpenLink('/Community/Reply/{{Reply.ObjectId}}')" title="Direct link to reply." class="unicodeChar">🔗</button>
 {{if exists(QuickLoginUser) and QuickLoginUser.Properties.JID != Reply.BareJid then ]]<button type="button" onclick="OpenLink('/Community/Message.md?Reply=((Reply.ObjectId))')" title="Send Private Message to author." class="unicodeChar">✉</button>
-[[}}<button type="button" onclick="OpenLink('/Community/Reply.md?Reply={{Reply.ObjectId}}')" title="Write a public response to the reply." class="unicodeChar">↩</button>
+[[}}<button type="button" onclick="OpenLink('/Community/ReplyToReply.md?ReplyId={{Reply.ObjectId}}')" title="Write a public response to the reply." class="unicodeChar">↩</button>
 {{if exists(QuickLoginUser) and QuickLoginUser.Properties.JID = Reply.BareJid then ]]<button type="button" onclick="EditReply('((Reply.ObjectId))')" title="Edit the reply." class="unicodeChar">✎</button>
 <button type="button" onclick="DeleteReply('((Reply.ObjectId))')" title="Delete reply." class="unicodeChar negButton">🗑</button>
 [[}}

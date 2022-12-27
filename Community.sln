@@ -18,9 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-046
 		Root\Community\Api\PostInfo.ws = Root\Community\Api\PostInfo.ws
 		Root\Community\Api\PreviewPost.ws = Root\Community\Api\PreviewPost.ws
 		Root\Community\Api\QuotePost.ws = Root\Community\Api\QuotePost.ws
-		Root\Community\Api\Reply.ws = Root\Community\Api\Reply.ws
+		Root\Community\Api\QuoteReply.ws = Root\Community\Api\QuoteReply.ws
 		Root\Community\Api\ReplyInfo.ws = Root\Community\Api\ReplyInfo.ws
+		Root\Community\Api\ReplyToReply.ws = Root\Community\Api\ReplyToReply.ws
 		Root\Community\Api\SendMessage.ws = Root\Community\Api\SendMessage.ws
+		Root\Community\Api\ReplyToPost.ws = Root\Community\Api\ReplyToPost.ws
 		Root\Community\Api\UpdatePost.ws = Root\Community\Api\UpdatePost.ws
 		Root\Community\Api\UpdateReply.ws = Root\Community\Api\UpdateReply.ws
 		Root\Community\Api\Upload.ws = Root\Community\Api\Upload.ws
@@ -50,10 +52,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{
 		Root\Community\Message.md = Root\Community\Message.md
 		Root\Community\PostInline.md = Root\Community\PostInline.md
 		Root\Community\PostStandalone.md = Root\Community\PostStandalone.md
-		Root\Community\Reply.md = Root\Community\Reply.md
 		Root\Community\ReplyInline.md = Root\Community\ReplyInline.md
 		Root\Community\ReplyStandalone.md = Root\Community\ReplyStandalone.md
+		Root\Community\ReplyToReply.md = Root\Community\ReplyToReply.md
 		Root\Community\Tag.md = Root\Community\Tag.md
+		Root\Community\ReplyToPost.md = Root\Community\ReplyToPost.md
 		Root\Community\Tags.md = Root\Community\Tags.md
 	EndProjectSection
 EndProject

@@ -1,5 +1,5 @@
 Title: Reply
-Description: This page allows you to send a public reply.
+Description: This page allows you to send a public reply to a post.
 Date: 2022-12-22
 Author: Peter Waher
 Master: Master.md
@@ -15,13 +15,11 @@ Publish Reply
 
 To publish a reply to the post titled "*{{
 if empty(PLink) then BadRequest("Post Link not specified.");
-	
+
 Post:=select top 1 * from Community_Posts where Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 
-Author:=Post.UserName;
-Title:=Post.Title
-}}*" by *{{Author}}*, type the reply below, and press *Publish*. You can format the reply using 
+Post.Title}}*" by *{{Author:=Post.UserName}}*, type the reply below, and press *Publish*. You can format the reply using 
 [Markdown](/Markdown.md). You can see a preview of your reply at the bottom of the page.
 
 **Note**: The reply will be published with information about your identity. Anonymous replies
@@ -46,10 +44,9 @@ cannot be published using this service.
 </ul>
 </p>
 
-<button id="CreateButton" type="button" class="disabledButton" onclick="PublishReply()" disabled="disabled">Publish</button>
+<button id="CreateButton" type="button" class="disabledButton" onclick="PublishReplyToPost()" disabled="disabled">Publish</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 <button id="QuoteButton" type="button" onclick="QuotePost('{{PLink}}')">Quote Post</button>
-
 </form>
 <fieldset>
 <legend>Preview of Response</legend>

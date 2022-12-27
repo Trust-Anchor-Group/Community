@@ -14,8 +14,10 @@
 			<Content fileName="Message.md"/>
 			<Content fileName="PostInline.md"/>
 			<Content fileName="PostStandalone.md"/>
-			<Content fileName="Reply.md"/>
+			<Content fileName="ReplyToPost.md"/>
+			<Content fileName="ReplyToReply.md"/>
 			<Content fileName="ReplyInline.md"/>
+			<Content fileName="ReplyStandalone.md"/>
 			<Content fileName="Tag.md"/>
 			<Content fileName="Tags.md"/>
 			<Folder name="Api">
@@ -25,9 +27,13 @@
 				<Content fileName="PostInfo.ws"/>
 				<Content fileName="PreviewPost.ws"/>
 				<Content fileName="QuotePost.ws"/>
-				<Content fileName="Reply.ws"/>
+				<Content fileName="QuoteReply.ws"/>
+				<Content fileName="ReplyToPost.ws"/>
+				<Content fileName="ReplyToReply.ws"/>
+				<Content fileName="ReplyInfo.ws"/>
 				<Content fileName="SendMessage.ws"/>
 				<Content fileName="UpdatePost.ws"/>
+				<Content fileName="UpdateReply.ws"/>
 				<Content fileName="Upload.ws"/>
 				<Content fileName="VotePost.ws"/>
 				<Content fileName="VoteReply.ws"/>
