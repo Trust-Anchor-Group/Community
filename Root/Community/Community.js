@@ -1330,6 +1330,8 @@ function PostCreated(Data)
 
 		if (!IsLoggedIn())
 			RemoveProtectedButtons(Data.ObjectId);
+
+		UpdateLoadMorePostsOffset(1);
 	}
 }
 
@@ -1381,18 +1383,23 @@ function PostDeleted(Data)
 		var Section = Div.parentNode;
 		Section.parentNode.removeChild(Section);
 
-		var Button = document.getElementById("LoadMoreButton");
-		if (Button)
-		{
-			var Script = Button.getAttribute("onclick");
-			if (Script.substring(0, 14) === "LoadMore(this,")
-			{
-				var i = Script.indexOf(",", 14);
-				var N = parseInt(Script.substring(14, i));
+		UpdateLoadMorePostsOffset(-1);
+	}
+}
 
-				if (N > 0)
-					Button.setAttribute("onclick", "LoadMore(this," + (N - 1) + Script.substring(i));
-			}
+function UpdateLoadMorePostsOffset(Delta)
+{
+	var Button = document.getElementById("LoadMoreButton");
+	if (Button)
+	{
+		var Script = Button.getAttribute("onclick");
+		if (Script.substring(0, 14) === "LoadMore(this,")
+		{
+			var i = Script.indexOf(",", 14);
+			var N = parseInt(Script.substring(14, i));
+
+			if (N + Delta >= 0)
+				Button.setAttribute("onclick", "LoadMore(this," + (N + Delta) + Script.substring(i));
 		}
 	}
 }
