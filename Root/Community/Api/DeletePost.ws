@@ -49,7 +49,7 @@ PushEvent("/Community/Author/"+Post.UserId,"PostDeleted",Event);
 PushEvent("/Community/Post/"+Post.Link,"PostDeleted",Event);
 PushEvent("/Community/Post/"+Post.Link,"TitleUpdated","-");
 
-foreach Tag in PTags do
+foreach Tag in Post.Tags do
 	PushEvent("/Community/Tag/"+Tag,"PostDeleted",Event);
 
 Background(
