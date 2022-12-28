@@ -26,6 +26,17 @@
                 try
                 {
                     var Data = JSON.parse(xhttp.responseText);
+                    var A = document.getElementById("quickLoginA");
+
+                    if (!A)
+                    {
+                        A = document.createElement("A");
+                        A.setAttribute("id", "quickLoginA");
+                        Div.appendChild(A);
+                    }
+
+                    A.setAttribute("href", Data.signUrl);
+
                     if (Data.text)
                     {
                         var Pre = document.getElementById("quickLoginPre");
@@ -34,7 +45,7 @@
                         {
                             Pre = document.createElement("PRE");
                             Pre.setAttribute("id", "quickLoginPre");
-                            Div.appendChild(Pre);
+                            A.appendChild(Pre);
                         }
 
                         Pre.innerText = Data.text;
@@ -51,7 +62,7 @@
                         {
                             Img = document.createElement("IMG");
                             Img.setAttribute("id", "quickLoginImg");
-                            Div.appendChild(Img);
+                            A.appendChild(Img);
                         }
 
                         if (Data.base64)

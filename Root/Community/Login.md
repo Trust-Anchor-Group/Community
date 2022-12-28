@@ -13,10 +13,18 @@ Neuron: {{GW:=Waher.IoTGateway.Gateway;Domain:=empty(GW.Domain) ? (x:=Before(Aft
 TAG Community Login
 ======================
 
-Some features of the Community Portal require you to login. You do this using the *TAG Digital ID*[^tagid].
+Some features[^features] of the Community Portal require you to login. You do this using the *TAG Digital ID*[^tagid].
+You login by either scanning the code presented below, or, if viewing from the phone with the app, clicking on the code directly.
 
 <div id="quickLoginCode" data-mode="image" data-serviceId="{{QuickLoginServiceId(Request)}}" 
 data-purpose="To perform a quick login on {{Domain}}, to access protected functions of the Community Portal. This login request is valid for one (1) minute."/>
+
+[^features]:	The following features require you to login:
+	
+	* Creating, updating or deleting posts.
+	* Creating, updating or deleting replies to posts or replies.
+	* Sending private messages to authors.
+	* Upload content
 
 [^tagid]:	The *TAG Digital ID* is a smart phone app that can be downloaded for 
 [Android](https://play.google.com/store/apps/details?id=com.tag.IdApp) and 
