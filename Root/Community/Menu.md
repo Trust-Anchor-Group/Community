@@ -21,7 +21,7 @@ foreach Tag in Global.CommunityTags.Tags do ]]
 	* [((MarkdownEncode(Tag) ))](/Community/Tag/((Tag)))[[
 }}
 * [%Title]
-* {{exists(QuickLoginUser)?]]<span id='userProfile'>[<img alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)</span>
+* {{exists(QuickLoginUser)?]][<img id='userAvatar' alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)
 	* [Logout](/Community/LogOut.md)[[ : ]][Login](/Community/Login.md)[[}}
 * [Help](#)
 	* [Tutorial](#)

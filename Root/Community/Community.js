@@ -1296,8 +1296,8 @@ function ResponseProperties(ObjectId)
 
 function IsLoggedIn()
 {
-	var Span = document.getElementById("userProfile");
-	if (Span)
+	var Img = document.getElementById("userAvatar");
+	if (Img)
 		return true;
 	else
 		return false;
