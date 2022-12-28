@@ -37,13 +37,14 @@ foreach Tag in PTags do
 );
 
 TP:=NowUtc;
+UserId:=Base64UrlEncode(Sha3_256(Utf8Encode(BareJid)));
 insert into Community_Posts object
 {
 	Created:TP,
 	Updated:TP,
 	Link:PLink,
 	BareJid:BareJid,
-	UserId:Base64UrlEncode(Sha3_256(Utf8Encode(BareJid))),
+	UserId:UserId,
 	UserName:QuickLoginUser.UserName,
 	AvatarUrl:QuickLoginUser.AvatarUrl,
 	Title:PTitle,
@@ -82,6 +83,32 @@ LogNotice("Community post added.\r\n\r\n"+Result,
 	"Title":PTitle,
 	"URL":FullLink
 });
+
+PostFileName:=null;
+if GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then
+(
+	Post:=select top 1 * from Community_Posts where Link=PLink;
+	Html:=MarkdownToHtml(LoadMarkdown(PostFileName));
+
+	Event:=
+	{
+		ObjectId:Post.Objectid,
+		Created:TP,
+		Updated:TP,
+		Link:PLink,
+		BareJid:BareJid,
+		UserId:UserId,
+		UserName:QuickLoginUser.UserName,
+		AvatarUrl:QuickLoginUser.AvatarUrl,
+		Html:Html
+	};
+);
+
+PushEvent("/Community/Index.md","PostCreated",Event);
+PushEvent("/Community/Author/"+UserId,"PostCreated",Event);
+
+foreach Tag in PTags do
+	PushEvent("/Community/Tag/"+Tag,"PostCreated",Event);
 
 {
 	"valid": true,

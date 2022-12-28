@@ -1294,6 +1294,18 @@ function ResponseProperties(ObjectId)
 	return Properties;
 }
 
+function PostCreated(Data)
+{
+	var Div = document.getElementById(Data.ObjectId);
+	if (!Div)
+	{
+		var Main = document.getElementsByTagName("MAIN")[0];
+		var Section = document.createElement("SECTION");
+		Main.insertBefore(Section, Main.firstChild);
+		Section.innerHTML = Data.Html;
+	}
+}
+
 function DeletePost(Link)
 {
 	if (window.confirm("Are you sure you want to delete the post?"))
