@@ -1294,6 +1294,30 @@ function ResponseProperties(ObjectId)
 	return Properties;
 }
 
+function IsLoggedIn()
+{
+	var Span = document.getElementById("userProfile");
+	if (Span)
+		return true;
+	else
+		return false;
+}
+
+function RemoveProtectedButtons(ObjectId)
+{
+	RemoveButton("messageButton" + ObjectId);
+	RemoveButton("replyButton" + ObjectId);
+	RemoveButton("editButton" + ObjectId);
+	RemoveButton("deleteButton" + ObjectId);
+}
+
+function RemoveButton(Id)
+{
+	var Button = document.getElementById(Id);
+	if (Button)
+		Button.parentElement.removeChild(Button);
+}
+
 function PostCreated(Data)
 {
 	var Div = document.getElementById(Data.ObjectId);
@@ -1303,6 +1327,9 @@ function PostCreated(Data)
 		var Section = document.createElement("SECTION");
 		Main.insertBefore(Section, Main.firstChild);
 		Section.innerHTML = Data.Html;
+
+		if (!IsLoggedIn())
+			RemoveProtectedButtons(Data.ObjectId);
 	}
 }
 
@@ -1310,7 +1337,12 @@ function PostUpdated(Data)
 {
 	var Div = document.getElementById("Content" + Data.ObjectId);
 	if (Div)
+	{
 		Div.innerHTML = Data.Html;
+
+		if (!IsLoggedIn())
+			RemoveProtectedButtons(Data.ObjectId);
+	}
 }
 
 function TitleUpdated(NewTitle)

@@ -1,5 +1,5 @@
-﻿<div id="{{Reply.ObjectId}}">
-<div id="Content{{Reply.ObjectId}}">
+﻿<div id="{{ReplyId:=Reply.ObjectId}}">
+<div id="Content{{ReplyId}}">
 
 {{Reply.Markdown}}
 
@@ -15,26 +15,26 @@
 {{if Reply.Updated!=Reply.Created then ]]
 <span class='updated'>((Reply.Updated))</span>[[}}
 <br/>
-<span class='views'>{{IncCounter("Community.Reply.Views."+Reply.ObjectId)}}</span>
-<span class='replies' onclick="LoadReplyReplies('{{Reply.Link}}','{{Reply.ObjectId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Reply.Replies."+Reply.ObjectId)}}</span>
-<span class='upvotes' id="up{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',true)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrUp}}</span>
-<span class='downvotes' id="down{{Reply.ObjectId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((Reply.ObjectId))',false)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrDown}}</span>
+<span class='views'>{{IncCounter("Community.Reply.Views."+ReplyId)}}</span>
+<span class='replies' onclick="LoadReplyReplies('{{Reply.Link}}','{{ReplyId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Reply.Replies."+ReplyId)}}</span>
+<span class='upvotes' id="up{{ReplyId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((ReplyId))',true)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrUp}}</span>
+<span class='downvotes' id="down{{ReplyId}}" onclick="{{exists(QuickLoginUser) ? ]]VoteReply('((ReplyId))',false)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Reply.NrDown}}</span>
 </div></a>
 <div class="toolbar">
-<button type="button" onclick="OpenLink('/Community/Reply/{{Reply.ObjectId}}')" title="Direct link to reply." class="unicodeChar">🔗</button>
+<button type="button" onclick="OpenLink('/Community/Reply/{{ReplyId}}')" title="Direct link to reply." class="unicodeChar">🔗</button>
 {{if exists(QuickLoginUser) then
 (
-	if QuickLoginUser.Properties.JID != Reply.BareJid then ]]<button type="button" onclick="OpenLink('/Community/Message.md?Reply=((Reply.ObjectId))')" title="Send Private Message to author." class="unicodeChar">✉</button>
+	if QuickLoginUser.Properties.JID != Reply.BareJid then ]]<button id="messageButton((ReplyId))" type="button" onclick="OpenLink('/Community/Message.md?Reply=((ReplyId))')" title="Send Private Message to author." class="unicodeChar">✉</button>
 [[;
-	]]<button type="button" onclick="ReplyToReply('((Reply.Link))','((Reply.ObjectId))');event.preventDefault()" title="Write a public response to the reply." class="unicodeChar">↩</button>
+	]]<button id="replyButton((ReplyId))" type="button" onclick="ReplyToReply('((Reply.Link))','((ReplyId))');event.preventDefault()" title="Write a public response to the reply." class="unicodeChar">↩</button>
 [[;
-	if QuickLoginUser.Properties.JID = Reply.BareJid then ]]<button type="button" onclick="EditReply('((Reply.ObjectId))')" title="Edit the reply." class="unicodeChar">✎</button>
-<button type="button" onclick="DeleteReply('((Reply.ObjectId))')" title="Delete reply." class="unicodeChar negButton">🗑</button>
+	if QuickLoginUser.Properties.JID = Reply.BareJid then ]]<button id="editButton((ReplyId))" type="button" onclick="EditReply('((ReplyId))')" title="Edit the reply." class="unicodeChar">✎</button>
+<button id="deleteButton((ReplyId))" type="button" onclick="DeleteReply('((ReplyId))')" title="Delete reply." class="unicodeChar negButton">🗑</button>
 [[
 )}}
 </div>
 </div>
-<div id="editor{{Reply.ObjectId}}"></div>
-<div id="reply{{Reply.ObjectId}}"></div>
-<div id="replies{{Reply.ObjectId}}"></div>
+<div id="editor{{ReplyId}}"></div>
+<div id="reply{{ReplyId}}"></div>
+<div id="replies{{ReplyId}}"></div>
 </div>

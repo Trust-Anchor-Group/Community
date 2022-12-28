@@ -24,12 +24,12 @@
 <button type="button" onclick="OpenLink('/Community/Post/{{Post.Link}}')" title="Direct link to page." class="unicodeChar">🔗</button>
 {{if exists(QuickLoginUser) then
 (
-	if QuickLoginUser.Properties.JID != Post.BareJid then ]]<button type="button" onclick="OpenLink('/Community/Message.md?PLink=((Post.Link))')" title="Send Private Message to author." class="unicodeChar">✉</button>
+	if QuickLoginUser.Properties.JID != Post.BareJid then ]]<button id="messageButton((PostId))" type="button" onclick="OpenLink('/Community/Message.md?PLink=((Post.Link))')" title="Send Private Message to author." class="unicodeChar">✉</button>
 [[;
-	]]<button type="button" onclick="ReplyToPost('((Post.Link))','((PostId))');event.preventDefault()" title="Write a public response to the post." class="unicodeChar">↩</button>
+	]]<button id="replyButton((PostId))" type="button" onclick="ReplyToPost('((Post.Link))','((PostId))');event.preventDefault()" title="Write a public response to the post." class="unicodeChar">↩</button>
 	[[;
-	if QuickLoginUser.Properties.JID = Post.BareJid then ]]<button type="button" onclick="EditPost('((PostId))')" title="Edit the post." class="unicodeChar">✎</button>
-<button type="button" onclick="DeletePost('((Post.Link))')" title="Delete post." class="unicodeChar negButton">🗑</button>
+	if QuickLoginUser.Properties.JID = Post.BareJid then ]]<button id="editButton((PostId))" type="button" onclick="EditPost('((PostId))')" title="Edit the post." class="unicodeChar">✎</button>
+<button id="deleteButton((PostId))" type="button" onclick="DeletePost('((Post.Link))')" title="Delete post." class="unicodeChar negButton">🗑</button>
 [[
 )}}
 </div>

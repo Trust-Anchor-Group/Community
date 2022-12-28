@@ -115,7 +115,7 @@ Event:=
 };
 
 PushEvent("/Community/Index.md","PostUpdated",Event);
-PushEvent("/Community/Author/"+UserId,"PostUpdated",Event);
+PushEvent("/Community/Author/"+Post.UserId,"PostUpdated",Event);
 PushEvent("/Community/Post/"+Post.Link,"PostUpdated",Event);
 
 foreach Tag in PTags do
