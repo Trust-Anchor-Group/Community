@@ -148,7 +148,7 @@ function DoPreview(Properties)
 					HideTagDropdown(Properties);
 			}
 			else
-				window.alert(xhttp.responseText);
+				DoLogin();
 		}
 	};
 
