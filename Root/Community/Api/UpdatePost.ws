@@ -106,7 +106,7 @@ Event:=
 	ObjectId:Post.ObjectId,
 	Created:TP,
 	Updated:TP,
-	Link:PLink,
+	Link:Post.Link,
 	BareJid:BareJid,
 	UserId:Post.UserId,
 	UserName:QuickLoginUser.UserName,

@@ -20,15 +20,16 @@
 			<Content fileName="Tags.md"/>
 			<Folder name="Api">
 				<Content fileName="CreatePost.ws"/>
+				<Content fileName="DeletePost.ws"/>
 				<Content fileName="LoadMore.ws"/>
 				<Content fileName="LoadMoreReplies.ws"/>
 				<Content fileName="PostInfo.ws"/>
 				<Content fileName="PreviewPost.ws"/>
 				<Content fileName="QuotePost.ws"/>
 				<Content fileName="QuoteReply.ws"/>
+				<Content fileName="ReplyInfo.ws"/>
 				<Content fileName="ReplyToPost.ws"/>
 				<Content fileName="ReplyToReply.ws"/>
-				<Content fileName="ReplyInfo.ws"/>
 				<Content fileName="SendMessage.ws"/>
 				<Content fileName="UpdatePost.ws"/>
 				<Content fileName="UpdateReply.ws"/>

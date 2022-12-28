@@ -13,6 +13,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-0464-4D74-BB83-BFAF2AD233B5}"
 	ProjectSection(SolutionItems) = preProject
 		Root\Community\Api\CreatePost.ws = Root\Community\Api\CreatePost.ws
+		Root\Community\Api\DeletePost.ws = Root\Community\Api\DeletePost.ws
 		Root\Community\Api\LoadMore.ws = Root\Community\Api\LoadMore.ws
 		Root\Community\Api\LoadMoreReplies.ws = Root\Community\Api\LoadMoreReplies.ws
 		Root\Community\Api\PostInfo.ws = Root\Community\Api\PostInfo.ws
@@ -54,9 +55,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{
 		Root\Community\PostStandalone.md = Root\Community\PostStandalone.md
 		Root\Community\ReplyInline.md = Root\Community\ReplyInline.md
 		Root\Community\ReplyStandalone.md = Root\Community\ReplyStandalone.md
+		Root\Community\ReplyToPost.md = Root\Community\ReplyToPost.md
 		Root\Community\ReplyToReply.md = Root\Community\ReplyToReply.md
 		Root\Community\Tag.md = Root\Community\Tag.md
-		Root\Community\ReplyToPost.md = Root\Community\ReplyToPost.md
 		Root\Community\Tags.md = Root\Community\Tags.md
 	EndProjectSection
 EndProject

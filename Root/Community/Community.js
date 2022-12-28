@@ -1354,6 +1354,32 @@ function DeletePost(Link)
 {
 	if (window.confirm("Are you sure you want to delete the post?"))
 	{
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function ()
+		{
+			if (xhttp.readyState === 4)
+			{
+				if (xhttp.status === 200)
+					PostDeleted({ "ObjectId": xhttp.responseText });
+				else
+					window.alert(xhttp.responseText);
+			}
+		};
+
+		xhttp.open("POST", "/Community/Api/DeletePost.ws", true);
+		xhttp.setRequestHeader("Content-Type", "text/plain");
+		xhttp.setRequestHeader("Accept", "text/plain");
+		xhttp.send(Link);
+	}
+}
+
+function PostDeleted(Data)
+{
+	var Div = document.getElementById(Data.ObjectId);
+	if (Div)
+	{
+		var Section = Div.parentNode;
+		Section.parentNode.removeChild(Section);
 	}
 }
 
@@ -1362,4 +1388,8 @@ function DeleteReply(ObjectId)
 	if (window.confirm("Are you sure you want to delete the reply?"))
 	{
 	}
+}
+
+function ReplyDeleted(Data)
+{
 }
