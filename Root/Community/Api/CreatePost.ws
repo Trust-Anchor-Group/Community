@@ -38,7 +38,7 @@ foreach Tag in PTags do
 
 TP:=NowUtc;
 UserId:=Base64UrlEncode(Sha3_256(Utf8Encode(BareJid)));
-insert into Community_Posts object
+Post:=insert into Community_Posts object
 {
 	Created:TP,
 	Updated:TP,
@@ -87,12 +87,11 @@ LogNotice("Community post added.\r\n\r\n"+Result,
 PostFileName:=null;
 if GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then
 (
-	Post:=select top 1 * from Community_Posts where Link=PLink;
 	Html:=MarkdownToHtml(LoadMarkdown(PostFileName));
 
 	Event:=
 	{
-		ObjectId:Post.Objectid,
+		ObjectId:Post.ObjectId,
 		Created:TP,
 		Updated:TP,
 		Link:PLink,
