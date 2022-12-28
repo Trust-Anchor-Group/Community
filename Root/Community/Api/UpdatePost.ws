@@ -38,24 +38,32 @@ foreach Tag in PTags do
 	Result+="[\\#"+MarkdownEncode(Tag)+"](/Community/Tag/"+UrlEncode(Tag)+")";
 );
 
-TP:=NowUtc;
-update Community_Posts
-set
-	Updated=TP,
-	UserName=QuickLoginUser.UserName,
-	AvatarUrl=QuickLoginUser.AvatarUrl,
-	Title=PTitle,
-	Text=PText,
-	Tags=PTags,
-	Markdown=Result
-where
-	ObjectId=PObjectId;
-
 PrevTags:={};
-foreach Tag in Post.Tags do PrevTags[Tag]:=true;
+AllTags:={};
+foreach Tag in Post.Tags do 
+(
+	PrevTags[Tag]:=true;
+	AllTags[Tag]:=true;
+);
+
+OldTitle:=Post.Title;
+
+TP:=NowUtc;
+Post.Updated:=TP;
+Post.UserName:=QuickLoginUser.UserName;
+Post.AvatarUrl:=QuickLoginUser.AvatarUrl;
+Post.Title:=PTitle;
+Post.Text:=PText;
+Post.Tags:=PTags;
+Post.Markdown:=Result;
+UpdateObject(Post);
 
 CurrentTags:={};
-foreach Tag in PTags do CurrentTags[Tag]:=true;
+foreach Tag in PTags do 
+(
+	CurrentTags[Tag]:=true;
+	AllTags[Tag]:=true;
+);
 
 foreach Tag in CurrentTags.Keys do
 (
@@ -90,6 +98,31 @@ LogNotice("Community post updated.\r\n\r\n"+Result,
 	"Title":PTitle,
 	"URL":FullLink
 });
+
+Html:=MarkdownToHtml(Result);
+
+Event:=
+{
+	ObjectId:Post.ObjectId,
+	Created:TP,
+	Updated:TP,
+	Link:PLink,
+	BareJid:BareJid,
+	UserId:Post.UserId,
+	UserName:QuickLoginUser.UserName,
+	AvatarUrl:QuickLoginUser.AvatarUrl,
+	Html:Html
+};
+
+PushEvent("/Community/Index.md","PostUpdated",Event);
+PushEvent("/Community/Author/"+UserId,"PostUpdated",Event);
+PushEvent("/Community/Post/"+Post.Link,"PostUpdated",Event);
+
+foreach Tag in PTags do
+	PushEvent("/Community/Tag/"+Tag,"PostUpdated",Event);
+
+if OldTitle!=PTitle then
+	PushEvent("/Community/Post/"+Post.Link,"TitleUpdated",PTitle);
 
 {
 	"valid": true,

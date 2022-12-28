@@ -463,7 +463,7 @@ function LoadMore(Control, Offset, N, Author, Tag)
 	));
 }
 
-function QuotePost(Link,Properties)
+function QuotePost(Link, Properties)
 {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function ()
@@ -1304,6 +1304,18 @@ function PostCreated(Data)
 		Main.insertBefore(Section, Main.firstChild);
 		Section.innerHTML = Data.Html;
 	}
+}
+
+function PostUpdated(Data)
+{
+	var Div = document.getElementById("Content" + Data.ObjectId);
+	if (Div)
+		Div.innerHTML = Data.Html;
+}
+
+function TitleUpdated(NewTitle)
+{
+	document.title = NewTitle;
 }
 
 function DeletePost(Link)

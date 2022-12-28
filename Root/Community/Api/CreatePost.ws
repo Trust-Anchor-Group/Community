@@ -102,13 +102,13 @@ if GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then
 		AvatarUrl:QuickLoginUser.AvatarUrl,
 		Html:Html
 	};
+
+	PushEvent("/Community/Index.md","PostCreated",Event);
+	PushEvent("/Community/Author/"+UserId,"PostCreated",Event);
+
+	foreach Tag in PTags do
+		PushEvent("/Community/Tag/"+Tag,"PostCreated",Event);
 );
-
-PushEvent("/Community/Index.md","PostCreated",Event);
-PushEvent("/Community/Author/"+UserId,"PostCreated",Event);
-
-foreach Tag in PTags do
-	PushEvent("/Community/Tag/"+Tag,"PostCreated",Event);
 
 {
 	"valid": true,
