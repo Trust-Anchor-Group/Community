@@ -46,6 +46,7 @@ if GW.HttpServer.TryGetFileName("/Community/ReplyInline.md",ReplyFileName) then
 	{
 		"ParentId":Post.ObjectId,
 		"ObjectId":Reply.ObjectId,
+		"PostId":Post.ObjectId,
 		"ParentChain":[],
 		"Html":MarkdownToHtml(LoadMarkdown(ReplyFileName))
 	};
