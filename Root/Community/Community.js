@@ -1132,6 +1132,9 @@ function LoadPostReplies(Link, ObjectId)
 			Button.setAttribute("onclick", "LoadMoreReplies(this,0,5,'" + Link + "','')");
 			Button.innerText = "Load More";
 
+			if (Button.getAttribute("id") === "")
+				Button.setAttribute("id", "LoadMoreButton" + ObjectId);
+
 			Button.click();
 		}
 		else
@@ -1155,6 +1158,9 @@ function LoadReplyReplies(Link, ReplyId)
 			Button.setAttribute("type", "button");
 			Button.setAttribute("onclick", "LoadMoreReplies(this,0,5,'" + Link + "','" + ReplyId + "')");
 			Button.innerText = "Load More";
+
+			if (Button.getAttribute("id") === "")
+				Button.setAttribute("id", "LoadMoreButton" + ReplyId);
 
 			Button.click();
 		}
@@ -1217,6 +1223,11 @@ function Reply(Link, ObjectId, ToPost)
 							window.alert(xhttp.responseText);
 					}
 				};
+
+				var NrReplies = document.getElementById("nrReplies" + ObjectId);
+				var Parent = document.getElementById("replies" + ObjectId);
+				if (Parent && Parent.innerHTML === "")
+					NrReplies.click();
 
 				var Text = TextArea.value;
 
@@ -1435,13 +1446,16 @@ function ReplyDeleted(Data)
 		var Section = Div.parentNode;
 		Section.parentNode.removeChild(Section);
 
-		UpdateLoadMoreRepliesOffset(-1);
+		UpdateLoadMoreRepliesOffset(-1, Data);
 	}
 }
 
-function UpdateLoadMoreRepliesOffset(Delta)
+function UpdateLoadMoreRepliesOffset(Delta, Data)
 {
-	var Button = document.getElementById("LoadMoreButton");
+	var Button = document.getElementById("LoadMoreButton" + Data.ParentId);
+	if (!Button)
+		Button = document.getElementById("LoadMoreButton");
+
 	if (Button)
 	{
 		var Script = Button.getAttribute("onclick");
@@ -1455,3 +1469,54 @@ function UpdateLoadMoreRepliesOffset(Delta)
 		}
 	}
 }
+
+function ReplyCreated(Data)
+{
+	var Div = document.getElementById(Data.ObjectId);
+	if (!Div)
+	{
+		var NrReplies = document.getElementById("nrReplies" + Data.ParentId);
+		var N = parseInt(NrReplies.innerText);
+		NrReplies.innerText = (N + 1).toString();
+
+		var Parent = document.getElementById("replies" + Data.ParentId);
+		if (Parent)
+		{
+			if (Parent.innerHTML !== "")
+			{
+				var Fieldset = FindFirstChild(Parent, "FIELDSET");
+				var Legend = FindFirstChild(Fieldset, "LEGEND");
+
+				if (!Legend.innerText)
+					Legend.innerText = "Responses";
+
+				var Section = document.createElement("SECTION");
+
+				if (Legend.nextSibling === null)
+					Fieldset.appendChild(Section);
+				else
+					Fieldset.insertBefore(Section, Legend.nextSibling);
+
+				Section.innerHTML = Data.Html;
+
+				if (!IsLoggedIn())
+					RemoveProtectedButtons(Data.ObjectId);
+
+				UpdateLoadMoreRepliesOffset(1, Data);
+			}
+		}
+	}
+}
+
+function ReplyUpdated(Data)
+{
+	var Div = document.getElementById("Content" + Data.ObjectId);
+	if (Div)
+	{
+		Div.innerHTML = Data.Html;
+
+		if (!IsLoggedIn())
+			RemoveProtectedButtons(Data.ObjectId);
+	}
+}
+

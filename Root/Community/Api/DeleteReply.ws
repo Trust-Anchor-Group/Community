@@ -15,9 +15,12 @@ DecCounter("Community.Reply.Views."+ReplyId,GetCounter("Community.Reply.Views."+
 DecCounter("Community.Reply.Replies."+ReplyId,NrReplies:=GetCounter("Community.Reply.Replies."+ReplyId));
 DecCounter("Community.Posts.Replies."+Reply.Link,NrReplies+1);
 
+Post:=select top 1 * from Community_Posts where Link=Reply.Link;
+
 Event:=
 {
 	ObjectId:ReplyId,
+	ParentId:empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply,
 	Link:Reply.Link,
 	BareJid:BareJid,
 	UserId:Post.UserId,
@@ -28,7 +31,6 @@ Event:=
 PushEvent("/Community/Index.md","ReplyDeleted",Event);
 PushEvent("/Community/Reply/"+ReplyId,"ReplyDeleted",Event);
 
-Post:=select top 1 * from Community_Posts where Link=Reply.Link;
 if exists(Post) then
 (
 	PushEvent("/Community/Author/"+Post.UserId,"ReplyDeleted",Event);
@@ -85,6 +87,7 @@ Background(
 		Event:=
 		{
 			ObjectId:ReplyId,
+			ParentId:empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply,
 			Link:Reply.Link,
 			BareJid:BareJid,
 			UserId:Post?.UserId,

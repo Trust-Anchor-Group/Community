@@ -20,7 +20,7 @@ PMessage:=PMessage.
 	Replace("\\\\}","\\}");
 
 TP:=NowUtc;
-Obj:=insert into Community_Replies object
+Reply:=insert into Community_Replies object
 {
 	Created:TP,
 	Updated:TP,
@@ -39,6 +39,24 @@ Obj:=insert into Community_Replies object
 
 IncCounter("Community.Posts.Replies."+PLink);
 
+ReplyFileName:=null;
+if GW.HttpServer.TryGetFileName("/Community/ReplyInline.md",ReplyFileName) then
+(
+	Event:=
+	{
+		"ParentId":Post.ObjectId,
+		"ObjectId":Reply.ObjectId,
+		"Html":MarkdownToHtml(LoadMarkdown(ReplyFileName))
+	};
+
+	PushEvent("/Community/Index.md","ReplyCreated",Event);
+	PushEvent("/Community/Author/"+Post.UserId,"ReplyCreated",Event);
+	PushEvent("/Community/Post/"+Post.Link,"ReplyCreated",Event);
+
+	foreach Tag in Post.Tags do
+		PushEvent("/Community/Tag/"+Tag,"ReplyCreated",Event);
+);
+
 {
-	"objectId":Obj.ObjectId
+	"objectId":Reply.ObjectId
 }

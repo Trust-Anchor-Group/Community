@@ -16,7 +16,7 @@
 <span class='updated'>((Post.Updated))</span>[[}}
 <br/>
 <span class='views'>{{IncCounter("Community.Posts.Views."+Post.Link)}}</span>
-<span class='replies' onclick="LoadPostReplies('{{Post.Link}}','{{PostId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Posts.Replies."+Post.Link)}}</span>
+<span class='replies' id="nrReplies{{PostId}}" onclick="LoadPostReplies('{{Post.Link}}','{{PostId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Posts.Replies."+Post.Link)}}</span>
 <span class='upvotes' id="up{{PostId}}" onclick="{{exists(QuickLoginUser) ? ]]VotePost('((PostId))',true)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Post.NrUp}}</span>
 <span class='downvotes' id="down{{PostId}}" onclick="{{exists(QuickLoginUser) ? ]]VotePost('((PostId))',false)[[ : ]]DoLogin()[[}};event.preventDefault()">{{Post.NrDown}}</span>
 </div></a>
