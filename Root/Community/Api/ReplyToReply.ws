@@ -10,8 +10,11 @@ if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
 if empty(QuickLoginUser.UserName) then BadRequest("User lacks a proper name in the identity.");
 if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in the identity.");
 
-Reply:=select top 1 * from Community_Replies where ObjectId=PReplyId;
-if !exists(Reply) then NotFound("Reply not found.");
+ParentReply:=select top 1 * from Community_Replies where ObjectId=PReplyId;
+if !exists(ParentReply) then NotFound("Reply not found.");
+
+Post:=select top 1 * from Community_Posts where Link=ParentReply.Link;
+if !exists(Post) then NotFound("Post not found.");
 
 PMessage:=PMessage.
 	Replace("{","\\{").
@@ -20,11 +23,11 @@ PMessage:=PMessage.
 	Replace("\\\\}","\\}");
 
 TP:=NowUtc;
-Obj:=insert into Community_Replies object
+Reply:=insert into Community_Replies object
 {
 	Created:TP,
 	Updated:TP,
-	Link:Reply.Link,
+	Link:ParentReply.Link,
 	Reply:PReplyId,
 	BareJid:BareJid,
 	UserId:Base64UrlEncode(Sha3_256(Utf8Encode(BareJid))),
@@ -37,14 +40,49 @@ Obj:=insert into Community_Replies object
 	Down:{}
 };
 
-IncCounter("Community.Posts.Replies."+Reply.Link);
+IncCounter("Community.Posts.Replies."+ParentReply.Link);
 
-while exists(Reply) do
+ParentChain:=[ParentReply.ObjectId];
+
+ParentId:=ParentReply.Reply;
+while !empty(ParentId) do
 (
-	IncCounter("Community.Reply.Replies."+Reply.ObjectId);
-	Reply:=empty(Reply.Reply) ? null : select top 1 * from Community_Replies where ObjectId=Reply.Reply;
+	Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
+	if exists(Parent) then
+	(
+		ParentChain:=join(ParentChain,Parent.ObjectId);
+		ParentId:=Parent.Reply;
+	)
+	else
+		ParentId:=null;
+);
+
+ReplyFileName:=null;
+if GW.HttpServer.TryGetFileName("/Community/ReplyInline.md",ReplyFileName) then
+(
+	Event:=
+	{
+		"ParentId":PReplyId,
+		"ObjectId":Reply.ObjectId,
+		"PostId":Post.ObjectId,
+		"ParentChain":ParentChain,
+		"Html":MarkdownToHtml(LoadMarkdown(ReplyFileName))
+	};
+
+	PushEvent("/Community/Index.md","ReplyCreated",Event);
+	PushEvent("/Community/Author/"+Post.UserId,"ReplyCreated",Event);
+	PushEvent("/Community/Post/"+Post.Link,"ReplyCreated",Event);
+
+	foreach Tag in Post.Tags do
+		PushEvent("/Community/Tag/"+Tag,"ReplyCreated",Event);
+
+	foreach ParentId in ParentChain do
+	(
+		IncCounter("Community.Reply.Replies."+ParentId);
+		PushEvent("/Community/Reply/"+ParentId,"ReplyCreated",Event);
+	)
 );
 
 {
-	"objectId":Obj.ObjectId
+	"objectId":Reply.ObjectId
 }

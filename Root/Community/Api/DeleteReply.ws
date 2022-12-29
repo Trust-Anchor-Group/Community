@@ -17,10 +17,29 @@ DecCounter("Community.Posts.Replies."+Reply.Link,NrReplies+1);
 
 Post:=select top 1 * from Community_Posts where Link=Reply.Link;
 
+ParentChain:=[];
+
+ParentId:=Reply.Reply;
+while !empty(ParentId) do
+(
+	Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
+	if exists(Parent) then
+	(
+		PushEvent("/Community/Reply/"+Parent.ObjectId,"ReplyDeleted",Event);
+	
+		ParentChain:=join(ParentChain,Parent.ObjectId);
+		ParentId:=Parent.Reply;
+	)
+	else
+		ParentId:=null;
+);
+
 Event:=
 {
 	ObjectId:ReplyId,
-	ParentId:empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply,
+	ParentId:(empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply),
+	ParentChain:ParentChain,
+	PostId:Post?.ObjectId,
 	Link:Reply.Link,
 	BareJid:BareJid,
 	UserId:Post.UserId,
@@ -40,23 +59,6 @@ if exists(Post) then
 		PushEvent("/Community/Tag/"+Tag,"ReplyDeleted",Event);
 );
 
-ParentChain:=[];
-
-ParentId:=Reply.Reply;
-while !empty(ParentId) do
-(
-	Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
-	if exists(Parent) then
-	(
-		PushEvent("/Community/Reply/"+Parent.ObjectId,"ReplyDeleted",Event);
-	
-		ParentChain:=join(ParentChain,Parent);
-		ParentId:=Parent.Reply;
-	)
-	else
-		ParentId:=null;
-);
-
 Background(
 (
 	Branch:={};
@@ -72,8 +74,8 @@ Background(
 
 	GetBranch(Reply.ObjectId,true);
 
-	foreach Parent in ParentChain do
-		DecCounter("Community.Reply.Replies."+Parent.ObjectId,NrReplies+1);
+	foreach ParentId in ParentChain do
+		DecCounter("Community.Reply.Replies."+ParentId,NrReplies+1);
 
 	foreach Reply in Branch.Values do
 	(
@@ -87,7 +89,9 @@ Background(
 		Event:=
 		{
 			ObjectId:ReplyId,
-			ParentId:empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply,
+			ParentId:(empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply),
+			ParentChain:ParentChain,
+			PostId:Post?.ObjectId,
 			Link:Reply.Link,
 			BareJid:BareJid,
 			UserId:Post?.UserId,
@@ -98,8 +102,8 @@ Background(
 		PushEvent("/Community/Index.md","ReplyDeleted",Event);
 		PushEvent("/Community/Reply/"+ReplyId,"ReplyDeleted",Event);
 
-		foreach Parent in ParentChain do
-			PushEvent("/Community/Reply/"+Parent.ObjectId,"ReplyDeleted",Event);
+		foreach ParentId in ParentChain do
+			PushEvent("/Community/Reply/"+ParentId,"ReplyDeleted",Event);
 
 		if exists(Post) then
 		(

@@ -1218,16 +1218,18 @@ function Reply(Link, ObjectId, ToPost)
 					if (xhttp.readyState === 4)
 					{
 						if (xhttp.status === 200)
+						{
 							Reply.innerHTML = "";
+
+							var NrReplies = document.getElementById("nrReplies" + ObjectId);
+							var Parent = document.getElementById("replies" + ObjectId);
+							if (Parent && Parent.innerHTML === "")
+								NrReplies.click();
+						}
 						else
 							window.alert(xhttp.responseText);
 					}
 				};
-
-				var NrReplies = document.getElementById("nrReplies" + ObjectId);
-				var Parent = document.getElementById("replies" + ObjectId);
-				if (Parent && Parent.innerHTML === "")
-					NrReplies.click();
 
 				var Text = TextArea.value;
 
@@ -1424,9 +1426,7 @@ function DeleteReply(ObjectId)
 		{
 			if (xhttp.readyState === 4)
 			{
-				if (xhttp.status === 200)
-					ReplyDeleted(JSON.parse(xhttp.responseText));
-				else
+				if (xhttp.status !== 200)
 					window.alert(xhttp.responseText);
 			}
 		};
@@ -1448,6 +1448,14 @@ function ReplyDeleted(Data)
 
 		UpdateLoadMoreRepliesOffset(-1, Data);
 	}
+
+	var i, c = Data.ParentChain.length;
+
+	for (i = 0; i < c; i++)
+		IncNrReplies(Data.ParentChain[i], -1);
+
+	if (Data.PostId)
+		IncNrReplies(Data.PostId, -1);
 }
 
 function UpdateLoadMoreRepliesOffset(Delta, Data)
@@ -1470,14 +1478,28 @@ function UpdateLoadMoreRepliesOffset(Delta, Data)
 	}
 }
 
+function IncNrReplies(ObjectId, Delta)
+{
+	var NrReplies = document.getElementById("nrReplies" + ObjectId);
+	if (NrReplies)
+	{
+		var N = parseInt(NrReplies.innerText);
+		NrReplies.innerText = (N + Delta).toString();
+	}
+}
+
 function ReplyCreated(Data)
 {
 	var Div = document.getElementById(Data.ObjectId);
 	if (!Div)
 	{
-		var NrReplies = document.getElementById("nrReplies" + Data.ParentId);
-		var N = parseInt(NrReplies.innerText);
-		NrReplies.innerText = (N + 1).toString();
+		var i, c = Data.ParentChain.length;
+
+		for (i = 0; i < c; i++)
+			IncNrReplies(Data.ParentChain[i], 1);
+
+		if (Data.PostId)
+			IncNrReplies(Data.PostId, 1);
 
 		var Parent = document.getElementById("replies" + Data.ParentId);
 		if (Parent)
