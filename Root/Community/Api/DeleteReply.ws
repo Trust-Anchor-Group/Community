@@ -11,9 +11,9 @@ if Reply.BareJid!=BareJid then Forbidden("You can only delete your own replies."
 
 DeleteObject(Reply);
 
-DecCounter("Community.Posts.Replies."+Reply.Link);
 DecCounter("Community.Reply.Views."+ReplyId,GetCounter("Community.Reply.Views."+ReplyId));
-DecCounter("Community.Reply.Replies."+ReplyId,GetCounter("Community.Reply.Replies."+ReplyId));
+DecCounter("Community.Reply.Replies."+ReplyId,NrReplies:=GetCounter("Community.Reply.Replies."+ReplyId));
+DecCounter("Community.Posts.Replies."+Reply.Link,NrReplies+1);
 
 Event:=
 {
@@ -38,23 +38,25 @@ if exists(Post) then
 		PushEvent("/Community/Tag/"+Tag,"ReplyDeleted",Event);
 );
 
+ParentChain:=[];
+
+ParentId:=Reply.Reply;
+while !empty(ParentId) do
+(
+	Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
+	if exists(Parent) then
+	(
+		PushEvent("/Community/Reply/"+Parent.ObjectId,"ReplyDeleted",Event);
+	
+		ParentChain:=join(ParentChain,Parent);
+		ParentId:=Parent.Reply;
+	)
+	else
+		ParentId:=null;
+);
+
 Background(
 (
-	ParentChain:=[];
-
-	ParentId:=Reply.Reply;
-	while !empty(ParentId) do
-	(
-		Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
-		if exists(Parent) then
-		(
-			ParentChain:=join(ParentChain,Parent);
-			ParentId:=Parent.Reply;
-		)
-		else
-			ParentId:=null;
-	);
-
 	Branch:={};
 
 	GetBranch(ObjectId,FirstLevel):=
@@ -69,9 +71,7 @@ Background(
 	GetBranch(Reply.ObjectId,true);
 
 	foreach Parent in ParentChain do
-		DecCounter("Community.Reply.Replies."+Parent.ObjectId,Branch.Count);
-
-	DecCounter("Community.Posts.Replies."+Reply.Link,Branch.Count);
+		DecCounter("Community.Reply.Replies."+Parent.ObjectId,NrReplies+1);
 
 	foreach Reply in Branch.Values do
 	(
@@ -94,6 +94,9 @@ Background(
 
 		PushEvent("/Community/Index.md","ReplyDeleted",Event);
 		PushEvent("/Community/Reply/"+ReplyId,"ReplyDeleted",Event);
+
+		foreach Parent in ParentChain do
+			PushEvent("/Community/Reply/"+Parent.ObjectId,"ReplyDeleted",Event);
 
 		if exists(Post) then
 		(
