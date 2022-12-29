@@ -652,6 +652,7 @@ function EditPost(ObjectId)
 				TextArea.setAttribute("onkeydown", "TrapTab(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.setAttribute("onpaste", "PasteContent(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.value = Post.Text;
+				AdaptSize(TextArea);
 
 				P = FindNextChild(Fieldset, P, "P");
 				var TagsList = FindFirstChild(P, "UL");
@@ -1016,6 +1017,7 @@ function EditReply(ObjectId)
 				TextArea.setAttribute("onkeydown", "TrapTab(this,ReplyProperties('" + ObjectId + "'),event)");
 				TextArea.setAttribute("onpaste", "PasteContent(this,ReplyProperties('" + ObjectId + "'),event)");
 				TextArea.value = Reply.Text;
+				AdaptSize(TextArea);
 
 				var Button = FindNextChild(Fieldset, P, "BUTTON");
 				Button.setAttribute("id", "UpdateButton" + ObjectId);
