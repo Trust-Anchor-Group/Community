@@ -26,6 +26,20 @@ Post.NrUp:=Post.Up.Count;
 Post.NrDown:=Post.Down.Count;
 UpdateObject(Post);
 
+Event:=
+{
+	ObjectId:Post.ObjectId,
+	NrUp:Post.NrUp,
+	NrDown:Post.NrDown
+};
+
+PushEvent("/Community/Index.md","VotesUpdated",Event);
+PushEvent("/Community/Author/"+Post.UserId,"VotesUpdated",Event);
+PushEvent("/Community/Post/"+Post.Link,"VotesUpdated",Event);
+
+foreach Tag in Post.Tags do
+	PushEvent("/Community/Tag/"+Tag,"VotesUpdated",Event);
+
 {
 	"nrUp": Post.NrUp,
 	"nrDown": Post.NrDown

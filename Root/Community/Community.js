@@ -1542,3 +1542,13 @@ function ReplyUpdated(Data)
 	}
 }
 
+function VotesUpdated(Data)
+{
+	var NrUp = document.getElementById("up" + Data.ObjectId);
+	if (NrUp)
+		NrUp.innerText = Data.NrUp.toString();
+
+	var NrDown = document.getElementById("down" + Data.ObjectId);
+	if (NrDown)
+		NrDown.innerText = Data.NrDown.toString();
+}
