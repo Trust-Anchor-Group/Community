@@ -54,8 +54,6 @@ Html:=MarkdownToHtml(PText);
 Event:=
 {
 	ObjectId:Reply.ObjectId,
-	Updated:TP,
-	ParentChain:ParentChain,
 	Html:Html
 };
 

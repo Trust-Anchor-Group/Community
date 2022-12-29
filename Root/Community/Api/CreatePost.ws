@@ -92,13 +92,6 @@ if GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then
 	Event:=
 	{
 		ObjectId:Post.ObjectId,
-		Created:TP,
-		Updated:TP,
-		Link:PLink,
-		BareJid:BareJid,
-		UserId:UserId,
-		UserName:QuickLoginUser.UserName,
-		AvatarUrl:QuickLoginUser.AvatarUrl,
 		Html:Html
 	};
 

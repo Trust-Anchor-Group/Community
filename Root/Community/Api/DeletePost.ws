@@ -36,12 +36,7 @@ LogNotice("Community post deleted.",
 
 Event:=
 {
-	ObjectId:PostId,
-	Link:PLink,
-	BareJid:BareJid,
-	UserId:Post.UserId,
-	UserName:QuickLoginUser.UserName,
-	AvatarUrl:QuickLoginUser.AvatarUrl
+	ObjectId:PostId
 };
 
 PushEvent("/Community/Index.md","PostDeleted",Event);
@@ -72,11 +67,8 @@ Background(
 		Event:=
 		{
 			ObjectId:ReplyId,
-			Link:PLink,
-			BareJid:BareJid,
-			UserId:Post.UserId,
-			UserName:QuickLoginUser.UserName,
-			AvatarUrl:QuickLoginUser.AvatarUrl
+			ParentChain:[],
+			PostId:Post.ObjectId
 		};
 
 		PushEvent("/Community/Index.md","ReplyDeleted",Event);

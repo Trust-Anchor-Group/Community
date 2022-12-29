@@ -104,13 +104,6 @@ Html:=MarkdownToHtml(Result);
 Event:=
 {
 	ObjectId:Post.ObjectId,
-	Created:TP,
-	Updated:TP,
-	Link:Post.Link,
-	BareJid:BareJid,
-	UserId:Post.UserId,
-	UserName:QuickLoginUser.UserName,
-	AvatarUrl:QuickLoginUser.AvatarUrl,
 	Html:Html
 };
 

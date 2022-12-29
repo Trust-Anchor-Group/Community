@@ -37,14 +37,8 @@ while !empty(ParentId) do
 Event:=
 {
 	ObjectId:ReplyId,
-	ParentId:(empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply),
 	ParentChain:ParentChain,
-	PostId:Post?.ObjectId,
-	Link:Reply.Link,
-	BareJid:BareJid,
-	UserId:Post.UserId,
-	UserName:QuickLoginUser.UserName,
-	AvatarUrl:QuickLoginUser.AvatarUrl
+	PostId:Post?.ObjectId
 };
 
 PushEvent("/Community/Index.md","ReplyDeleted",Event);
@@ -89,14 +83,8 @@ Background(
 		Event:=
 		{
 			ObjectId:ReplyId,
-			ParentId:(empty(Reply.Reply) ? Post?.ObjectId : Reply.Reply),
 			ParentChain:ParentChain,
-			PostId:Post?.ObjectId,
-			Link:Reply.Link,
-			BareJid:BareJid,
-			UserId:Post?.UserId,
-			UserName:QuickLoginUser.UserName,
-			AvatarUrl:QuickLoginUser.AvatarUrl
+			PostId:Post?.ObjectId
 		};
 
 		PushEvent("/Community/Index.md","ReplyDeleted",Event);
