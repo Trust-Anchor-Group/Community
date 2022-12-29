@@ -84,7 +84,7 @@ on Community_Replies
 
 ScriptResource("/Community/Post",
 (
-	Link:=Request.SubPath.Substring(1);
+	Link:=UrlDecode(Request.SubPath.Substring(1));
 	Post:=select top 1 * from Community_Posts where Link=Link;
 	if !exists(Post) then NotFound("Post not found.");
 
@@ -97,7 +97,7 @@ ScriptResource("/Community/Post",
 
 ScriptResource("/Community/Reply",
 (
-	ObjectId:=Request.SubPath.Substring(1);
+	ObjectId:=UrlDecode(Request.SubPath.Substring(1));
 	Reply:=select top 1 * from Community_Replies where ObjectId=ObjectId;
 	if !exists(Reply) then NotFound("Reply not found.");
 
@@ -110,7 +110,7 @@ ScriptResource("/Community/Reply",
 
 ScriptResource("/Community/Author",
 (
-	Author:=Request.SubPath.Substring(1);
+	Author:=UrlDecode(Request.SubPath.Substring(1));
 
 	AuthorFileName:=null;
 	GW:=Waher.IoTGateway.Gateway;
@@ -121,7 +121,7 @@ ScriptResource("/Community/Author",
 
 ScriptResource("/Community/Tag",
 (
-	Tag:=Request.SubPath.Substring(1);
+	Tag:=UrlDecode(Request.SubPath.Substring(1));
 
 	TagFileName:=null;
 	GW:=Waher.IoTGateway.Gateway;
