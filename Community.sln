@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-046
 	ProjectSection(SolutionItems) = preProject
 		Root\Community\Api\CreatePost.ws = Root\Community\Api\CreatePost.ws
 		Root\Community\Api\DeletePost.ws = Root\Community\Api\DeletePost.ws
+		Root\Community\Api\DeleteReply.ws = Root\Community\Api\DeleteReply.ws
 		Root\Community\Api\LoadMore.ws = Root\Community\Api\LoadMore.ws
 		Root\Community\Api\LoadMoreReplies.ws = Root\Community\Api\LoadMoreReplies.ws
 		Root\Community\Api\PostInfo.ws = Root\Community\Api\PostInfo.ws

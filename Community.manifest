@@ -21,6 +21,7 @@
 			<Folder name="Api">
 				<Content fileName="CreatePost.ws"/>
 				<Content fileName="DeletePost.ws"/>
+				<Content fileName="DeleteReply.ws"/>
 				<Content fileName="LoadMore.ws"/>
 				<Content fileName="LoadMoreReplies.ws"/>
 				<Content fileName="PostInfo.ws"/>

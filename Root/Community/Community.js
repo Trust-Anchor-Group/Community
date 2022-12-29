@@ -1408,9 +1408,50 @@ function DeleteReply(ObjectId)
 {
 	if (window.confirm("Are you sure you want to delete the reply?"))
 	{
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function ()
+		{
+			if (xhttp.readyState === 4)
+			{
+				if (xhttp.status === 200)
+					ReplyDeleted(JSON.parse(xhttp.responseText));
+				else
+					window.alert(xhttp.responseText);
+			}
+		};
+
+		xhttp.open("POST", "/Community/Api/DeleteReply.ws", true);
+		xhttp.setRequestHeader("Content-Type", "text/plain");
+		xhttp.setRequestHeader("Accept", "application/json");
+		xhttp.send(ObjectId);
 	}
 }
 
 function ReplyDeleted(Data)
 {
+	var Div = document.getElementById(Data.ObjectId);
+	if (Div)
+	{
+		var Section = Div.parentNode;
+		Section.parentNode.removeChild(Section);
+
+		UpdateLoadMoreRepliesOffset(-1);
+	}
+}
+
+function UpdateLoadMoreRepliesOffset(Delta)
+{
+	var Button = document.getElementById("LoadMoreButton");
+	if (Button)
+	{
+		var Script = Button.getAttribute("onclick");
+		if (Script.substring(0, 21) === "LoadMoreReplies(this,")
+		{
+			var i = Script.indexOf(",", 21);
+			var N = parseInt(Script.substring(21, i));
+
+			if (N + Delta >= 0)
+				Button.setAttribute("onclick", "LoadMoreReplies(this," + (N + Delta) + Script.substring(i));
+		}
+	}
 }

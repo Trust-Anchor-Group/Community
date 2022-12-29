@@ -45,6 +45,14 @@ on Community_PostRef
 	Link
 );
 
+create
+index Community_PostRef__Link_Tag
+on Community_PostRef
+(
+	Link,
+	Tag
+);
+
 create 
 index Community_Replies_Link_Reply_Created
 on Community_Replies

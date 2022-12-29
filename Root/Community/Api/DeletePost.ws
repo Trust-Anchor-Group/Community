@@ -23,14 +23,14 @@ foreach Tag in Post.Tags do
 
 GW:=Waher.IoTGateway.Gateway;
 FullLink:=GW.GetUrl("/Community/Post/"+PLink);
-GW.SendNotification("Community post deleted ["+PTitle+"]("+FullLink+")");
+GW.SendNotification("Community post deleted ["+Post.Title+"]("+FullLink+")");
 LogNotice("Community post deleted.",
 {
 	"Object":PLink,
 	"Actor":BareJid,
 	"UserName":QuickLoginUser.UserName,
 	"AvatarUrl":QuickLoginUser.AvatarUrl,
-	"Title":PTitle,
+	"Title":Post.Title,
 	"URL":FullLink
 });
 
