@@ -5,21 +5,26 @@ AuthenticateSession(Request,"QuickLoginUser");
 	"up":Required(Boolean(PUp))
 }:=Posted;
 
-BareJid:=QuickLoginUser.Properties.JID;
-if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
+Country:=QuickLoginUser.Properties.COUNTRY;
+if empty(Country) then BadRequest("User identity lacks country information.");
+
+PNr:=QuickLoginUser.Properties.PNR;
+if empty(PNr) then BadRequest("User identity lacks personal number information.");
 
 Post:=select top 1 * from Community_Posts where ObjectId=PObjectId;
 if !exists(Post) then NotFound("Post not found.");
 
+VoteKey:=Base64Encode(Sha2_256(Utf8Encode(Country+":"+PNr+":"+Post.ObjectId)));
+
 if PUp then
 (
-	Post.Up[BareJid]:=true;
-	Post.Down.Remove(BareJid);
+	Post.Up[VoteKey]:=true;
+	Post.Down.Remove(VoteKey);
 )
 else
 (
-	Post.Down[BareJid]:=true;
-	Post.Up.Remove(BareJid);
+	Post.Down[VoteKey]:=true;
+	Post.Up.Remove(VoteKey);
 );
 
 Post.NrUp:=Post.Up.Count;
