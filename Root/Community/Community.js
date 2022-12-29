@@ -1357,6 +1357,18 @@ function PostUpdated(Data)
 
 		if (!IsLoggedIn())
 			RemoveProtectedButtons(Data.ObjectId);
+
+		TimestampUpdated(Data.ObjectId, Data.Updated);
+	}
+}
+
+function TimestampUpdated(ObjectId, Updated)
+{
+	var Span = document.getElementById("updated" + ObjectId);
+	if (Span)
+	{
+		Span.innerText = Updated;
+		Span.setAttribute("style", "display:inline");
 	}
 }
 
@@ -1539,6 +1551,8 @@ function ReplyUpdated(Data)
 
 		if (!IsLoggedIn())
 			RemoveProtectedButtons(Data.ObjectId);
+
+		TimestampUpdated(Data.ObjectId, Data.Updated);
 	}
 }
 

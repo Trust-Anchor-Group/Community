@@ -19,9 +19,8 @@ Master: /Community/Master.md
 <div class='authorInfo'>
 <span class='author'>{{Post.UserName}}</span>
 <br/>
-<span class='created'>{{Post.Created}}</span>
-{{if Post.Updated!=Post.Created then ]]
-<span class='updated'>((Post.Updated))</span>[[}}
+<span class='created'>{{Post.Created.ToLocalTime().ToString()}}</span>
+<span class='updated' id='updated{{PostId}}' {{if Post.Updated=Post.Created then ]] style="display:none"[[}}>{{Post.Updated.ToLocalTime().ToString()}}</span>
 <br/>
 <span class='views'>{{IncCounter("Community.Posts.Views."+Post.Link)}}</span>
 <span class='replies' id="nrReplies{{PostId}}" onclick="LoadPostReplies('{{Post.Link}}','{{PostId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Posts.Replies."+Post.Link)}}</span>

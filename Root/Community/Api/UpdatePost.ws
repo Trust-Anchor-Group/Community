@@ -104,6 +104,7 @@ Html:=MarkdownToHtml(Result);
 Event:=
 {
 	ObjectId:Post.ObjectId,
+	Updated:TP.ToLocalTime().ToString(),
 	Html:Html
 };
 

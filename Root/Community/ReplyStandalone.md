@@ -19,9 +19,8 @@ Master: /Community/Master.md
 <div class='authorInfo'>
 <span class='author'>{{Reply.UserName}}</span>
 <br/>
-<span class='created'>{{Reply.Created}}</span>
-{{if Reply.Updated!=Reply.Created then ]]
-<span class='updated'>((Reply.Updated))</span>[[}}
+<span class='created'>{{Reply.Created.ToLocalTime().ToString()}}</span>
+<span class='updated' id='updated{{ReplyId}}' {{if Reply.Updated=Reply.Created then ]] style="display:none"[[}}>{{Reply.Updated.ToLocalTime().ToString()}}</span>
 <br/>
 <span class='views'>{{IncCounter("Community.Reply.Views."+ReplyId)}}</span>
 <span class='replies' id="nrReplies{{ReplyId}}" onclick="LoadReplyReplies('{{Reply.Link}}','{{ReplyId}}');event.preventDefault()">{{NrReplies:=GetCounter("Community.Reply.Replies."+ReplyId)}}</span>

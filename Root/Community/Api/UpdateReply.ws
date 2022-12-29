@@ -54,6 +54,7 @@ Html:=MarkdownToHtml(PText);
 Event:=
 {
 	ObjectId:Reply.ObjectId,
+	Updated:TP.ToLocalTime().ToString(),
 	Html:Html
 };
 
