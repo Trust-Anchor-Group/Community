@@ -46,7 +46,7 @@ on Community_PostRef
 );
 
 create
-index Community_PostRef__Link_Tag
+index Community_PostRef_Link_Tag
 on Community_PostRef
 (
 	Link,

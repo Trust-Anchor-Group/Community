@@ -59,7 +59,7 @@ Background(
 
 	GetBranch(ObjectId,FirstLevel):=
 	(
-		foreach Reply in select * from Community_Replies where Reply=Reply.ObjectId do
+		foreach Reply in select * from Community_Replies where Link=Reply.Link and Reply=Reply.ObjectId do
 		(
 			Branch[Reply.ObjectId]:=Reply;
 			GetBranch(Reply.ObjectId,false);
