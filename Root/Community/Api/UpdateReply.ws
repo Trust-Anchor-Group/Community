@@ -16,6 +16,9 @@ Reply:=select top 1 * from Community_Replies where ObjectId=PObjectId;
 if !exists(Reply) then NotFound("Reply not found.");
 if Reply.BareJid!=BareJid then Forbidden("You can only update your own replies.");
 
+Post:=select top 1 * from Community_Posts where Link=Reply.Link;
+if !exists(Post) then NotFound("Post not found.");
+
 PText:=PText.
 	Replace("{","\\{").
 	Replace("}","\\}").
@@ -32,8 +35,43 @@ set
 where
 	ObjectId=PObjectId;
 
+ParentChain:=[];
+
+ParentId:=Reply.Reply;
+while !empty(ParentId) do
+(
+	Parent:=select top 1 * from Community_Replies where ObjectId=ParentId;
+	if exists(Parent) then
+	(
+		ParentChain:=join(ParentChain,Parent.ObjectId);
+		ParentId:=Parent.Reply;
+	)
+	else
+		ParentId:=null;
+);
+
+Html:=MarkdownToHtml(PText);
+Event:=
+{
+	ObjectId:Reply.ObjectId,
+	Updated:TP,
+	ParentChain:ParentChain,
+	Html:Html
+};
+
+PushEvent("/Community/Index.md","ReplyUpdated",Event);
+PushEvent("/Community/Author/"+Post.UserId,"ReplyUpdated",Event);
+PushEvent("/Community/Post/"+Post.Link,"ReplyUpdated",Event);
+PushEvent("/Community/Reply/"+Reply.ObjectId,"ReplyUpdated",Event);
+
+foreach Tag in Post.Tags do
+	PushEvent("/Community/Tag/"+Tag,"ReplyUpdated",Event);
+
+foreach ParentId in ParentChain do
+	PushEvent("/Community/Reply/"+ParentId,"ReplyUpdated",Event);
+
 {
 	"valid": true,
-	"html": MarkdownToHtml(PText)
+	"html": Html
 }
 
