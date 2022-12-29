@@ -6,6 +6,7 @@
 			<Content fileName="Community.js"/>
 			<Content fileName="CreatePost.md"/>
 			<Content fileName="Index.md"/>
+			<Content fileName="Invitation.md"/>
 			<Content fileName="Login.js"/>
 			<Content fileName="Login.md"/>
 			<Content fileName="LogOut.md"/>

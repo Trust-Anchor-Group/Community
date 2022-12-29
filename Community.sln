@@ -46,6 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{
 		Root\Community\Community.js = Root\Community\Community.js
 		Root\Community\CreatePost.md = Root\Community\CreatePost.md
 		Root\Community\Index.md = Root\Community\Index.md
+		Root\Community\Invitation.md = Root\Community\Invitation.md
 		Root\Community\Login.js = Root\Community\Login.js
 		Root\Community\Login.md = Root\Community\Login.md
 		Root\Community\LogOut.md = Root\Community\LogOut.md
