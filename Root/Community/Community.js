@@ -1272,7 +1272,7 @@ function Reply(Link, ObjectId, ToPost)
 			Button = FindNextChild(Fieldset, Button, "BUTTON");
 			Button.setAttribute("type", "button");
 			Button.className = "PosButton";
-			Button.innerText = "Quote Post";
+			Button.innerText = ToPost ? "Quote Post" : "Quote Reply";
 			Button.onclick = function ()
 			{
 				if (ToPost)
