@@ -62,7 +62,7 @@ below.
 Full-text-search is done providing a query string. This query string contains *keywords*
 separated by whitespace. Keywords only consist of *letters* and *digits*, and are
 *case insensitive*. Punctuation characters, accents, etc., are ignored. So are a 
-configurable set of *stop words*, common words that have little significance in
+configurable set of *[stop words][]*, common words that have little significance in
 full-text-search. If the keyword is prefixed with a `+`, it is required to exist. 
 If it is prefixed by `-`, it is prohibited. No prefix means it is optional. Wildcards 
 `*` are permitted in keywords. You can also use [regular expressions][] by encapsulating it 
@@ -70,6 +70,7 @@ between `/` characters, such as `/regex/`. You can search for sequences of keywo
 encapsulating them between apostrophes `'` or quotes `"`.
 
 [regular expressions]: https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
+[stop words]: https://en.wikipedia.org//wiki/Stop_word
 
 Examples:
 
@@ -87,6 +88,6 @@ Examples:
 	Kilroy 'was here'
 
 **Note**: The words `was` and `here` are used as examples only, to highlight syntax. 
-They are typically considered *stop words*, and thus ignored in a real search.
+They are typically considered *[stop words][]*, and thus ignored in a real search.
 
 </fieldset>
