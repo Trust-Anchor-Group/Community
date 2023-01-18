@@ -235,3 +235,40 @@ button.unicodeChar
 	background-color:¤Alpha(NegColor,32)¤;
 	border-radius:0.5em;
 }
+
+.searchOptions
+{
+	display:flex;
+}
+
+.searchOptions p
+{
+	margin-right:2em;
+	valign:middle;
+}
+
+.searchOptions select
+{
+	max-width:20em;
+}
+
+input#Strict + label
+{
+	margin-top:1.8em;
+}
+
+.responses
+{
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 0;
+	background-color: transparent;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+.responses legend
+{
+	margin-left: 1em;
+}

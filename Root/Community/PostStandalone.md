@@ -70,7 +70,7 @@ foreach Reply in Replies do
 	if First then
 	(
 		First:=false;
-		]]<fieldset><legend>Responses</legend>[[
+		]]<fieldset class="responses"><legend>Responses</legend>[[
 	);
 
 	]]

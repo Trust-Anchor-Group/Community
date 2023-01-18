@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-046
 		Root\Community\Api\ReplyInfo.ws = Root\Community\Api\ReplyInfo.ws
 		Root\Community\Api\ReplyToPost.ws = Root\Community\Api\ReplyToPost.ws
 		Root\Community\Api\ReplyToReply.ws = Root\Community\Api\ReplyToReply.ws
+		Root\Community\Api\Search.ws = Root\Community\Api\Search.ws
 		Root\Community\Api\SendMessage.ws = Root\Community\Api\SendMessage.ws
 		Root\Community\Api\UpdatePost.ws = Root\Community\Api\UpdatePost.ws
 		Root\Community\Api\UpdateReply.ws = Root\Community\Api\UpdateReply.ws
@@ -59,6 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Community", "Community", "{
 		Root\Community\ReplyStandalone.md = Root\Community\ReplyStandalone.md
 		Root\Community\ReplyToPost.md = Root\Community\ReplyToPost.md
 		Root\Community\ReplyToReply.md = Root\Community\ReplyToReply.md
+		Root\Community\Search.md = Root\Community\Search.md
 		Root\Community\Tag.md = Root\Community\Tag.md
 		Root\Community\Tags.md = Root\Community\Tags.md
 	EndProjectSection

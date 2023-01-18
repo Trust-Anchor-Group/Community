@@ -1125,6 +1125,8 @@ function LoadPostReplies(Link, ObjectId)
 		if (Replies.firstChild === null)
 		{
 			var Fieldset = FindFirstChild(Replies, "FIELDSET");
+			Fieldset.className = "responses";
+
 			var Legend = FindFirstChild(Fieldset, "LEGEND");
 			Legend.innerText = "Responses";
 
@@ -1152,6 +1154,8 @@ function LoadReplyReplies(Link, ReplyId)
 		if (Replies.firstChild === null)
 		{
 			var Fieldset = FindFirstChild(Replies, "FIELDSET");
+			Fieldset.className = "responses";
+
 			var Legend = FindFirstChild(Fieldset, "LEGEND");
 			Legend.innerText = "Responses";
 
@@ -1521,6 +1525,8 @@ function ReplyCreated(Data)
 			if (Parent.innerHTML !== "")
 			{
 				var Fieldset = FindFirstChild(Parent, "FIELDSET");
+				Fieldset.className = "responses";
+
 				var Legend = FindFirstChild(Fieldset, "LEGEND");
 
 				if (!Legend.innerText)
@@ -1567,4 +1573,141 @@ function VotesUpdated(Data)
 	var NrDown = document.getElementById("down" + Data.ObjectId);
 	if (NrDown)
 		NrDown.innerText = Data.NrDown.toString();
+}
+
+function TrapCREsc(DefaultButtonId, CancelButtonId, Event)
+{
+	if (Event.keyCode === 13)
+	{
+		Event.preventDefault();
+
+		var Button = document.getElementById(DefaultButtonId);
+
+		if (!Button.hasAttribute("disabled"))
+			window.setTimeout(Search, 0);
+	}
+	else if (Event.keyCode === 27)
+	{
+		Event.preventDefault();
+		document.getElementById(CancelButtonId).click();
+	}
+}
+
+function CheckSearchButton()
+{
+	window.setTimeout(function ()
+	{
+		var s = document.getElementById("Query").value.trim();
+		var Button = document.getElementById("SearchButton");
+
+		if (s.length > 2)
+		{
+			Button.removeAttribute("disabled");
+			Button.className = "posButton";
+		}
+		else
+		{
+			Button.setAttribute("disabled", "disabled");
+			Button.className = "disabledButton";
+		}
+	}, 0);
+}
+
+function ClearSearch()
+{
+	var Query = document.getElementById("Query");
+
+	Query.value = "";
+	document.getElementById("Source").value = "Posts";
+	document.getElementById("Order").value = "Relevance";
+	document.getElementById("Strict").checked = false;
+
+	Query.focus();
+
+	CheckSearchButton();
+
+	var Result = document.getElementById("Result");
+	Result.innerHTML = "";
+	Result.parentNode.setAttribute("style", "display:none");
+}
+
+function Search()
+{
+	var Result = document.getElementById("Result");
+	Result.innerHTML = "";
+
+	DoSearch(
+		document.getElementById("Query").value,
+		document.getElementById("Source").value,
+		document.getElementById("Order").value,
+		document.getElementById("Strict").checked,
+		0,
+		5);
+}
+
+function DoSearch(Query, Source, Order, Strict, Offset, MaxCount)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function ()
+	{
+		if (xhttp.readyState === 4)
+		{
+			if (xhttp.status === 200)
+			{
+				var Button = document.getElementById("LoadMoreButton");
+				if (Button)
+					Button.parentNode.removeChild(Button);
+
+				var Response = JSON.parse(xhttp.responseText);
+				var i, c = Response.length;
+				var Result = document.getElementById("Result");
+
+				Result.parentNode.setAttribute("style", "");
+
+				for (i = 0; i < c; i++)
+				{
+					var Item = Response[i];
+
+					if (Item)
+					{
+						var Section = document.createElement("SECTION");
+						Section.innerHTML = Item.html;
+						Result.appendChild(Section);
+					}
+				}
+
+				if (c === MaxCount)
+				{
+					Button = document.createElement("BUTTON");
+					Button.className = "posButton";
+					Button.setAttribute("type", "button");
+					Button.setAttribute("id", "LoadMoreButton");
+					Button.innerText = "Load More";
+					Result.appendChild(Button);
+
+					Button.onclick = function ()
+					{
+						Button.setAttribute("data-scroll", "x");
+						DoSearch(Query, Source, Order, Strict, Offset + MaxCount, MaxCount);
+					};
+				}
+			}
+			else
+				DoLogin();
+		}
+	};
+
+	xhttp.open("POST", "/Community/Api/Search.ws", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.setRequestHeader("Accept", "application/json");
+	xhttp.send(JSON.stringify(
+		{
+			"query": Query,
+			"source": Source,
+			"order": Order,
+			"strict": Strict,
+			"offset": Offset,
+			"maxCount": MaxCount
+		}
+	));
 }

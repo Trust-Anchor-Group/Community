@@ -130,29 +130,28 @@ ScriptResource("/Community/Tag",
 	MarkdownContent(LoadMarkdown(TagFileName,true))
 ));
 
-Background((
-	Updated:=Or(
+Updated:=Or([
+	FtsCollection("FTS_Community_Posts","Community_Posts"),
+	AddFtsProperties("Community_Posts",
 	[
-		FtsCollection("FTS_Community_Posts","Community_Posts"),
-		AddFtsProperties("Community_Posts",
-		[
-			"Title",
-			(Post)->ParseMarkdown(Post.Text)
-		]),
+		"Title",
+		(Obj)->ParseMarkdown(Obj.Markdown)
+	]),
 
-		FtsCollection("FTS_Community_Replies","Community_Replies"),
-		AddFtsProperties("Community_Replies",
-		[
-			(Reply)->ParseMarkdown(Reply.Markdown)
-		])
-	]);
+	FtsCollection("FTS_Community_Replies","Community_Replies"),
+	AddFtsProperties("Community_Replies",
+	[
+		(Obj)->ParseMarkdown(Obj.Markdown)
+	])
+]);
 
-	if Updated then
-	(
+if Updated then
+(
+	Background((
 		LogNotice("Reindexing full-text-seach index for Community posts.");
 		ReindexFts("FTS_Community_Posts");
 
 		LogNotice("Reindexing full-text-seach index for Community replies.");
 		ReindexFts("FTS_Community_Replies");
-	);
-));
+	))
+);

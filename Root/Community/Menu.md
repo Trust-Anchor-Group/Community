@@ -32,7 +32,7 @@ foreach Tag in Global.CommunityTags.Tags do ]]
 	* [Contact](https://waher.se/Feedback.md)
 * [Actions](#)
 	* [Create New Post](/Community/CreatePost.md)
-	* [Search](#)
+	* [Search](/Community/Search.md)
 
 </nav>
 </header>

@@ -17,6 +17,7 @@
 			<Content fileName="PostStandalone.md"/>
 			<Content fileName="ReplyInline.md"/>
 			<Content fileName="ReplyStandalone.md"/>
+			<Content fileName="Search.md"/>
 			<Content fileName="Tag.md"/>
 			<Content fileName="Tags.md"/>
 			<Folder name="Api">
@@ -32,6 +33,7 @@
 				<Content fileName="ReplyInfo.ws"/>
 				<Content fileName="ReplyToPost.ws"/>
 				<Content fileName="ReplyToReply.ws"/>
+				<Content fileName="Search.ws"/>
 				<Content fileName="SendMessage.ws"/>
 				<Content fileName="UpdatePost.ws"/>
 				<Content fileName="UpdateReply.ws"/>
