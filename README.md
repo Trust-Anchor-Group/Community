@@ -23,6 +23,10 @@ Example:
 
 **Note**: Once file folder reference is added, you need to restart the IoT Gateway service for the change to take effect.
 
+You will also need to copy the `Community.config` file to the Program Data folder of the gateway, to initialize the database, 
+indexes and full-text-search functions, and then restart the gateway. This configuration file contains initialization script
+that needs to be executed before the service can function properly.
+
 ## Solution File
 
 A Visual Studio solution file, with references to the files and folders of this repository, is available: `Community.sln`.
