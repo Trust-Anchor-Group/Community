@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FB6E994-8306-4D0B-BF63-2B249C04D45E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		Community.config = Community.config
 		Community.manifest = Community.manifest
 		README.md = README.md
 	EndProjectSection
@@ -31,11 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{819314AC-046
 		Root\Community\Api\Upload.ws = Root\Community\Api\Upload.ws
 		Root\Community\Api\VotePost.ws = Root\Community\Api\VotePost.ws
 		Root\Community\Api\VoteReply.ws = Root\Community\Api\VoteReply.ws
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{34497948-B1F3-4AEE-9A3C-813584116AA8}"
-	ProjectSection(SolutionItems) = preProject
-		Root\Community\Data\Init.script = Root\Community\Data\Init.script
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{E3438492-F679-426D-A331-974EB0EC3F78}"
@@ -71,7 +67,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{819314AC-0464-4D74-BB83-BFAF2AD233B5} = {7E58C4AA-9C32-4F37-8663-440244FD0590}
-		{34497948-B1F3-4AEE-9A3C-813584116AA8} = {7E58C4AA-9C32-4F37-8663-440244FD0590}
 		{7E58C4AA-9C32-4F37-8663-440244FD0590} = {E3438492-F679-426D-A331-974EB0EC3F78}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

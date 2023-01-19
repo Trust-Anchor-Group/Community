@@ -5,7 +5,6 @@ Author: Peter Waher
 Master: Master.md
 UserVariable: QuickLoginUser
 Login: Login.md
-Init: Data/Init.script
 
 ================================================================
 

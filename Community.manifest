@@ -1,4 +1,5 @@
 ﻿<Module xmlns="http://waher.se/Schema/ModuleManifest.xsd">
+	<Content fileName="Community.config"/>
 	<Folder name="Root">
 		<Folder name="Community">
 			<Content fileName="Author.md"/>
@@ -40,9 +41,6 @@
 				<Content fileName="Upload.ws"/>
 				<Content fileName="VotePost.ws"/>
 				<Content fileName="VoteReply.ws"/>
-			</Folder>
-			<Folder name="Data">
-				<Content fileName="Init.script"/>
 			</Folder>
 		</Folder>
 	</Folder>
