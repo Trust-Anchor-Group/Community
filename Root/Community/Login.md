@@ -31,8 +31,12 @@ Do you need to create an account on this server? Install the app, and when you g
 	* Upload content
 
 [^tagid]:	The *TAG Digital ID* is a smart phone app that can be downloaded for 
-[Android](https://play.google.com/store/apps/details?id=com.tag.IdApp) and 
-[iOS](https://apps.apple.com/tr/app/trust-anchor-id/id1580610247). By using this
-app for login, you avoid having to create credentials on each site you visit. This
-helps you protect your credentials and make sure external entities never process your
-sensitive information without your consent.
+[Android](https://play.google.com/store/apps/details?id=com.tag.IdApp) or 
+[iOS](https://apps.apple.com/tr/app/trust-anchor-id/id1580610247). You can also use
+the more light-weight *Neuro-Access App*, also downloadable for
+[Android](https://play.google.com/store/apps/details?id=com.tag.NeuroAccess) or
+[iOS](https://apps.apple.com/app/neuro-access/id6446863270).
+By using any of these apps, or any app derived from these, to login, you avoid 
+having to create credentials on each site you visit. This helps you protect your 
+credentials and make sure external entities never process your sensitive information 
+without your consent.
