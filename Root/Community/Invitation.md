@@ -26,7 +26,7 @@ if !exists(ApiKey) then
 	do
 	(
 		ApiKey.Key:=Waher.Security.Hashes.BinaryToString(GW.NextBytes(32));
-		Prev:=select top 1 * from ApiKeys where Key=Key;
+		Prev:=select top 1 * from ApiKeys where Key=ApiKey.Key;
 	) 
 	while exists(Prev);
 
