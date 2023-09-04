@@ -18,7 +18,7 @@ below.
 
 <p>
 <label for="Query">Query:</label>  
-<input type="text" name="Query" id="Query" title="Keywords to search for" autofocus required autocomplete="off" onkeydown="TrapCREsc('SearchButton','ClearButton',event);CheckSearchButton()"/>
+<input type="search" name="Query" id="Query" title="Keywords to search for" autofocus required autocomplete="off" onkeydown="TrapCREsc('SearchButton','ClearButton',event);CheckSearchButton()"/>
 </p>
 
 <div class="searchOptions">
