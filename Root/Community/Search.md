@@ -3,8 +3,6 @@ Description: This page allows you to search for content in the community.
 Date: 2023-01-18
 Author: Peter Waher
 Master: Master.md
-UserVariable: QuickLoginUser
-Login: Login.md
 
 ================================================================
 

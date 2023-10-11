@@ -1,5 +1,3 @@
-AuthenticateSession(Request,"QuickLoginUser");
-
 {
 	"query":Required(Str(PQuery)),
 	"source":Required(Str(PSource)),
