@@ -22,7 +22,7 @@ foreach Tag in Global.CommunityTags.Tags do ]]
 }}
 * [%Title]
 * {{exists(QuickLoginUser)?]][<img id='userAvatar' alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)
-	* [Logout](/Community/LogOut.md)[[ : ]][Login](/Community/Login.md)[[}}
+	* [Logout](/Community/LogOut.md)[[ : ]]<a href="/Community/Login.md?from=((UrlEncode(Request.Header.GetURL() ) ))">Login</a>[[}}
 * [Help](#)
 	* [Tutorial](#)
 	* [Markdown](/Markdown.md)
