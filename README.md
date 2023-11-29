@@ -4,6 +4,23 @@ Free Community Service that runs on any [TAG Neuron(R)](https://lab.tagroot.io/D
 [TAG ID](https://github.com/Trust-Anchor-Group/IdApp) to create posts and reply to posts. Viewing, linking to and browsing posts 
 and topics is free for all.
 
+## Installable Package
+
+The Community service has been made into a package that can be downloaded and installed on any 
+[TAG Neuron](https://lab.tagroot.io/Documentation/Index.md). To create a package, that can be distributed or installed, you begin by creating 
+a *manifest file*. This repository contains a manifest file called `Community.manifest`. It defines the content files included in the package. 
+You then use the `Waher.Utility.Install` and `Waher.Utility.Sign` command-line tools in the [IoT Gateway](https://github.com/PeterWaher/IoTGateway) 
+repository, to create a package file and cryptographically sign it for secure distribution across the Neuron network.
+
+The Community service is published as a package on TAG Neurons. If your Neuron is connected to this network, you can install the
+package using the following information:
+
+| Package information                                                                                                              ||
+|:-----------------|:---------------------------------------------------------------------------------------------------------------|
+| Package          | `TAG.Community.package`                                                                                        |
+| Installation key | `lvjLkLgB9hZHQlMDefA0kKGyUz4wRdp/naej/k7NWoERjN1NomKIEWepmyBC4BV6PRQzuFDQ9x4Ace9537c7f09aef76f6b3efc53f0cf132` |
+| More Information |                                                                                                                |
+
 ## Development
 
 The community service runs on any [IoT Gateway Host](https://github.com/PeterWaher/IoTGateway). This includes the
