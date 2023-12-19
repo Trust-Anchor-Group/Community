@@ -5,10 +5,10 @@ AuthenticateSession(Request,"QuickLoginUser");
 	"up":Required(Boolean(PUp))
 }:=Posted;
 
-Country:=QuickLoginUser.Properties.COUNTRY;
+Country:=QuickLoginUser.Properties.COUNTRY ??? null;
 if empty(Country) then BadRequest("User identity lacks country information.");
 
-PNr:=QuickLoginUser.Properties.PNR;
+PNr:=QuickLoginUser.Properties.PNR ??? null;
 if empty(PNr) then BadRequest("User identity lacks personal number information.");
 
 Reply:=select top 1 * from Community_Replies where ObjectId=PObjectId;
