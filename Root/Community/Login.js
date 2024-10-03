@@ -115,7 +115,7 @@ function SignatureReceivedBE(Empty)
     else
     {
         s = s.substring(i + 5);
-        window.location.href = unescape(s);
+        window.location.href = decodeURIComponent(s);
     }
 }
 
