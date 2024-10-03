@@ -3,6 +3,9 @@ Description: This page allows you to create a new post.
 Date: 2022-12-16
 Author: Peter Waher
 Master: Master.md
+JavaScript: /MarkdownEditor.js
+JavaScript: /MarkdownEditor.md.js
+CSS: /MarkdownEditor.cssx
 UserVariable: QuickLoginUser
 Login: Login.md
 
@@ -31,7 +34,8 @@ at the bottom of the page.
 
 <p>
 <label for="Text">Text of post:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" required>
+![](/MarkdownEditor.md)
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" oninput="AdaptSize(this)" required>
 </textarea>
 </p>
 
@@ -56,7 +60,3 @@ at the bottom of the page.
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 
 </form>
-<fieldset>
-<legend>Preview</legend>
-<div id="Preview"/>
-</fieldset>

@@ -1,6 +1,8 @@
 ﻿function TrapTab(Control, Properties, Event)
 {
-	if (Event.keyCode === 9)
+	if (!MarkdownEditorKeyDown(Control, Event))
+		return false;
+	else if (Event.keyCode === 9)
 	{
 		Event.preventDefault();
 
@@ -9,9 +11,9 @@
 		var End = Control.selectionEnd;
 		Control.value = Value.substring(0, Start) + '\t' + Value.substring(End);
 		Control.selectionStart = Control.selectionEnd = Start + 1;
-	}
 
-	InvalidatePreviewSpec(Properties);
+		return false;
+	}
 
 	window.setTimeout(function () { AdaptSize(Control); }, 0);
 }
@@ -30,16 +32,6 @@ function AdaptSize(Control)
 	}
 }
 
-function InvalidatePreview()
-{
-	InvalidatePreviewSpec(DefaultProperties());
-}
-
-function InvalidatePostPreview(ObjectId)
-{
-	InvalidatePreviewSpec(PostProperties(ObjectId));
-}
-
 function DefaultProperties()
 {
 	var Properties = {
@@ -47,7 +39,6 @@ function DefaultProperties()
 		"TitleId": "Title",
 		"TextId": "Text",
 		"TagId": "Tag",
-		"PreviewId": "Preview",
 		"LinkId": "ReferenceLink",
 		"OkButtonId": "CreateButton",
 		"TagsId": "Tags",
@@ -65,7 +56,6 @@ function PostProperties(ObjectId)
 		"TitleId": "Title" + ObjectId,
 		"TextId": "Text" + ObjectId,
 		"TagId": "Tag" + ObjectId,
-		"PreviewId": "Content" + ObjectId,
 		"LinkId": null,
 		"OkButtonId": "UpdateButton" + ObjectId,
 		"TagsId": "Tags" + ObjectId,
@@ -83,7 +73,6 @@ function ReplyProperties(ObjectId)
 		"TitleId": null,
 		"TextId": "Text" + ObjectId,
 		"TagId": null,
-		"PreviewId": "Content" + ObjectId,
 		"LinkId": null,
 		"OkButtonId": "UpdateButton" + ObjectId,
 		"TagsId": null,
@@ -91,79 +80,6 @@ function ReplyProperties(ObjectId)
 	};
 
 	return Properties;
-}
-
-function InvalidatePreviewSpec(Properties)
-{
-	if (PreviewTimer !== null)
-		window.clearTimeout(PreviewTimer);
-
-	PreviewTimer = window.setTimeout(function ()
-	{
-		DoPreview(Properties);
-	}, 250);
-}
-
-var PreviewTimer = null;
-
-function DoPreview(Properties)
-{
-	var Title = Properties.TitleId ? document.getElementById(Properties.TitleId).value : null;
-	var Text = document.getElementById(Properties.TextId).value;
-	var TagEdit = Properties.TagId ? document.getElementById(Properties.TagId).value : null;
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function ()
-	{
-		if (xhttp.readyState === 4)
-		{
-			if (xhttp.status === 200)
-			{
-				var Response = JSON.parse(xhttp.responseText);
-
-				var Preview = document.getElementById(Properties.PreviewId);
-				Preview.innerHTML = Response.html;
-
-				if (Response.link !== "" && Properties.LinkId)
-				{
-					var ReferenceLink = document.getElementById(Properties.LinkId);
-					ReferenceLink.value = Response.link;
-				}
-
-				var CreateButton = document.getElementById(Properties.OkButtonId);
-
-				if (Response.valid)
-				{
-					CreateButton.removeAttribute("disabled");
-					CreateButton.className = "posButton";
-				}
-				else
-				{
-					CreateButton.setAttribute("disabled", "disabled");
-					CreateButton.className = "disabledButton";
-				}
-
-				if (Response.suggestions)
-					ShowTagDropdown(Properties, Response.suggestions);
-				else
-					HideTagDropdown(Properties);
-			}
-			else
-				DoLogin();
-		}
-	};
-
-	xhttp.open("POST", "/Community/Api/PreviewPost.ws", true);
-	xhttp.setRequestHeader("Content-Type", "application/json");
-	xhttp.setRequestHeader("Accept", "application/json");
-	xhttp.send(JSON.stringify(
-		{
-			"type": Properties.Type,
-			"title": Title,
-			"text": Text,
-			"tags": GetTags(Properties),
-			"tagEdit": TagEdit
-		}
-	));
 }
 
 function ClearPost()
@@ -189,8 +105,6 @@ function ClearPost()
 
 		Loop = Temp;
 	}
-
-	InvalidatePreview();
 }
 
 function GetTags(Properties)
@@ -271,8 +185,6 @@ function AddTag(Properties)
 
 			Loop = Loop.nextSibling;
 		}
-
-		InvalidatePreviewSpec(Properties);
 	};
 
 	TagsList.insertBefore(Li, EndOfTags);
@@ -323,8 +235,6 @@ function TrapTagKey(Properties, Event)
 		AddTag(Properties);
 		HideTagDropdown(Properties);
 	}
-
-	InvalidatePreviewSpec(Properties);
 }
 
 function ShowTagDropdown(Properties, Tags)
@@ -367,7 +277,6 @@ function ShowTagDropdown(Properties, Tags)
 
 			AddTag(Properties);
 			HideTagDropdown(Properties);
-			InvalidatePreviewSpec(Properties);
 
 			TagControl.focus();
 		};
@@ -483,7 +392,6 @@ function QuotePost(Link, Properties)
 				Control.focus();
 
 				AdaptSize(Control);
-				InvalidatePreviewSpec(Properties);
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -516,7 +424,6 @@ function QuoteReply(ObjectId, Properties)
 				Control.focus();
 
 				AdaptSize(Control);
-				InvalidatePreviewSpec(Properties);
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -635,7 +542,6 @@ function EditPost(ObjectId)
 				Input.setAttribute("id", "Title" + ObjectId);
 				Input.setAttribute("title", "Title of post");
 				Input.setAttribute("required", "required");
-				Input.setAttribute("onkeydown", "InvalidatePostPreview('" + ObjectId + "')");
 				Input.setAttribute("autocomplete", "off");
 				Input.value = Post.Title;
 
@@ -651,6 +557,7 @@ function EditPost(ObjectId)
 				TextArea.setAttribute("required", "required");
 				TextArea.setAttribute("onkeydown", "TrapTab(this,PostProperties('" + ObjectId + "'),event)");
 				TextArea.setAttribute("onpaste", "PasteContent(this,PostProperties('" + ObjectId + "'),event)");
+				TextArea.setAttribute("oninput", "AdaptSize(this)");
 				TextArea.value = Post.Text;
 				AdaptSize(TextArea);
 
@@ -689,8 +596,6 @@ function EditPost(ObjectId)
 
 							Loop = Loop.nextSibling;
 						}
-
-						InvalidatePostPreview(ObjectId);
 					};
 				}
 
@@ -782,10 +687,10 @@ function CancelPost(ObjectId)
 			if (xhttp.status === 200)
 			{
 				var Post = JSON.parse(xhttp.responseText);
-				var Properties = PostProperties(ObjectId);
-				var Content = document.getElementById(Properties.PreviewId);
+				var Content = document.getElementById("Content" + ObjectId);
 
-				Content.innerHTML = Post.Html;
+				if (Content)
+					Content.innerHTML = Post.Html;
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -818,8 +723,10 @@ function UpdatePost(ObjectId)
 
 				if (Response.valid)
 				{
-					var Content = document.getElementById(Properties.PreviewId);
-					Content.innerHTML = Response.html;
+					var Content = document.getElementById("Content" + ObjectId);
+
+					if (Content)
+						Content.innerHTML = Response.html;
 
 					CancelPost(ObjectId);
 				}
@@ -844,7 +751,7 @@ function UpdatePost(ObjectId)
 
 function DoLogin()
 {
-	window.location.href = "/Community/Login.md?from=" + escape(window.location.href);
+	window.location.href = "/Community/Login.md?from=" + encodeURIComponent(window.location.href);
 }
 
 function VotePost(ObjectId, Up)
@@ -949,7 +856,6 @@ function PasteContent(Control, Properties, Event)
 						Control.focus();
 
 						AdaptSize(Control);
-						InvalidatePreviewSpec(Properties);
 					}
 				};
 
@@ -982,8 +888,13 @@ function FindElement(ParentElement, Loop, ElementType)
 		Loop = Loop.nextSibling;
 	}
 
-	Loop = document.createElement(ElementType);
-	ParentElement.appendChild(Loop);
+	if (ElementType === "TEXTAREA")
+		ParentElement.innerHTML += CreateHTMLMarkdownEditor() + "<textarea></textarea>";
+	else
+	{
+		Loop = document.createElement(ElementType);
+		ParentElement.appendChild(Loop);
+	}
 
 	return Loop;
 }
@@ -1016,6 +927,7 @@ function EditReply(ObjectId)
 				TextArea.setAttribute("required", "required");
 				TextArea.setAttribute("onkeydown", "TrapTab(this,ReplyProperties('" + ObjectId + "'),event)");
 				TextArea.setAttribute("onpaste", "PasteContent(this,ReplyProperties('" + ObjectId + "'),event)");
+				TextArea.setAttribute("oninput", "AdaptSize(this)");
 				TextArea.value = Reply.Text;
 				AdaptSize(TextArea);
 
@@ -1063,8 +975,10 @@ function UpdateReply(ObjectId)
 
 				if (Response.valid)
 				{
-					var Content = document.getElementById(Properties.PreviewId);
-					Content.innerHTML = Response.html;
+					var Content = document.getElementById("Content" + ObjectId);
+
+					if (Content)
+						Content.innerHTML = Response.html;
 
 					CancelReply(ObjectId);
 				}
@@ -1098,10 +1012,10 @@ function CancelReply(ObjectId)
 			if (xhttp.status === 200)
 			{
 				var Post = JSON.parse(xhttp.responseText);
-				var Properties = ReplyProperties(ObjectId);
-				var Content = document.getElementById(Properties.PreviewId);
+				var Content = document.getElementById("Content" + ObjectId);
 
-				Content.innerHTML = Post.Html;
+				if (Content)
+					Content.innerHTML = Post.Html;
 			}
 			else
 				window.alert(xhttp.responseText);
@@ -1207,6 +1121,7 @@ function Reply(Link, ObjectId, ToPost)
 			TextArea.setAttribute("name", "Response" + ObjectId);
 			TextArea.setAttribute("onkeydown", "TrapTab(this, ResponseProperties('" + ObjectId + "'), event)");
 			TextArea.setAttribute("onpaste", "PasteContent(this, ResponseProperties('" + ObjectId + "'), event)");
+			TextArea.setAttribute("oninput", "AdaptSize(this)");
 			TextArea.setAttribute("autofocus", "autofocus");
 			TextArea.setAttribute("required", "required");
 
@@ -1281,13 +1196,6 @@ function Reply(Link, ObjectId, ToPost)
 					QuoteReply(ObjectId, ResponseProperties(ObjectId));
 			};
 
-			var Preview = FindNextChild(Fieldset, Button, "FIELDSET");
-			Legend = FindFirstChild(Preview, "LEGEND");
-			Legend.innerText = "Preview";
-
-			var Div = FindNextChild(Preview, Legend, "DIV");
-			Div.setAttribute("id", "PreviewResponse" + ObjectId);
-
 			TextArea.focus();
 		}
 		else
@@ -1303,7 +1211,6 @@ function ResponseProperties(ObjectId)
 		"TitleId": null,
 		"TextId": "Response" + ObjectId,
 		"TagId": null,
-		"PreviewId": "PreviewResponse" + ObjectId,
 		"LinkId": null,
 		"OkButtonId": "RespondButton" + ObjectId,
 		"TagsId": null,

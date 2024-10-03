@@ -3,6 +3,9 @@ Description: This page allows you to send a private message to the author of a p
 Date: 2022-12-22
 Author: Peter Waher
 Master: Master.md
+JavaScript: /MarkdownEditor.js
+JavaScript: /MarkdownEditor.md.js
+CSS: /MarkdownEditor.cssx
 UserVariable: QuickLoginUser
 Login: Login.md
 Parameter: PLink
@@ -34,7 +37,8 @@ messaging cannot be performed using this service.
 
 <p>
 <label for="Text">Text of message:</label>  
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" autofocus required>
+![](/MarkdownEditor.md)
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" oninput="AdaptSize(this)" autofocus required>
 </textarea>
 </p>
 
@@ -49,10 +53,6 @@ messaging cannot be performed using this service.
 <button type="button" onclick="QuotePost('{{PLink}}',DefaultProperties())">Quote Post</button>
 
 </form>
-<fieldset>
-<legend>Preview of Private Message</legend>
-<div id="Preview"/>
-</fieldset>
 <fieldset>
 <legend>Post</legend>
 
