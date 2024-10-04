@@ -1,11 +1,11 @@
-{
+({
 	"query":Required(Str(PQuery)),
 	"source":Required(Str(PSource)),
 	"order":Required(Str(POrder)),
 	"strict":Required(Boolean(PStrict)),
 	"offset":Required(Int(POffset)>=0),
 	"maxCount":Required(Int(PMaxCount)>0)
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 if empty(PQuery) then BadRequest("Empty query not permitted.");
 

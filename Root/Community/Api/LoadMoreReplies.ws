@@ -1,9 +1,9 @@
-{
+({
 	"offset":Required(Int(POffset)>=0),
 	"maxCount":Required(Int(PMaxCount)>0),
 	"link":Required(Str(PLink)),
 	"reply":Required(Str(PReply))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 ReplyFileName:=null;
 GW:=Waher.IoTGateway.Gateway;

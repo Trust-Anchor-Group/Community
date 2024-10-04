@@ -1,9 +1,9 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"objectId":Required(Str(PObjectId)),
 	"text":Required(Str(PText))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 if empty(PText) then BadRequest("Empty text not permitted.");
 
@@ -19,11 +19,12 @@ if Reply.BareJid!=BareJid then Forbidden("You can only update your own replies."
 Post:=select top 1 * from Community_Posts where Link=Reply.Link;
 if !exists(Post) then NotFound("Post not found.");
 
-PText:=PText.
-	Replace("{","\\{").
-	Replace("}","\\}").
-	Replace("\\\\{","\\{").
-	Replace("\\\\}","\\}");
+Markdown:="BodyOnly: 1\r\nAllowScriptTag: false\r\n\r\n"+PText;
+Settings:=Create(Waher.Content.Markdown.MarkdownSettings);
+Settings.AllowHtml:=false;
+Settings.AllowInlineScript:=false;
+Doc:=Waher.Content.Markdown.MarkdownDocument.CreateAsync(Markdown,Settings,[]);
+PText:=Doc.GenerateMarkdown(true);
 
 TP:=NowUtc;
 update Community_Replies

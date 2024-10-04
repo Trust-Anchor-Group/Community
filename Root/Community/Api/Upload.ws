@@ -6,12 +6,12 @@ if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
 Author:=QuickLoginUser.UserName;
 if empty(Author) then BadRequest("User lacks a proper name in the identity.");
 
-{
+({
 	"Image":Required(Image),
 	"Image_Binary":Required(ImageBinary),
 	"Image_ContentType":Required(Str(ImageContentType) like "image/.+"),
 	"Image_FileName":Required(Str(ImageFileName))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 
 Extension:="";

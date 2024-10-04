@@ -1,6 +1,8 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-ReplyId:=Str(Posted);
+({
+	"objectId":Required(Str(ReplyId))
+}:=Posted) ??? BadRequest("Invalid request.");
 
 BareJid:=QuickLoginUser.Properties.JID;
 if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");

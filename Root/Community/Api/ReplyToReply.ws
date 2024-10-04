@@ -1,9 +1,9 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"replyId":Required(Str(PReplyId)),
 	"message":Required(Str(PMessage))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 BareJid:=QuickLoginUser.Properties.JID;
 if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
@@ -16,11 +16,12 @@ if !exists(ParentReply) then NotFound("Reply not found.");
 Post:=select top 1 * from Community_Posts where Link=ParentReply.Link;
 if !exists(Post) then NotFound("Post not found.");
 
-PMessage:=PMessage.
-	Replace("{","\\{").
-	Replace("}","\\}").
-	Replace("\\\\{","\\{").
-	Replace("\\\\}","\\}");
+Markdown:="BodyOnly: 1\r\nAllowScriptTag: false\r\n\r\n"+PMessage;
+Settings:=Create(Waher.Content.Markdown.MarkdownSettings);
+Settings.AllowHtml:=false;
+Settings.AllowInlineScript:=false;
+Doc:=Waher.Content.Markdown.MarkdownDocument.CreateAsync(Markdown,Settings,[]);
+PMessage:=Doc.GenerateMarkdown(true);
 
 TP:=NowUtc;
 Reply:=insert into Community_Replies object

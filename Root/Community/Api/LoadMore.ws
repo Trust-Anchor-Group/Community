@@ -1,9 +1,9 @@
-{
+({
 	"offset":Required(Int(POffset)>=0),
 	"maxCount":Required(Int(PMaxCount)>0),
 	"author":Optional(Str(PAuthor)),
 	"tag":Optional(Str(PTag))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 PostFileName:=null;
 GW:=Waher.IoTGateway.Gateway;

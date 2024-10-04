@@ -1,4 +1,8 @@
-Reply:=select top 1 * from Community_Replies where ObjectId=Posted;
+({
+	"objectId":Required(Str(PObjectId))
+}:=Posted) ??? BadRequest("Invalid request.");
+
+Reply:=select top 1 * from Community_Replies where ObjectId=PObjectId;
 if !exists(Reply) then NotFound("Reply not found.");
 
 Result:="";
@@ -13,4 +17,6 @@ foreach Row in Reply.Markdown.Replace("\r\n","\n").Replace("\r","\n").Split("\n"
 	Result+=">\t"+Row;
 );
 
-Result
+{
+	"quote": Result
+}

@@ -1,11 +1,11 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"objectId":Required(Str(PObjectId)),
 	"title":Required(Str(PTitle)),
 	"text":Required(Str(PText)),
 	"tags":Required(Str(PTags)[])
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 if empty(PTitle) then BadRequest("Empty title not permitted.");
 if empty(PText) then BadRequest("Empty text not permitted.");
@@ -19,11 +19,12 @@ Post:=select top 1 * from Community_Posts where ObjectId=PObjectId;
 if !exists(Post) then NotFound("Post not found.");
 if Post.BareJid!=BareJid then Forbidden("You can only update your own posts.");
 
-PText:=PText.
-	Replace("{","\\{").
-	Replace("}","\\}").
-	Replace("\\\\{","\\{").
-	Replace("\\\\}","\\}");
+Markdown:="BodyOnly: 1\r\nAllowScriptTag: false\r\n\r\n"+PText;
+Settings:=Create(Waher.Content.Markdown.MarkdownSettings);
+Settings.AllowHtml:=false;
+Settings.AllowInlineScript:=false;
+Doc:=Waher.Content.Markdown.MarkdownDocument.CreateAsync(Markdown,Settings,[]);
+PText:=Doc.GenerateMarkdown(true);
 
 Result:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
 

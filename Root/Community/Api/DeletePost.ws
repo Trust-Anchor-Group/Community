@@ -1,6 +1,8 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-PLink:=Str(Posted);
+({
+	"link":Required(Str(PLink))
+}:=Posted) ??? BadRequest("Invalid request.");
 
 BareJid:=QuickLoginUser.Properties.JID;
 if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
@@ -85,4 +87,7 @@ Background(
 	)
 ));
 
-Str(PostId)
+{
+	"postId": Str(PostId)
+}
+

@@ -24,7 +24,7 @@ at the bottom of the page.
 
 <p>
 <label for="Title">Title:</label>  
-<input type="text" name="Title" id="Title" title="Title of post" onkeydown="InvalidatePreview()" autofocus required autocomplete="off"/>
+<input type="text" name="Title" id="Title" title="Title of post" oninput="UpdateReferenceLink()" autofocus required autocomplete="off"/>
 </p>
 
 <p>
@@ -47,7 +47,7 @@ at the bottom of the page.
 
 <p>
 <label for="Tag">Tag: (Press ENTER to add more than one)</label>  
-<input type="text" class="TagInput" name="Tag" id="Tag" title="Enter Tag to add" onkeydown="TrapTagKey(DefaultProperties(),event)" autocomplete="off"/>
+<input type="text" class="TagInput" name="Tag" id="Tag" title="Enter Tag to add" onkeydown="TrapTagKey(DefaultProperties(),event)" oninput="UpdateTagSuggestions(this,DefaultProperties())" autocomplete="off"/>
 </p>
 
 <p>
@@ -56,7 +56,7 @@ at the bottom of the page.
 </ul>
 <p>
 
-<button id="CreateButton" type="button" class="disabledButton" onclick="CreatePost()" disabled="disabled">Create</button>
+<button id="CreateButton" type="button" class="posButton" onclick="CreatePost()">Create</button>
 <button type="button" class="negButton" onclick="ClearPost()">Clear</button>
 
 </form>

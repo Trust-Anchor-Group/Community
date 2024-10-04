@@ -1,8 +1,8 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"objectId":Required(Str(PObjectId))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 Reply:=select top 1 * from Community_Replies where ObjectId=PObjectId;
 if !exists(Reply) then NotFound("Reply not found.");

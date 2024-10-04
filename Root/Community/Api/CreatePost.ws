@@ -1,11 +1,11 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"title":Required(Str(PTitle)),
 	"text":Required(Str(PText)),
 	"link":Required(Str(PLink)),
 	"tags":Required(Str(PTags)[])
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 if empty(PTitle) then BadRequest("Empty title not permitted.");
 if empty(PLink) then BadRequest("Empty link not permitted.");
@@ -17,11 +17,12 @@ if empty(QuickLoginUser.UserName) then BadRequest("User lacks a proper name in t
 if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in the identity.");
 if ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 then BadRequest("Link already taken.");
 
-PText:=PText.
-	Replace("{","\\{").
-	Replace("}","\\}").
-	Replace("\\\\{","\\{").
-	Replace("\\\\}","\\}");
+Markdown:="BodyOnly: 1\r\nAllowScriptTag: false\r\n\r\n"+PText;
+Settings:=Create(Waher.Content.Markdown.MarkdownSettings);
+Settings.AllowHtml:=false;
+Settings.AllowInlineScript:=false;
+Doc:=Waher.Content.Markdown.MarkdownDocument.CreateAsync(Markdown,Settings,[]);
+PText:=Doc.GenerateMarkdown(true);
 
 Result:="# " + PTitle + "\r\n\r\n" + PText + "\r\n\r\n";
 

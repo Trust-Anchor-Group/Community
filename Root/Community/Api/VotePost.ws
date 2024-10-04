@@ -1,9 +1,9 @@
 AuthenticateSession(Request,"QuickLoginUser");
 
-{
+({
 	"objectId":Required(Str(PObjectId)),
 	"up":Required(Boolean(PUp))
-}:=Posted;
+}:=Posted) ??? BadRequest("Invalid request.");
 
 Country:=QuickLoginUser.Properties.COUNTRY ??? null;
 if empty(Country) then BadRequest("User identity lacks country information.");

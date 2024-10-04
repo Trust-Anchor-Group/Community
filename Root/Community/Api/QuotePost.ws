@@ -1,4 +1,8 @@
-Post:=select top 1 * from Community_Posts where Link=Posted;
+({
+	"link":Required(Str(PLink))
+}:=Posted) ??? BadRequest("Invalid request.");
+
+Post:=select top 1 * from Community_Posts where Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 
 Result:="";
@@ -13,4 +17,6 @@ foreach Row in Post.Markdown.Replace("\r\n","\n").Replace("\r","\n").Split("\n",
 	Result+=">\t"+Row;
 );
 
-Result
+{
+	"quote": Result
+}
