@@ -374,6 +374,9 @@ async function QuotePost(Link, Properties)
 	Control.focus();
 
 	AdaptSize(Control);
+
+	if (Control.getAttribute("data-preview"))
+		InitMarkdownEditorPreview(Control);
 }
 
 async function QuoteReply(ObjectId, Properties)
@@ -395,6 +398,9 @@ async function QuoteReply(ObjectId, Properties)
 	Control.focus();
 
 	AdaptSize(Control);
+
+	if (Control.getAttribute("data-preview"))
+		InitMarkdownEditorPreview(Control);
 }
 
 async function SendMessage()
@@ -560,6 +566,7 @@ async function EditPost(ObjectId)
 		Input.setAttribute("id", "Tag" + ObjectId);
 		Input.setAttribute("title", "Enter Tag to add");
 		Input.setAttribute("onkeydown", "TrapTagKey(PostProperties('" + ObjectId + "'),event)");
+		Input.setAttribute("oninput", "UpdateTagSuggestions(this,PostProperties('" + ObjectId + "'))");
 		Input.setAttribute("autocomplete", "off");
 
 		P = FindNextChild(Fieldset, P, "P");

@@ -3,9 +3,6 @@ Description: This page allows you to send a private message to the author of a p
 Date: 2022-12-22
 Author: Peter Waher
 Master: Master.md
-JavaScript: /MarkdownEditor.js
-JavaScript: /MarkdownEditor.md.js
-CSS: /MarkdownEditor.cssx
 UserVariable: QuickLoginUser
 Login: Login.md
 Parameter: PLink
