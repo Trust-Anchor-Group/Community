@@ -272,3 +272,21 @@ input#Strict + label
 {
 	margin-left: 1em;
 }
+
+
+
+
+
+
+@media screen and (max-width: 900px) {
+
+
+    /* region Header */
+
+	nav > ul > li:first-child
+	{
+		display: none;
+	}
+
+    /* endregion Header */
+}

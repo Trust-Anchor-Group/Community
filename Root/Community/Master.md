@@ -6,6 +6,7 @@ Javascript: /Events.js
 JavaScript: /MarkdownEditor.js
 JavaScript: /MarkdownEditor.md.js
 Javascript: /Community/Community.js
+JavaScript: /Nav.js
 Icon: /favicon.ico
 
 ![Menu](Menu.md)
