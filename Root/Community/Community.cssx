@@ -1,9 +1,9 @@
 ﻿main
 {
 	padding: 0 2em 2.5em 2em;
-	width: calc(100% - 4em);
-	top:5em;
-	position:absolute;
+	max-width: 100%;
+	width: max(40rem, calc(100% - 4em));
+	margin-top:10em;
 	z-index:2;
 }
 

@@ -70,8 +70,7 @@
                         else if (Data.src)
                             Img.setAttribute("src", Data.src);
 
-                        Img.setAttribute("width", Data.width);
-                        Img.setAttribute("height", Data.height);
+                        Img.classList.add("sm-center");
 
                         var Pre = document.getElementById("quickLoginPre");
                         if (Pre)
