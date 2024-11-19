@@ -7,7 +7,7 @@ AuthenticateSession(Request,"QuickLoginUser");
 BareJid:=QuickLoginUser.Properties.JID;
 if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
 
-Post:=select top 1 * from Community_Posts where Link=PLink;
+Post:=select top 1 * from Community_Posts where Host=Request.Host and Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 if Post.BareJid!=BareJid then Forbidden("You can only delete your own posts.");
 

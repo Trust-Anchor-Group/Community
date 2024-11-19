@@ -23,6 +23,7 @@ Posts:=
 	on 
 		Community_PostRef.Link=Community_Posts.Link 
 	where
+		Host=Request.Host and 
 		Community_PostRef.Tag=Tag2
 	order by 
 		Created desc;

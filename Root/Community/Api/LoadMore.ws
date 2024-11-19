@@ -17,6 +17,7 @@ if !empty(PAuthor) then
 		from 
 			Community_Posts 
 		where 
+			Host=Request.Host and
 			UserId=PAuthor 
 		order by 
 			Created desc 
@@ -33,8 +34,11 @@ else if !empty(PTag) then
 		inner join 
 			Community_PostRef 
 		on 
+			Community_PostRef.Host=Community_Posts.Host and
+			Community_PostRef.Tag=Community_Posts.Tag and
 			Community_PostRef.Link=Community_Posts.Link 
 		where
+			Community_PostRef.Host=Request.Host and
 			Community_PostRef.Tag=PTag
 		order by 
 			Created desc 
@@ -48,6 +52,8 @@ else
 			* 
 		from 
 			Community_Posts 
+		where
+			Host=Request.Host
 		order by 
 			Created desc 
 		offset 

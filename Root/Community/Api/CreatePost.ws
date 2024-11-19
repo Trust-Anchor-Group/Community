@@ -15,7 +15,7 @@ BareJid:=QuickLoginUser.Properties.JID;
 if empty(BareJid) then BadRequest("User lacks a proper JID in the identity.");
 if empty(QuickLoginUser.UserName) then BadRequest("User lacks a proper name in the identity.");
 if empty(QuickLoginUser.AvatarUrl) then BadRequest("User lacks a proper photo in the identity.");
-if ((select count(*) from Community_Posts where Link=(Link+Suffix))??0)>0 then BadRequest("Link already taken.");
+if ((select count(*) from Community_Posts where Host=Request.Host and Link=(Link+Suffix))??0)>0 then BadRequest("Link already taken.");
 
 Markdown:="BodyOnly: 1\r\nAllowScriptTag: false\r\n\r\n"+PText;
 Settings:=Create(Waher.Content.Markdown.MarkdownSettings);
@@ -43,6 +43,7 @@ Post:=insert into Community_Posts object
 {
 	Created:TP,
 	Updated:TP,
+	Host:Request.Host,
 	Link:PLink,
 	BareJid:BareJid,
 	UserId:UserId,

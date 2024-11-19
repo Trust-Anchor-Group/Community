@@ -2,7 +2,7 @@
 	"link":Required(Str(PLink))
 }:=Posted) ??? BadRequest("Invalid request.");
 
-Post:=select top 1 * from Community_Posts where Link=PLink;
+Post:=select top 1 * from Community_Posts where Host=Request.Host and Link=PLink;
 if !exists(Post) then NotFound("Post not found.");
 
 Result:="";

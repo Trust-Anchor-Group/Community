@@ -19,6 +19,7 @@ Posts:=
 	from 
 		Community_Posts 
 	where 
+		Host=Request.Host and 
 		UserId=Author 
 	order by 
 		Created desc;

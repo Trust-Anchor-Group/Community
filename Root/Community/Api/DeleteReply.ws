@@ -17,7 +17,7 @@ DecCounter("Community.Reply.Views."+ReplyId,GetCounter("Community.Reply.Views."+
 DecCounter("Community.Reply.Replies."+ReplyId,NrReplies:=GetCounter("Community.Reply.Replies."+ReplyId));
 DecCounter("Community.Posts.Replies."+Reply.Link,NrReplies+1);
 
-Post:=select top 1 * from Community_Posts where Link=Reply.Link;
+Post:=select top 1 * from Community_Posts where Host=Request.Host and Link=Reply.Link;
 
 ParentChain:=[];
 
