@@ -15,6 +15,8 @@ Posts:=
 		* 
 	from 
 		Community_Posts 
+	where 
+		Host=Request.Host
 	order by 
 		Created desc;
 
