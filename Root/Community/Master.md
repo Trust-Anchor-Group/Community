@@ -20,4 +20,4 @@ Icon: /favicon.ico
 
 </main>
 
-<dialog id ="native-popup-container"></dialog>
+<div id ="native-popup-container"></div>
