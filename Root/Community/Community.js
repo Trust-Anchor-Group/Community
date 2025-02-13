@@ -603,7 +603,7 @@ async function EditPost(ObjectId)
 	}
 	catch (e)
 	{
-		window.alert(e.message);
+		Popup.Alert(e.message);
 	}
 }
 
@@ -684,7 +684,7 @@ async function VoteReply(ObjectId, Up)
 	DownVotes.innerText = Response.nrDown;
 }
 
-function PasteContent(Control, Properties, Event)
+async function PasteContent(Control, Properties, Event)
 {
 	var Items = Event.clipboardData.items;
 	var i, c = Items.length;
@@ -698,7 +698,7 @@ function PasteContent(Control, Properties, Event)
 			Event.preventDefault();
 
 			var Image = Item.getAsFile();
-			var FileName = window.prompt("File Name:", Image.name);
+			var FileName = await Popup.Prompt("File Name:", Image.name);
 
 			if (FileName)
 			{
@@ -1089,7 +1089,7 @@ function TitleUpdated(NewTitle)
 
 async function DeletePost(Link)
 {
-	if (window.confirm("Are you sure you want to delete the post?"))
+	if ((await Popup.Confirm("Are you sure you want to delete the post?")))
 	{
 		var Response = await CallServer("/Community/Api/DeletePost.ws", 
 			{
@@ -1131,7 +1131,7 @@ function UpdateLoadMorePostsOffset(Delta)
 
 async function DeleteReply(ObjectId)
 {
-	if (window.confirm("Are you sure you want to delete the reply?"))
+	if ((await Popup.Confirm("Are you sure you want to delete the reply?")))
 	{
 		await CallServer("/Community/Api/DeleteReply.ws", 
 			{
