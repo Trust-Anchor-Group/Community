@@ -3,7 +3,7 @@
 <header id="native-header">
 <nav>
 <div>
-<button id="toggle-nav" onClick="nativeHeader.ToggleNav()">☰</button>
+<button id="toggle-nav" onClick="NativeHeader.ToggleNav()">☰</button>
 <p id="small-pagpage-name">
 **[%Title]**
 </p>
