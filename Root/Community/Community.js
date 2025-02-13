@@ -603,7 +603,7 @@ async function EditPost(ObjectId)
 	}
 	catch (e)
 	{
-		Popup.Alert(e.message);
+		await Popup.Alert(e.message);
 	}
 }
 
