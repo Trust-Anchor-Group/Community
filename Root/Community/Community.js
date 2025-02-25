@@ -194,7 +194,7 @@ function AddTag(Properties)
 async function CreatePost()
 {
 	var Title = document.getElementById("Title").value;
-	var Text = document.getElementById("Text").value;
+	var Text = document.getElementById("PostMarkdownEditorInput").value;
 	var Link = document.getElementById("ReferenceLink").value;
 	var Response = await CallServer("/Community/Api/CreatePost.ws",
 		{
@@ -1388,3 +1388,7 @@ async function UpdateReferenceLink()
 
 	document.getElementById("ReferenceLink").value = Response.link;
 }
+
+window.addEventListener("load", () => {
+	document.getElementsByClassName("MarkdownEditorBottomPreviewAndEdit")[0].click()
+})
