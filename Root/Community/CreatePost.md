@@ -31,8 +31,8 @@ at the bottom of the page.
 
 <p>
 <label for="Text">Text of post:</label>  
-![](/MarkdownEditor.md)
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" oninput="AdaptSize(this)" required>
+![](/MarkdownEditor.md?Scale=true)
+<textarea name="Text" id="PostMarkdownEditorInput" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" required>
 </textarea>
 </p>
 

@@ -34,8 +34,8 @@ messaging cannot be performed using this service.
 
 <p>
 <label for="Text">Text of message:</label>  
-![](/MarkdownEditor.md)
-<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" oninput="AdaptSize(this)" autofocus required>
+![](/MarkdownEditor.md?Scale=true)
+<textarea name="Text" id="Text" onkeydown="TrapTab(this,DefaultProperties(),event)" onpaste="PasteContent(this,DefaultProperties(),event)" autofocus required>
 </textarea>
 </p>
 

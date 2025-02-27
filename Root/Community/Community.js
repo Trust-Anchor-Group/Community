@@ -18,20 +18,6 @@
 	window.setTimeout(function () { AdaptSize(Control); }, 0);
 }
 
-function AdaptSize(Control)
-{
-	if (Control.tagName === "TEXTAREA")
-	{
-		var maxheight = Math.floor((("innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight) * 2) / 3);
-		var h = Control.scrollHeight;
-		if (h > maxheight)
-			h = maxheight;
-
-		if (h > Control.clientHeight)
-			Control.style.height = h + "px";
-	}
-}
-
 function DefaultProperties()
 {
 	var Properties = {
@@ -755,7 +741,7 @@ function FindElement(ParentElement, Loop, ElementType)
 	}
 
 	if (ElementType === "TEXTAREA")
-		ParentElement.innerHTML += CreateHTMLMarkdownEditor();
+		ParentElement.innerHTML += CreateHTMLScalingMarkdownEditor();
 
 	Loop = document.createElement(ElementType);
 	ParentElement.appendChild(Loop);
