@@ -18,6 +18,7 @@
 			<Content fileName="PostStandalone.md"/>
 			<Content fileName="ReplyInline.md"/>
 			<Content fileName="ReplyStandalone.md"/>
+			<Content fileName="ScalingMarkdownEditor.md"/>
 			<Content fileName="Search.md"/>
 			<Content fileName="Tag.md"/>
 			<Content fileName="Tags.md"/>
