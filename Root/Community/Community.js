@@ -1374,7 +1374,3 @@ async function UpdateReferenceLink()
 
 	document.getElementById("ReferenceLink").value = Response.link;
 }
-
-window.addEventListener("load", () => {
-	document.getElementsByClassName("MarkdownEditorBottomPreviewAndEdit")[0].click()
-})

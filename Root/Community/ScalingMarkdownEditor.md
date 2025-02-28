@@ -1,2 +1,2 @@
 
-![](/MarkdownEditor.md?Scale=true)
+![](/MarkdownEditor.md?Scale=true&Preview=true)
