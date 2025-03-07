@@ -58,7 +58,7 @@ try
 	Code:=select /default:Code/@code from Xml(Info.InnerXml);
 	URL:="obinfo:id.tagroot.io:"+Code+":"+Base64Encode(Key)+":"+Base64Encode(IV);
 
-	]]<img src="/QR/((UrlEncode(URL) ))" alt="Invitation Code" width="400" height="400"/>
+	]]<img src="/QR/((UrlEncode(URL) ))?w=400&h=400&q=2" alt="Invitation Code" width="400" height="400"/>
 
 ```
 ((URL))
