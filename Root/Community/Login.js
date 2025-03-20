@@ -68,7 +68,7 @@
                         if (Data.base64)
                             Img.setAttribute("src", "data:" + Data.contentType + ";base64," + Data.base64);
                         else if (Data.src)
-                            Img.setAttribute("src", Data.src);
+                            Img.setAttribute("src", Data.src + "&fg=Theme&bg=Theme");
 
                         Img.classList.add("sm-center");
 
