@@ -119,3 +119,7 @@ function SignatureReceivedBE(Empty)
 }
 
 var LoginTimer = window.setTimeout(function () { DisplayQuickLogin(); }, 100);
+
+setTimeout(() => {
+    location.href = "/"
+}, 5 * 60 * 1000)
