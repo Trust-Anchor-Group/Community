@@ -6,7 +6,7 @@ Master: Master.md
 JavaScript: Login.js
 JavaScript: /Events.js
 CSS: /QuickLogin.css
-Neuron: {{GW:=Waher.IoTGateway.Gateway;Domain:=empty(GW.Domain) ? (x:=Before(After(GW.GetUrl("/"),"://"),"/");if contains(x,":") and exists(number(after(x,":"))) then "localhost:"+after(x,":") else "localhost") : GW.Domain}}
+Neuron: {{GW:=Waher.IoTGateway.Gateway;Domain:=!GW.HasDomain ? (x:=Before(After(GW.GetUrl("/"),"://"),"/");if contains(x,":") and exists(number(after(x,":"))) then "localhost:"+after(x,":") else "localhost") : GW.Domain}}
 
 =====================================================================================
 
