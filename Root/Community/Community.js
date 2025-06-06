@@ -708,6 +708,7 @@ async function PasteContent(Control, Properties, Event)
 						Control.focus();
 
 						AdaptSize(Control);
+						InitMarkdownEditorPreview(Control)
 					}
 				};
 
