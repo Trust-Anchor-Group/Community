@@ -12,6 +12,7 @@ PostFileName:=null;
 GW:=Waher.IoTGateway.Gateway;
 if !GW.HttpServer.TryGetFileName("/Community/PostInline.md",PostFileName) then ServiceUnavailable("Community Service not available.");
 
+RequestHost:=exists(Request?.Host) ? Request.Host : "";
 N:=5;
 Posts:=
 	select top N 
@@ -23,7 +24,7 @@ Posts:=
 	on 
 		Community_PostRef.Link=Community_Posts.Link 
 	where
-		Host=Request.Host and 
+		Host=RequestHost and 
 		Community_PostRef.Tag=Tag2
 	order by 
 		Created desc;
