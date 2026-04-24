@@ -1,4 +1,4 @@
-Title: TAG Community Login
+Title: Community Login
 Description: This page allows you to login using your TAG ID.
 Date: 2022-12-16
 Author: Peter Waher
@@ -10,7 +10,7 @@ Neuron: {{GW:=Waher.IoTGateway.Gateway;Domain:=!GW.HasDomain ? (x:=Before(After(
 
 =====================================================================================
 
-TAG Community Login
+Community Login
 ======================
 
 Some features[^features] of the Community Portal require you to login. You do this using the *TAG Digital ID*[^tagid].

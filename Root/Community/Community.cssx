@@ -7,6 +7,24 @@
 	z-index:2;
 }
 
+header#native-header nav > ul > li
+{
+	opacity: 1;
+}
+
+header#native-header #large-pagpage-name
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	gap: 1rem;
+}
+header#native-header #large-pagpage-name p
+{
+	padding: 0;
+}
+
 div.Details
 {
 	overflow:auto;

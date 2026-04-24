@@ -28,7 +28,7 @@ if !exists(Global.CommunityTags) or Global.CommunityTags.Timestamp.Subtract(Now)
 foreach Tag in Global.CommunityTags.Tags do ]]
 	* [((MarkdownEncode(Tag) ))](/Community/Tag/((Tag)))[[
 }}
-* <p id="large-pagpage-name"> [%Title] </p>
+* <div id="large-pagpage-name"><img src="neuro.svg"><p>[%Title]</p> </div>
 * [Actions](#)
 	* [Create New Post](/Community/CreatePost.md)
 	* [Search](/Community/Search.md)
@@ -44,3 +44,4 @@ foreach Tag in Global.CommunityTags.Tags do ]]
 
 </nav>
 </header>
+

@@ -1,5 +1,5 @@
 Title: Tags
-Description: Page containing tags used in posts in the TAG Community.
+Description: Page containing tags used in posts in the Community.
 Date: 2022-12-22
 Author: Peter Waher
 Master: Master.md

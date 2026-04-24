@@ -1,5 +1,5 @@
-Title: TAG Community
-Description: Main page for the TAG Community service.
+Title: Community
+Description: Main page for the Community service.
 Date: 2022-12-16
 Author: Peter Waher
 Master: Master.md
@@ -37,10 +37,10 @@ foreach Post in Posts do
 
 ==================
 
-TAG Community
+Community
 ==================
 
-Welcome to TAG Community. You can add posts by going to the *Actions* menu above, and selecting *Create New Post*.
+Welcome to Community. You can add posts by going to the *Actions* menu above, and selecting *Create New Post*.
 
 **Note** that posts you add, will be made public in your name. You will however, be able to edit and delete your posts,
 if you choose to.

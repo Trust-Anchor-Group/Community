@@ -1,12 +1,12 @@
-Title: TAG Community Logout
-Description: This page logs you out from the TAG Community.
+Title: Community Logout
+Description: This page logs you out from the Community.
 Date: 2022-12-16
 Author: Peter Waher
 Master: Master.md
 
 =====================================================================================
 
-TAG Community Logout
+Community Logout
 ======================
 
 {{If exists(QuickLoginUser) then
