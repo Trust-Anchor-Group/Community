@@ -39,7 +39,7 @@ foreach Tag in Global.CommunityTags.Tags do ]]
 	* [Script](/Script.md)
 	* [LinkedIn](https://www.linkedin.com/in/peterwaher/)
 	* [Contact](https://waher.se/Feedback.md)
-* {{exists(QuickLoginUser)?]][<img id='userAvatar' alt="((QuickLoginUser.UserName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.UserName))](#)
+* {{exists(QuickLoginUser)?]][<img id='userAvatar' alt="((QuickLoginUser.FriendlyName))" with="40" height="40" src="((QuickLoginUser.AvatarUrl))?Width=40&Height=40"/> ((QuickLoginUser.FriendlyName))](#)
 	* [Logout](/Community/LogOut.md)[[ : ]]<a href="/Community/Login.md?from=((UrlEncode(Request.Header.GetURL() ) ))">Login</a>[[}}
 
 </nav>
