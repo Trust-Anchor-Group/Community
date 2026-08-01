@@ -6,7 +6,19 @@ Master: Master.md
 JavaScript: Login.js
 JavaScript: /Events.js
 CSS: /QuickLogin.css
-Neuron: {{GW:=Waher.IoTGateway.Gateway;Domain:=!GW.HasDomain ? (x:=Before(After(GW.GetUrl("/"),"://"),"/");if contains(x,":") and exists(number(after(x,":"))) then "localhost:"+after(x,":") else "localhost") : GW.Domain}}
+Parameter: from
+Neuron: {{
+
+if exists(from) then
+(
+	if len(from)>256 || !Waher.IoTGateway.LocalContent.IsLocal(from,true) then
+	(
+		Waher.Security.LoginMonitor.LoginAuditor.Fail("Invalid from parameter.","",Request.RemoteEndPoint,"HTTP");
+		BadRequest("Invalid from parameter.");
+	)
+);
+
+GW:=Waher.IoTGateway.Gateway;Domain:=!GW.HasDomain ? (x:=Before(After(GW.GetUrl("/"),"://"),"/");if contains(x,":") and exists(number(after(x,":"))) then "localhost:"+after(x,":") else "localhost") : GW.Domain}}
 
 =====================================================================================
 
